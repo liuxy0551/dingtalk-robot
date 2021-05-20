@@ -2,9 +2,30 @@ const Service = require('egg').Service
 const { sendMsgToGroup, getTimeStr } = require('../utils')
 
 class AtService extends Service {
-  atRobot () {
+  atRobot (body) {
     return new Promise(async (resolve, reject) => {
       try {
+        const content = body.text
+        let key = ''
+        key = content.includes('记账') ? 'jizhangla' : ''
+        key = content.includes('百度') ? 'baidutj' : ''
+
+        switch (key) {
+          case 'jizhangla':
+            const res = await this.ctx.service.send.jizhangla(this.app.config.jizhangla)
+            this.ctx.body = setCtxBody(200, res)
+            break
+          case 'baidutj':
+            const res = await this.ctx.service.send.baidutj(this.app.config.baidutj)
+            this.ctx.body = setCtxBody(200, res)
+            break
+          default:
+            const res = await sendMsgToGroup(msg, this.ctx.service)
+            this.ctx.body = setCtxBody(200, res)
+            break
+        }
+
+
         const { body } = await baidutjAPI(config)
         const list = body.data[0].result.items
 

@@ -1,6 +1,5 @@
 
 const crypto = require('crypto')
-const axios = require('axios')
 const request = require('request')
 
 /**
@@ -16,6 +15,14 @@ const getSignUrl = (secret, url) => {
   const sign = encodeURIComponent(base)
 
   return `${ url }&timestamp=${ time }&sign=${ sign }`
+}
+
+// 艾特机器人时 sign
+const getAtSign = (appSecret, time) => {
+  const str = `${ time }\n${ appSecret }`
+  const sign = crypto.createHmac('sha256', appSecret).update(str).digest('base64')
+
+  return sign
 }
 
 /**
@@ -121,6 +128,7 @@ const setCtxBody = (code = 200, data, message = '成功', extraParams) => {
 
 module.exports = {
   getSignUrl,
+  getAtSign,
   sendMsgToGroup,
   getNow,
   getDate,
