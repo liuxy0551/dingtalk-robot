@@ -12,4 +12,6 @@ module.exports = app => {
 
   router.get('/api/getRobots', controller.robot.getRobots)
   router.post('/api/createRobot', controller.robot.createRobot)
+
+  router.post('/api/atRobot', controller.at.atRobot)
 }

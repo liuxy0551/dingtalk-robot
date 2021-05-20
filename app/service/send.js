@@ -16,7 +16,7 @@ class SendService extends Service {
         const msg = {
           msgtype: 'markdown',
           markdown: {
-            title: '刘先玉网站流量数据',
+            title: '网站流量数据',
             text
           }
         }

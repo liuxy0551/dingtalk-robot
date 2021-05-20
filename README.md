@@ -6,7 +6,7 @@
 
 ### 启动项目
 
-&emsp;&emsp;参考 <a href="https://dtstack.yuque.com/docs/share/e4a9c483-74e1-45f2-82f9-b283deb3e184?#n2Tjk" target="_black">函数计算的介绍与实践</a>
+&emsp;&emsp;参考 <a href="https://dtstack.yuque.com/docs/share/e4a9c483-74e1-45f2-82f9-b283deb3e184?#n2Tjk" target="_black">函数计算的介绍与实践</a>。
 
 ### 机器人设置说明
 

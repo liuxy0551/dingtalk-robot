@@ -11,6 +11,22 @@ Resources:
         Project: aliyun-fc-cn-hangzhou-3ff06808-bae1-59f3-a782-6e6623a34e1f
         Logstore: function-log
       InternetAccess: true
+    baidutj:
+      Type: 'Aliyun::Serverless::Function'
+      Properties:
+        Handler: index.handler
+        Runtime: nodejs12
+        Timeout: 60
+        MemorySize: 512
+        InstanceConcurrency: 1
+        EnvironmentVariables: {}
+      Events:
+        baidutj:
+          Type: Timer
+          Properties:
+            Qualifier: LATEST
+            CronExpression: '@every 5m'
+            Enable: true
     dingtalk-robot:
       Type: 'Aliyun::Serverless::Function'
       Properties:
@@ -30,12 +46,12 @@ Resources:
         httpTrigger:
           Type: HTTP
           Properties:
+            Qualifier: prod
             AuthType: anonymous
             Methods:
               - GET
               - POST
-              - PUT
-    timed-task:
+    jizhangla:
       Type: 'Aliyun::Serverless::Function'
       Properties:
         Handler: index.handler
@@ -45,9 +61,9 @@ Resources:
         InstanceConcurrency: 1
         EnvironmentVariables: {}
       Events:
-        get-data:
+        jizhangla:
           Type: Timer
           Properties:
             Qualifier: LATEST
-            CronExpression: '@every 1m'
+            CronExpression: 0 0 19 ? * *
             Enable: true
