@@ -1,0 +1,16 @@
+logs/
+npm-debug.log
+npm-error.log
+yarn-error.log
+node_modules/
+coverage/
+.idea/
+run/
+.DS_Store
+*.sw*
+*.un~
+typings/
+.nyc_output/
+.env
+config/
+.github

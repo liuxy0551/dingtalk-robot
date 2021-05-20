@@ -1,0 +1,6 @@
+{
+  "name": "timed-task",
+  "dependencies": {
+    "axios": "^0.21.1"
+  }
+}
