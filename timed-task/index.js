@@ -27,7 +27,14 @@ exports.handler = (event, context, callback) => {
   const url = 'http://dingtalk-robot.liuxianyu.cn/api/baidutj'
   // const url = 'http://dingtalk-robot.liuxianyu.cn/api/jizhangla'
   
-  axios.post(url)
-  console.log(getNow(), url)
-  callback(null, 'timed-task')
+  console.log(`${ getNow() }, ${ url }`)
+  axios.post(url).then(res => {
+    const msg = `success, ${ getNow() }, ${ JSON.stringify(res.data) }`
+    console.log(msg)
+    callback(null, msg)
+  }).catch(err => {
+    const msg = `failed, ${ getNow() }, ${ err.response.status }`
+    console.log(msg)
+    callback(null, msg)
+  })
 }

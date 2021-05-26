@@ -25,7 +25,7 @@ Resources:
           Type: Timer
           Properties:
             Qualifier: LATEST
-            CronExpression: '@every 5m'
+            CronExpression: 0 0 1-13 * * ?
             Enable: true
     dingtalk-robot:
       Type: 'Aliyun::Serverless::Function'
@@ -34,7 +34,7 @@ Resources:
         Runtime: custom
         Timeout: 120
         MemorySize: 1024
-        InstanceConcurrency: 5
+        InstanceConcurrency: 1
         EnvironmentVariables:
           LD_LIBRARY_PATH: >-
             /code/.fun/root/usr/local/lib:/code/.fun/root/usr/lib:/code/.fun/root/usr/lib/x86_64-linux-gnu:/code/.fun/root/usr/lib64:/code/.fun/root/lib:/code/.fun/root/lib/x86_64-linux-gnu:/code/.fun/root/python/lib/python2.7/site-packages:/code/.fun/root/python/lib/python3.6/site-packages:/code:/code/lib:/usr/local/lib
@@ -65,5 +65,5 @@ Resources:
           Type: Timer
           Properties:
             Qualifier: LATEST
-            CronExpression: 0 0 19 ? * *
+            CronExpression: 0 20 0 * * ?
             Enable: true

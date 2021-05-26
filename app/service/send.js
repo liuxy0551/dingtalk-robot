@@ -16,7 +16,7 @@ class SendService extends Service {
         const msg = {
           msgtype: 'markdown',
           markdown: {
-            title: '网站流量数据',
+            title: '百度统计 - 网站数据',
             text
           }
         }
@@ -41,7 +41,7 @@ class SendService extends Service {
         const msg = {
           msgtype: 'markdown',
           markdown: {
-            title: '记账啦',
+            title: '记账啦 - 昨日、本月账单',
             text
           }
         }

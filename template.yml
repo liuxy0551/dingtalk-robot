@@ -27,15 +27,4 @@ Resources:
           Type: HTTP
           Properties:
             AuthType: ANONYMOUS
-            Methods: ['GET', 'POST', 'PUT']
-  Domain:
-    Type: Aliyun::Serverless::CustomDomain
-    Properties:
-      DomainName: Auto
-      Protocol: HTTP
-      RouteConfig:
-        Routes:
-          "/*":
-            ServiceName: dingtalk-robot
-            FunctionName: dingtalk-robot
-  
+            Methods: ['GET', 'POST']

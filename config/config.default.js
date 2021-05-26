@@ -72,6 +72,11 @@ module.exports = appInfo => {
     userId: 'userId'
   }
 
+  // 艾特机器人时
+  config.atConfig = {
+    appSecret: 'vcZFxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+  }
+
   return {
     ...config,
     ...userConfig

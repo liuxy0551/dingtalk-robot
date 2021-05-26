@@ -1,47 +1,67 @@
 const Service = require('egg').Service
-const { sendMsgToGroup, getTimeStr } = require('../utils')
+const { sendMsgToGroup, setCtxBody } = require('../utils')
 
 class AtService extends Service {
   atRobot (body) {
     return new Promise(async (resolve, reject) => {
       try {
-        const content = body.text
-        let key = ''
-        key = content.includes('记账') ? 'jizhangla' : ''
-        key = content.includes('百度') ? 'baidutj' : ''
+        const { content } = body.text
+        let key = '', result = undefined
+        content.includes('记账') && (key = 'jizhangla')
+        content.includes('百度') && (key = 'baidutj')
+
+        const msg = {
+          msgtype: 'text',
+          text: {
+            content: `已经把【${ content }】相关的内容发送到指定群里啦，请前往查收。`
+          },
+          at: {
+            atUserIds: [body.senderStaffId]
+          }
+        }
+        const robot = {
+          name: body.conversationTitle,
+          Webhook: body.sessionWebhook
+        }
 
         switch (key) {
           case 'jizhangla':
-            const res = await this.ctx.service.send.jizhangla(this.app.config.jizhangla)
-            this.ctx.body = setCtxBody(200, res)
+            const jizhanglaRes = await this.ctx.service.send.jizhangla(this.app.config.jizhangla)
+            await AtService.replyGroupAt(msg, this.ctx.service, [robot])
+            result = setCtxBody(200, jizhanglaRes)
             break
           case 'baidutj':
-            const res = await this.ctx.service.send.baidutj(this.app.config.baidutj)
-            this.ctx.body = setCtxBody(200, res)
+            const baidutjRes = await this.ctx.service.send.baidutj(this.app.config.baidutj)
+            await AtService.replyGroupAt(msg, this.ctx.service, [robot])
+            result = setCtxBody(200, baidutjRes)
             break
           default:
-            const res = await sendMsgToGroup(msg, this.ctx.service)
-            this.ctx.body = setCtxBody(200, res)
+            const defaultText = '抱歉，我还不明白您的问题，您可以这样问我：\n- 百度统计 \n - 记账啦'
+            const defaultMsg = {
+              msgtype: 'markdown',
+              markdown: {
+                title: defaultText,
+                text: defaultText
+              }
+            }
+            const res = await AtService.replyGroupAt(defaultMsg, this.ctx.service, [robot])
+
+            result = setCtxBody(200, res)
             break
         }
 
+        resolve(result)
+      } catch (err) {
+        reject(err)
+      }
+    })
+  }
 
-        const { body } = await baidutjAPI(config)
-        const list = body.data[0].result.items
-
-        const yesterday = list[1][0]
-        const today = list[1][1]
-
-        const text = `【今日】\n- PV：${ today[0] }\n- UV：${ today[1] }\n- IP数：${ today[2] }\n- 平均访问时长：${ getTimeStr(today[3]) }\n\n【昨日】\n- PV：${ yesterday[0] }\n- UV：${ yesterday[1] }\n- IP数：${ yesterday[2] }\n- 平均访问时长：${ getTimeStr(yesterday[3]) }`
-        const msg = {
-          msgtype: 'markdown',
-          markdown: {
-            title: '网站流量数据',
-            text
-          }
-        }
-
-        const res = await sendMsgToGroup(msg, this.ctx.service)
+  // 默认在群里回复
+  static async replyGroupAt (msg, ctxService, robots) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const res = await sendMsgToGroup(msg, ctxService, robots)
         resolve(res)
       } catch (err) {
         reject(err)

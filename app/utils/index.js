@@ -5,16 +5,20 @@ const request = require('request')
 /**
  * 获取签名后的 url
  * @param {string} secret 安全设置 加签的秘钥
- * @param {string} url Webhook 地址
+ * @param {string} Webhook Webhook 地址
  * @returns {string}
  */
-const getSignUrl = (secret, url) => {
-  const time = new Date().getTime()
-  const str = `${ time }\n${ secret }`
-  const base = crypto.createHmac('sha256', secret).update(str).digest('base64')
-  const sign = encodeURIComponent(base)
+const getSignUrl = (Webhook, secret) => {
+  let signStr = ''
+  if (secret) {
+    const time = new Date().getTime()
+    const str = `${ time }\n${ secret }`
+    const base = crypto.createHmac('sha256', secret).update(str).digest('base64')
+    const sign = encodeURIComponent(base)
+    signStr = `&timestamp=${ time }&sign=${ sign }`
+  }
 
-  return `${ url }&timestamp=${ time }&sign=${ sign }`
+  return `${ Webhook }${ signStr }`
 }
 
 // 艾特机器人时 sign
@@ -27,17 +31,20 @@ const getAtSign = (appSecret, time) => {
 
 /**
  * 发送消息
- * @param {string} url 
- * @param {object} msg 
- * @returns {Promise}
+ * 企业内部机器人，只用 Webhook 发送消息，此时不从数据库查询机器人列表
  */
-const sendMsgToGroup = (msg, service) => {
+const sendMsgToGroup = (msg, service, robots) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const robots = await service.robot.getRobots()
+      let robotList = []
+      if (robots && robots.length) {
+        robotList = robots
+      } else {
+        robotList = await service.robot.getRobots()
+      }
       let promiseList = []
-      for (let i of robots) {
-        promiseList.push(sendOne(getSignUrl(i.secret, i.Webhook), msg, i.name))
+      for (let i of robotList) {
+        promiseList.push(sendOne(getSignUrl(i.Webhook, i.secret), msg, i.name))
       }
       const res = await Promise.all(promiseList)
       resolve(res)
@@ -47,10 +54,11 @@ const sendMsgToGroup = (msg, service) => {
   })
 
   function sendOne (url, msg, name) {
+
     const params = {
       json: msg,
       encoding: 'utf-8',
-      headers:{
+      headers: {
         'Content-Type': 'application/json'
       }
     }
