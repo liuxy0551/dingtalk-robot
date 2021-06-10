@@ -33,28 +33,25 @@ const getAtSign = (appSecret, time) => {
  * 发送消息
  * 企业内部机器人，只用 Webhook 发送消息，此时不从数据库查询机器人列表
  */
-const sendMsgToGroup = (msg, service, robots) => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      let robotList = []
-      if (robots && robots.length) {
-        robotList = robots
-      } else {
-        robotList = await service.robot.getRobots()
-      }
-      let promiseList = []
-      for (let i of robotList) {
-        promiseList.push(sendOne(getSignUrl(i.Webhook, i.secret), msg, i.name))
-      }
-      const res = await Promise.all(promiseList)
-      resolve(res)
-    } catch (err) {
-      reject(err)
+const sendMsgToGroup = async (msg, service, robots) => {
+  try {
+    let robotList = []
+    if (robots && robots.length) {
+      robotList = robots
+    } else {
+      robotList = await service.robot.getRobots()
     }
-  })
+    let promiseList = []
+    for (let i of robotList) {
+      promiseList.push(sendOne(getSignUrl(i.Webhook, i.secret), msg, i.name))
+    }
+    const res = await Promise.all(promiseList)
+    return res
+  } catch (err) {
+    throw err
+  }
 
   function sendOne (url, msg, name) {
-
     const params = {
       json: msg,
       encoding: 'utf-8',

@@ -6,7 +6,7 @@
 
 ### 启动项目
 
-&emsp;&emsp;参考 <a href="https://dtstack.yuque.com/docs/share/e4a9c483-74e1-45f2-82f9-b283deb3e184?#n2Tjk" target="_black">函数计算的介绍与实践</a>。
+&emsp;&emsp;参考 <a href="https://liuxianyu.cn/article/aliyun-function-compute.html#%E4%B8%89-%E5%AE%9E%E8%B7%B5" target="_black">函数计算的介绍与实践</a>。
 
 ### 机器人设置说明
 
@@ -14,3 +14,8 @@
 
 &emsp;&emsp;这个项目涉及钉钉群机器人的安全设置都是`加签`，签名实现可参照 <a href="https://github.com/liuxy0551/dingtalk-robot/blob/master/app/utils/index.js#L6" target="_black">getSignUrl</a>。
 
+### 项目部署
+
+```
+npm run deploy
+```
