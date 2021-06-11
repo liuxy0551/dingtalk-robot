@@ -3,6 +3,21 @@
  */
 const axios = require("axios")
 const { getDate } = require('./index')
+const { getUuid } = require('../utils')
+
+// 理财
+const moneyAPI = async (config) => {
+  const { jijinList } = config
+  const apiUrl = `https://fundmobapi.eastmoney.com/FundMNewApi/FundMNFInfo?pageIndex=1&pageSize=20&appType=ttjj&product=EFund&plat=Android&deviceid=${ getUuid() }&Version=1&Fcodes=${ jijinList.map(item => item.code).join(',') }`
+  
+  return new Promise((resolve, reject) => {
+    axios.get(apiUrl).then(res => {
+      resolve(res.data.Datas)
+    }).catch(err => {
+      reject(err)
+    })
+  })
+}
 
 // 百度统计
 const baidutjAPI = async (config) => {
@@ -85,8 +100,9 @@ const juejinhotAPI = async () => {
 }
 
 module.exports = {
-  baidutjAPI,
+  moneyAPI,
   jizhanglaAPI,
+  baidutjAPI,
   zhihuhotAPI,
   juejinhotAPI
 }

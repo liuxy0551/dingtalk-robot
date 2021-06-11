@@ -51,6 +51,21 @@ module.exports = appInfo => {
     // myAppName: 'egg',
   };
 
+  // 理财
+  config.money = {
+    jijinList: [
+      { name: '基金名称', code: '基金code，如 100123' },
+      { name: '基金名称', code: '基金code，如 100123' },
+      { name: '基金名称', code: '基金code，如 100123' }
+    ]
+  }
+
+  // 记账啦
+  config.jizhangla = {
+    apiUrl: 'https://api.jizhangla.liuxianyu.cn/v1/bill/getTotalAmountByUserId',
+    userId: 'userId'
+  }
+
   // 百度统计
   config.baidutj = {
     apiUrl: 'https://api.baidu.com/json/tongji/v1/ReportService/getData',
@@ -64,12 +79,6 @@ module.exports = appInfo => {
       metrics: 'pv_count,visitor_count,ip_count,avg_visit_time',
       method: 'overview/getTimeTrendRpt'
     }
-  }
-
-  // 记账啦
-  config.jizhangla = {
-    apiUrl: 'https://api.jizhangla.liuxianyu.cn/v1/bill/getTotalAmountByUserId',
-    userId: 'userId'
   }
 
   // 艾特机器人时

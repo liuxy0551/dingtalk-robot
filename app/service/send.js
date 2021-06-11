@@ -1,25 +1,23 @@
 const Service = require('egg').Service
-const { baidutjAPI, jizhanglaAPI, zhihuhotAPI, juejinhotAPI } = require('../utils/axios')
-const { sendMsgToGroup, getTimeStr } = require('../utils')
+const { moneyAPI, jizhanglaAPI, baidutjAPI, zhihuhotAPI, juejinhotAPI } = require('../utils/axios')
+const { sendMsgToGroup, getTimeStr, getNow } = require('../utils')
 
 class SendService extends Service {
-  // 百度统计
-  async baidutj (config) {
+  // 理财
+  async money (config) {
     try {
-      const { body } = await baidutjAPI(config)
-      const list = body.data[0].result.items
+      const list = await moneyAPI(config)
+      let text = `当前时间：${ getNow() }\n\n`
+      for (let i = 0; i < list.length; i++) {
+        text += `${ i + 1 }、【${ list[i].SHORTNAME }】\n\n 今日预估涨幅：**${ list[i].GSZZL }%**，昨日涨幅：${ list[i].NAVCHGRT }%\n\n`
+      }
+      text += '数据来源：天天基金'
 
-      const yesterday = list[1][0]
-      const today = list[1][1]
-
-      const text = `【今日】\n- PV：${ today[0] }\n- UV：${ today[1] }\n- IP数：${ today[2] }\n- 平均访问时长：${ getTimeStr(today[3]) }\n\n【昨日】\n- PV：${ yesterday[0] }\n- UV：${ yesterday[1] }\n- IP数：${ yesterday[2] }\n- 平均访问时长：${ getTimeStr(yesterday[3]) }`
       const msg = {
-        msgtype: 'actionCard',
-        actionCard: {
-          title: '百度统计 - 网站数据',
-          text,
-          singleTitle: '点此查看更多数据',
-          singleURL: `https://tongji.baidu.com/m/#/report/${config.body.siteId}`
+        msgtype: 'markdown',
+        markdown: {
+          title: '韭零后',
+          text
         }
       }
 
@@ -44,6 +42,33 @@ class SendService extends Service {
         markdown: {
           title: '记账啦 - 昨日、本月账单',
           text
+        }
+      }
+
+      const res = await sendMsgToGroup(msg, this.ctx.service)
+      return res
+    } catch (err) {
+      throw err
+    }
+  }
+
+  // 百度统计
+  async baidutj (config) {
+    try {
+      const { body } = await baidutjAPI(config)
+      const list = body.data[0].result.items
+
+      const yesterday = list[1][0]
+      const today = list[1][1]
+
+      const text = `【今日】\n- PV：${ today[0] }\n- UV：${ today[1] }\n- IP数：${ today[2] }\n- 平均访问时长：${ getTimeStr(today[3]) }\n\n【昨日】\n- PV：${ yesterday[0] }\n- UV：${ yesterday[1] }\n- IP数：${ yesterday[2] }\n- 平均访问时长：${ getTimeStr(yesterday[3]) }`
+      const msg = {
+        msgtype: 'actionCard',
+        actionCard: {
+          title: '百度统计 - 网站数据',
+          text,
+          singleTitle: '点此查看更多数据',
+          singleURL: `https://tongji.baidu.com/m/#/report/${config.body.siteId}`
         }
       }
 

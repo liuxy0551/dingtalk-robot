@@ -12,10 +12,10 @@ class SendController extends Controller {
     }
   }
 
-  // 百度统计
-  async baidutj () {
+  // 理财
+  async money () {
     try {
-      const res = await this.ctx.service.send.baidutj(this.app.config.baidutj)
+      const res = await this.ctx.service.send.money(this.app.config.money)
       this.ctx.body = setCtxBody(200, res)
     } catch (err) {
       this.ctx.body = setCtxBody(500, err, '系统错误')
@@ -26,6 +26,16 @@ class SendController extends Controller {
   async jizhangla () {
     try {
       const res = await this.ctx.service.send.jizhangla(this.app.config.jizhangla)
+      this.ctx.body = setCtxBody(200, res)
+    } catch (err) {
+      this.ctx.body = setCtxBody(500, err, '系统错误')
+    }
+  }
+
+  // 百度统计
+  async baidutj () {
+    try {
+      const res = await this.ctx.service.send.baidutj(this.app.config.baidutj)
       this.ctx.body = setCtxBody(200, res)
     } catch (err) {
       this.ctx.body = setCtxBody(500, err, '系统错误')

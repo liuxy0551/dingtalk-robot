@@ -74,7 +74,7 @@ const sendMsgToGroup = async (msg, service, robots) => {
 
 // 获取当前时间 2021-05-20 09:18:23
 const getNow = () => {
-  const date = getDate()
+  const date = getDate(0, '-')
   let hour = new Date().getHours()
   let minute = new Date().getMinutes()
   let second = new Date().getSeconds()
@@ -86,13 +86,13 @@ const getNow = () => {
 }
 
 // 获取日期，num 为 0 时返回今天，为 -1 时返回昨天，为 1 时返回明天，如 20210520
-const getDate = (num = 0) => {
+const getDate = (num = 0, tag = '') => {
   const time = new Date().getTime() + 24 * 60 * 60 * 1000 * num
   const year = new Date(time).getFullYear()
   const month = new Date(time).getMonth() + 1
   const date = new Date(time).getDate()
 
-  return `${ year }${ month < 10 ? '0' + month : month }${ date < 10 ? '0' + date : date }`
+  return `${ year }${ tag }${ month < 10 ? '0' + month : month }${ tag }${ date < 10 ? '0' + date : date }`
 }
 
 // 接收秒数，返回可读时间，如传入 185，返回 00:03:05

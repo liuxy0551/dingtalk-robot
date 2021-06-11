@@ -12,5 +12,4 @@ run/
 typings/
 .nyc_output/
 .env
-config/
 .github
