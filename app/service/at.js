@@ -6,8 +6,8 @@ class AtService extends Service {
     try {
       const { content } = body.text
       let key = '', result = undefined
-      content.includes('基金') && (key = 'money')
-      content.includes('理财') && (key = 'money')
+      content.includes('基金') && (key = 'jijin')
+      content.includes('股票') && (key = 'gupiao')
       content.includes('记账') && (key = 'jizhangla')
       content.includes('百度') && (key = 'baidutj')
       content.includes('知乎') && (key = 'zhihuhot')
@@ -28,10 +28,15 @@ class AtService extends Service {
       }
 
       switch (key) {
-        case 'money':
-          const moneyRes = await this.ctx.service.send.money(this.app.config.money)
+        case 'jijin':
+          const jijinRes = await this.ctx.service.send.jijin(this.app.config.money)
           await AtService.replyGroupAt(msg, this.ctx.service, [robot])
-          result = setCtxBody(200, moneyRes)
+          result = setCtxBody(200, jijinRes)
+          break
+        case 'gupiao':
+          const gupiaoRes = await this.ctx.service.send.gupiao(this.app.config.money)
+          await AtService.replyGroupAt(msg, this.ctx.service, [robot])
+          result = setCtxBody(200, gupiaoRes)
           break
         case 'jizhangla':
           const jizhanglaRes = await this.ctx.service.send.jizhangla(this.app.config.jizhangla)
@@ -54,7 +59,7 @@ class AtService extends Service {
           result = setCtxBody(200, juejinhotRes)
           break
         default:
-          const defaultText = '抱歉，我还不明白您的问题，您可以这样问我：\n - 理财 \n - 记账啦 \n- 百度统计 \n - 知乎热榜 \n - 掘金热榜'
+          const defaultText = '抱歉，我还不明白您的问题，您可以这样问我：\n - 基金 \n - 股票 \n - 记账啦 \n- 百度统计 \n - 知乎热榜 \n - 掘金热榜'
           const defaultMsg = {
             msgtype: 'markdown',
             markdown: {

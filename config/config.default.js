@@ -51,12 +51,17 @@ module.exports = appInfo => {
     // myAppName: 'egg',
   };
 
-  // 理财
+  // 理财 - 基金、股票
   config.money = {
     jijinList: [
       { name: '基金名称', code: '基金code，如 100123' },
       { name: '基金名称', code: '基金code，如 100123' },
       { name: '基金名称', code: '基金code，如 100123' }
+    ],
+    gupiaoList: [
+      { name: '股票名称', code: '股票代码，如 0.123412' },
+      { name: '股票名称', code: '股票代码，如 0.123412' },
+      { name: '股票名称', code: '股票代码，如 0.123412' }
     ]
   }
 

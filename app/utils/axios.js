@@ -5,14 +5,30 @@ const axios = require("axios")
 const { getDate } = require('./index')
 const { getUuid } = require('../utils')
 
-// 理财
-const moneyAPI = async (config) => {
+// 理财 - 基金
+// https://gitee.com/base/leek-fund/blob/master/development.md
+const jijinAPI = async (config) => {
   const { jijinList } = config
   const apiUrl = `https://fundmobapi.eastmoney.com/FundMNewApi/FundMNFInfo?pageIndex=1&pageSize=20&appType=ttjj&product=EFund&plat=Android&deviceid=${ getUuid() }&Version=1&Fcodes=${ jijinList.map(item => item.code).join(',') }`
   
   return new Promise((resolve, reject) => {
     axios.get(apiUrl).then(res => {
       resolve(res.data.Datas)
+    }).catch(err => {
+      reject(err)
+    })
+  })
+}
+
+// 理财 - 股票
+// https://gitee.com/base/leek-fund/blob/master/development.md
+const gupiaoAPI = async (config) => {
+  const { gupiaoList } = config
+  const apiUrl = `https://push2.eastmoney.com/api/qt/ulist.np/get?fields=f2,f3,f14&secids=${ gupiaoList.map(item => item.code).join(',') }`
+  
+  return new Promise((resolve, reject) => {
+    axios.get(apiUrl).then(res => {
+      resolve(res.data.data.diff)
     }).catch(err => {
       reject(err)
     })
@@ -100,7 +116,8 @@ const juejinhotAPI = async () => {
 }
 
 module.exports = {
-  moneyAPI,
+  jijinAPI,
+  gupiaoAPI,
   jizhanglaAPI,
   baidutjAPI,
   zhihuhotAPI,

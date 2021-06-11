@@ -1,22 +1,47 @@
 const Service = require('egg').Service
-const { moneyAPI, jizhanglaAPI, baidutjAPI, zhihuhotAPI, juejinhotAPI } = require('../utils/axios')
+const { jijinAPI, gupiaoAPI, jizhanglaAPI, baidutjAPI, zhihuhotAPI, juejinhotAPI } = require('../utils/axios')
 const { sendMsgToGroup, getTimeStr, getNow } = require('../utils')
 
 class SendService extends Service {
-  // 理财
-  async money (config) {
+  // 理财 - 基金
+  async jijin (config) {
     try {
-      const list = await moneyAPI(config)
+      const list = await jijinAPI(config)
       let text = `当前时间：${ getNow() }\n\n`
       for (let i = 0; i < list.length; i++) {
-        text += `${ i + 1 }、【${ list[i].SHORTNAME }】\n\n 今日预估涨幅：**${ list[i].GSZZL }%**，昨日涨幅：${ list[i].NAVCHGRT }%\n\n`
+        text += `${ i + 1 }、【${ list[i].SHORTNAME }】\n\n 预估：**${ list[i].GSZZL }%**，昨日：${ list[i].NAVCHGRT }%\n\n`
       }
       text += '数据来源：天天基金'
 
       const msg = {
         msgtype: 'markdown',
         markdown: {
-          title: '韭零后',
+          title: '韭零后 - 基金',
+          text
+        }
+      }
+
+      const res = await sendMsgToGroup(msg, this.ctx.service)
+      return res
+    } catch (err) {
+      throw err
+    }
+  }
+
+  // 理财 - 股票
+  async gupiao (config) {
+    try {
+      const list = await gupiaoAPI(config)
+      let text = `当前时间：${ getNow() }\n\n`
+      for (let i = 0; i < list.length; i++) {
+        text += `${ i + 1 }、【${ list[i].f14 }】\n\n 最新价：**${ (list[i].f2 / 100).toFixed(2) }**，涨幅：${ (list[i].f3 / 100).toFixed(2) }%\n\n`
+      }
+      text += '数据来源：天天基金'
+
+      const msg = {
+        msgtype: 'markdown',
+        markdown: {
+          title: '韭零后 - 股票',
           text
         }
       }
