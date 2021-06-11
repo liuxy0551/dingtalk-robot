@@ -39,7 +39,27 @@ const jizhanglaAPI = async (config) => {
   })
 }
 
+// 知乎热榜
+const zhihuhotAPI = async (config) => {
+  const apiUrl = 'https://www.zhihu.com/api/v3/feed/topstory/hot-lists/total?limit=50&desktop=true'
+  
+  return new Promise((resolve, reject) => {
+    axios.get(apiUrl).then(res => {
+      const list = res.data.data.slice(0, 10).map(item => {
+        return {
+          title: item.target.title,
+          url: `https://www.zhihu.com/question/${item.target.id}`,
+        }
+      })
+      resolve(list)
+    }).catch(err => {
+      reject(err)
+    })
+  })
+}
+
 module.exports = {
   baidutjAPI,
-  jizhanglaAPI
+  jizhanglaAPI,
+  zhihuhotAPI
 }

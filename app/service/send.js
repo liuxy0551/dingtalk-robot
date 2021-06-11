@@ -1,8 +1,9 @@
 const Service = require('egg').Service
-const { baidutjAPI, jizhanglaAPI } = require('../utils/axios')
+const { baidutjAPI, jizhanglaAPI, zhihuhotAPI } = require('../utils/axios')
 const { sendMsgToGroup, getTimeStr } = require('../utils')
 
 class SendService extends Service {
+  // 百度统计
   async baidutj (config) {
     try {
       const { body } = await baidutjAPI(config)
@@ -29,6 +30,7 @@ class SendService extends Service {
     }
   }
 
+  // 记账啦
   async jizhangla (config) {
     try {
       const list = await jizhanglaAPI(config)
@@ -41,6 +43,30 @@ class SendService extends Service {
         msgtype: 'markdown',
         markdown: {
           title: '记账啦 - 昨日、本月账单',
+          text
+        }
+      }
+
+      const res = await sendMsgToGroup(msg, this.ctx.service)
+      return res
+    } catch (err) {
+      throw err
+    }
+  }
+
+  // 知乎热榜
+  async zhihuhot () {
+    try {
+      const list = await zhihuhotAPI()
+      let text = '知乎热榜 Top 10\n\n'
+      for (let i = 0; i < list.length; i++) {
+        text += `${ i + 1 }、[${ list[i].title }](${ list[i].url })\n\n`
+      }
+
+      const msg = {
+        msgtype: 'markdown',
+        markdown: {
+          title: '知乎热榜 Top 10',
           text
         }
       }

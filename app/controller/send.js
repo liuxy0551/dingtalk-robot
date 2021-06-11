@@ -31,6 +31,16 @@ class SendController extends Controller {
       this.ctx.body = setCtxBody(500, err, '系统错误')
     }
   }
+
+  // 知乎热榜
+  async zhihuhot () {
+    try {
+      const res = await this.ctx.service.send.zhihuhot()
+      this.ctx.body = setCtxBody(200, res)
+    } catch (err) {
+      this.ctx.body = setCtxBody(500, err, '系统错误')
+    }
+  }
 }
 
 module.exports = SendController

@@ -8,6 +8,7 @@ class AtService extends Service {
       let key = '', result = undefined
       content.includes('记账') && (key = 'jizhangla')
       content.includes('百度') && (key = 'baidutj')
+      content.includes('知乎') && (key = 'zhihuhot')
 
       const msg = {
         msgtype: 'text',
@@ -34,8 +35,13 @@ class AtService extends Service {
           await AtService.replyGroupAt(msg, this.ctx.service, [robot])
           result = setCtxBody(200, baidutjRes)
           break
+        case 'zhihuhot':
+          const zhihuhotRes = await this.ctx.service.send.zhihuhot()
+          await AtService.replyGroupAt(msg, this.ctx.service, [robot])
+          result = setCtxBody(200, zhihuhotRes)
+          break
         default:
-          const defaultText = '抱歉，我还不明白您的问题，您可以这样问我：\n- 百度统计 \n - 记账啦'
+          const defaultText = '抱歉，我还不明白您的问题，您可以这样问我：\n- 百度统计 \n - 记账啦 \n - 知乎热榜'
           const defaultMsg = {
             msgtype: 'markdown',
             markdown: {
