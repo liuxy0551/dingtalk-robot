@@ -40,7 +40,7 @@ const jizhanglaAPI = async (config) => {
 }
 
 // 知乎热榜
-const zhihuhotAPI = async (config) => {
+const zhihuhotAPI = async () => {
   const apiUrl = 'https://www.zhihu.com/api/v3/feed/topstory/hot-lists/total?limit=50&desktop=true'
   
   return new Promise((resolve, reject) => {
@@ -58,8 +58,35 @@ const zhihuhotAPI = async (config) => {
   })
 }
 
+// 掘金前端七天热榜
+const juejinhotAPI = async () => {
+  const apiUrl = 'https://api.juejin.cn/recommend_api/v1/article/recommend_cate_feed'
+  const params = {
+    cate_id: '6809637767543259144',
+    cursor: '0',
+    id_type: 2,
+    limit: 10,
+    sort_type: 7
+  }
+  
+  return new Promise((resolve, reject) => {
+    axios.post(apiUrl, params).then(res => {
+      const list = res.data.data.map(item => {
+        return {
+          title: item.article_info.title,
+          url: `https://juejin.cn/post/${item.article_id}`,
+        }
+      })
+      resolve(list)
+    }).catch(err => {
+      reject(err)
+    })
+  })
+}
+
 module.exports = {
   baidutjAPI,
   jizhanglaAPI,
-  zhihuhotAPI
+  zhihuhotAPI,
+  juejinhotAPI
 }

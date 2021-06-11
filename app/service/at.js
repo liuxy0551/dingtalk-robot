@@ -9,6 +9,7 @@ class AtService extends Service {
       content.includes('记账') && (key = 'jizhangla')
       content.includes('百度') && (key = 'baidutj')
       content.includes('知乎') && (key = 'zhihuhot')
+      content.includes('掘金') && (key = 'juejinhot')
 
       const msg = {
         msgtype: 'text',
@@ -40,8 +41,13 @@ class AtService extends Service {
           await AtService.replyGroupAt(msg, this.ctx.service, [robot])
           result = setCtxBody(200, zhihuhotRes)
           break
+        case 'juejinhot':
+          const juejinhotRes = await this.ctx.service.send.juejinhot()
+          await AtService.replyGroupAt(msg, this.ctx.service, [robot])
+          result = setCtxBody(200, juejinhotRes)
+          break
         default:
-          const defaultText = '抱歉，我还不明白您的问题，您可以这样问我：\n- 百度统计 \n - 记账啦 \n - 知乎热榜'
+          const defaultText = '抱歉，我还不明白您的问题，您可以这样问我：\n- 百度统计 \n - 记账啦 \n - 知乎热榜 \n - 掘金热榜'
           const defaultMsg = {
             msgtype: 'markdown',
             markdown: {

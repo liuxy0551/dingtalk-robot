@@ -41,6 +41,16 @@ class SendController extends Controller {
       this.ctx.body = setCtxBody(500, err, '系统错误')
     }
   }
+
+  // 掘金前端七天热榜
+  async juejinhot () {
+    try {
+      const res = await this.ctx.service.send.juejinhot()
+      this.ctx.body = setCtxBody(200, res)
+    } catch (err) {
+      this.ctx.body = setCtxBody(500, err, '系统错误')
+    }
+  }
 }
 
 module.exports = SendController
