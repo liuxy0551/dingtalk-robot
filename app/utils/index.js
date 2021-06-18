@@ -72,9 +72,10 @@ const sendMsgToGroup = async (msg, service, robots) => {
 }
 
 // 获取当前时间 2021-05-20 09:18:23
-const getNow = () => {
+// 函数计算运行时使用 UTC 时间，比北京时间减少了8小时
+const getNow = (hours = 8) => {
   const date = getDate(0, '-')
-  let hour = new Date().getHours()
+  let hour = new Date().getHours() + hours
   let minute = new Date().getMinutes()
   let second = new Date().getSeconds()
   hour = hour < 10 ? '0' + hour : hour
