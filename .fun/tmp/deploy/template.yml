@@ -67,3 +67,19 @@ Resources:
             Qualifier: LATEST
             CronExpression: 0 20 0 * * ?
             Enable: true
+    money:
+      Type: 'Aliyun::Serverless::Function'
+      Properties:
+        Handler: index.handler
+        Runtime: nodejs12
+        Timeout: 60
+        MemorySize: 512
+        InstanceConcurrency: 1
+        EnvironmentVariables: {}
+      Events:
+        money:
+          Type: Timer
+          Properties:
+            Qualifier: LATEST
+            CronExpression: '0 30 01,6 ? * MON-FRI'
+            Enable: true

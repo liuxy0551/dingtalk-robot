@@ -20,5 +20,5 @@
 ### 项目部署
 
 ```
-npm run deploy
+yarn deploy
 ```

@@ -1,6 +1,6 @@
 const Service = require('egg').Service
 const { jijinAPI, gupiaoAPI, jizhanglaAPI, baidutjAPI, zhihuhotAPI, juejinhotAPI } = require('../utils/axios')
-const { sendMsgToGroup, getTimeStr, getNow } = require('../utils')
+const { sendMsgToGroup, getTimeStr, getNow, getColorNum } = require('../utils')
 
 class SendService extends Service {
   // 理财 - 基金
@@ -9,7 +9,7 @@ class SendService extends Service {
       const list = await jijinAPI(config)
       let text = `当前时间：${ getNow() }\n\n`
       for (let i = 0; i < list.length; i++) {
-        text += `${ i + 1 }、【${ list[i].SHORTNAME }】\n\n 预估：**${ list[i].GSZZL }%**，昨日：${ list[i].NAVCHGRT }%\n\n`
+        text += `${ i + 1 }、【${ list[i].SHORTNAME }】\n\n 预估：**${ getColorNum('%', list[i].GSZZL) }**，昨日：${ getColorNum('%', list[i].NAVCHGRT) }\n\n`
       }
       text += '数据来源：天天基金'
 
@@ -34,7 +34,7 @@ class SendService extends Service {
       const list = await gupiaoAPI(config)
       let text = `当前时间：${ getNow() }\n\n`
       for (let i = 0; i < list.length; i++) {
-        text += `${ i + 1 }、【${ list[i].f14 }】\n\n 最新价：**${ (list[i].f2 / 100).toFixed(2) }**，涨幅：${ (list[i].f3 / 100).toFixed(2) }%\n\n`
+        text += `${ i + 1 }、【${ list[i].f14 }】\n\n 最新价：**${ getColorNum('', (list[i].f2 / 100).toFixed(2), (list[i].f3 / 100).toFixed(2)) }**，涨幅：**${ getColorNum('%', (list[i].f3 / 100).toFixed(2)) }**\n\n`
       }
       text += '数据来源：天天基金'
 

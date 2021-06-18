@@ -1,4 +1,3 @@
-
 const crypto = require('crypto')
 const request = require('request')
 
@@ -131,6 +130,19 @@ const setCtxBody = (code = 200, data, message = '成功', extraParams) => {
 	return { code, data, message, ...extraParams }
 }
 
+// 红涨绿跌 #ff0000 #007500
+const getColorNum = (suffix, num, flag) => {
+  let tempFlag = Number(flag ? flag : num)
+  console.log(111, num, tempFlag)
+  if (tempFlag > 0) {
+    return `<font color=#ff0000>${ num }${ suffix }</font>`
+  } else if (tempFlag < 0) {
+    return `<font color=#007500>${ num }${ suffix }</font>`
+  } else {
+    return `${ num }${ suffix }`
+  }
+}
+
 module.exports = {
   getSignUrl,
   getAtSign,
@@ -140,5 +152,6 @@ module.exports = {
   getTimeStr,
   getWhere,
   getUuid,
-  setCtxBody
+  setCtxBody,
+  getColorNum
 }
