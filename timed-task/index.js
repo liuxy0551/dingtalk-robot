@@ -6,14 +6,13 @@ exports.handler = (event, context, callback) => {
   const urlList = ['http://dingtalk-robot.liuxianyu.cn/api/jizhangla']
 
   for (let url of urlList) {
-    console.log(`${ getNow() }, ${ url }`)
-    
     let msg
     axios.post(url).then(res => {
       msg = `success, ${ getNow() }, ${ JSON.stringify(res.data) }`
     }).catch(err => {
       msg = `failed, ${ getNow() }, ${ err.response.status }`
     }).finally(() => {
+      console.log(`${ getNow() }, ${ url }`)
       console.log(msg)
       callback(null, msg)
     })

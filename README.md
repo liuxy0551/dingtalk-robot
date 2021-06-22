@@ -17,6 +17,15 @@
 &emsp;&emsp;这个项目涉及钉钉群机器人的安全设置都是`加签`，签名实现可参照 <a href="https://github.com/liuxy0551/dingtalk-robot/blob/master/app/utils/index.js#L6" target="_black">getSignUrl</a>。
 
 
+### 项目启动
+
+```
+yarn
+yarn dev
+```
+
+浏览器打开：http://localhost:9003/api
+
 ### 项目部署
 
 ```

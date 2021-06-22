@@ -16,7 +16,7 @@ Resources:
       Properties:
         Handler: index.handler
         Runtime: nodejs12
-        Timeout: 60
+        Timeout: 30
         MemorySize: 512
         InstanceConcurrency: 1
         EnvironmentVariables: {}
@@ -56,7 +56,7 @@ Resources:
       Properties:
         Handler: index.handler
         Runtime: nodejs12
-        Timeout: 60
+        Timeout: 30
         MemorySize: 512
         InstanceConcurrency: 1
         EnvironmentVariables: {}
@@ -72,7 +72,7 @@ Resources:
       Properties:
         Handler: index.handler
         Runtime: nodejs12
-        Timeout: 60
+        Timeout: 30
         MemorySize: 512
         InstanceConcurrency: 1
         EnvironmentVariables: {}
@@ -81,5 +81,5 @@ Resources:
           Type: Timer
           Properties:
             Qualifier: LATEST
-            CronExpression: '0 30 01,6 ? * MON-FRI'
+            CronExpression: '0 35 01,6 ? * MON-FRI'
             Enable: true
