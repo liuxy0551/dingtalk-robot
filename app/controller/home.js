@@ -2,8 +2,8 @@ const Controller = require('egg').Controller
 
 class HomeController extends Controller {
   async check () {
-    console.log('hello dingtalk-robot')
-    this.ctx.body = 'hello dingtalk-robot'
+    console.log('dingtalk-robot v1.0.0')
+    this.ctx.body = 'dingtalk-robot v1.0.0'
   }
 }
 

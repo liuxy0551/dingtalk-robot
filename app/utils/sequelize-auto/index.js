@@ -15,3 +15,5 @@ const auto = new SequelizeAuto(database, user, password, options)
 auto.run(err => {
   if (err) throw err
 })
+
+// npm run models

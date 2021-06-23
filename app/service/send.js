@@ -3,11 +3,66 @@ const { jijinAPI, gupiaoAPI, jizhanglaAPI, baidutjAPI, zhihuhotAPI, juejinhotAPI
 const { sendMsgToGroup, getTimeStr, getNow, getColorNum } = require('../utils')
 
 class SendService extends Service {
-  // 理财 - 基金
-  async jijin (config) {
+  // 获取钉钉提供的用户信息
+  async getDingUserInfo ({ senderNick, senderId, senderStaffId }) {
     try {
-      const list = await jijinAPI(config)
-      let text = `当前时间：${ getNow() }\n\n`
+      const msg = {
+        msgtype: 'markdown',
+        markdown: {
+          title: '用户信息',
+          text: `昵称: ${ senderNick }\n\n senderId: ${ senderId }\n\n senderStaffId: ${ senderStaffId }`
+        },
+        at: {
+          atUserIds: [senderStaffId]
+        }
+      }
+
+      const res = await sendMsgToGroup(msg, this.ctx.service)
+      return res
+    } catch (err) {
+      throw err
+    }
+  }
+
+  // 根据钉钉提供的用户信息查询理财信息
+  async getMyMoneyInfo ({ senderNick, senderId, senderStaffId }) {
+    try {
+      const { jijin, gupiao } = await this.ctx.service.moneyInfo.getMoneyInfos(senderId)
+
+      let text = `昵称: ${ senderNick }\n\n`
+      let jijinText = '【基金】\n\n', gupiaoText = '【股票】\n\n'
+      for (let i of jijin) {
+        jijinText += `${ i.sort }、${ i.name }(${ i.code })\n\n`
+      }
+      for (let i of gupiao) {
+        gupiaoText += `${ i.sort }、${ i.name }(${ i.code })\n\n`
+      }
+      text = text + jijinText + gupiaoText
+
+      const msg = {
+        msgtype: 'markdown',
+        markdown: {
+          title: '我的理财信息',
+          text
+        },
+        at: {
+          atUserIds: [senderStaffId]
+        }
+      }
+
+      const res = await sendMsgToGroup(msg, this.ctx.service)
+      return res
+    } catch (err) {
+      throw err
+    }
+  }
+
+  // 理财 - 基金
+  async jijin ({ senderNick, senderId, senderStaffId }) {
+    try {
+      const { jijin } = await this.ctx.service.moneyInfo.getMoneyInfos(senderId, ['jijin'])
+      const list = await jijinAPI(jijin)
+      let text = `昵称: ${ senderNick }\n\n 当前时间：${ getNow() }\n\n`
       for (let i = 0; i < list.length; i++) {
         text += `${ i + 1 }、【${ list[i].SHORTNAME }】\n\n 预估：**${ getColorNum('%', list[i].GSZZL) }**，昨日：${ getColorNum('%', list[i].NAVCHGRT) }\n\n`
       }
@@ -18,6 +73,9 @@ class SendService extends Service {
         markdown: {
           title: '韭零后 - 基金',
           text
+        },
+        at: {
+          atUserIds: [senderStaffId]
         }
       }
 
@@ -29,10 +87,11 @@ class SendService extends Service {
   }
 
   // 理财 - 股票
-  async gupiao (config) {
+  async gupiao ({ senderNick, senderId, senderStaffId }) {
     try {
-      const list = await gupiaoAPI(config)
-      let text = `当前时间：${ getNow() }\n\n`
+      const { gupiao } = await this.ctx.service.moneyInfo.getMoneyInfos(senderId, ['gupiao'])
+      const list = await gupiaoAPI(gupiao)
+      let text = `昵称: ${ senderNick }\n\n 当前时间：${ getNow() }\n\n`
       for (let i = 0; i < list.length; i++) {
         text += `${ i + 1 }、【${ list[i].f14 }】\n\n 最新价：**${ getColorNum('', (list[i].f2 / 100).toFixed(2), (list[i].f3 / 100).toFixed(2)) }**，涨幅：**${ getColorNum('%', (list[i].f3 / 100).toFixed(2)) }**\n\n`
       }
@@ -43,6 +102,9 @@ class SendService extends Service {
         markdown: {
           title: '韭零后 - 股票',
           text
+        },
+        at: {
+          atUserIds: [senderStaffId]
         }
       }
 

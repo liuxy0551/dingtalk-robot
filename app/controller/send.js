@@ -15,7 +15,7 @@ class SendController extends Controller {
   // 理财 - 基金
   async jijin () {
     try {
-      const res = await this.ctx.service.send.jijin(this.app.config.money)
+      const res = await this.ctx.service.send.jijin(this.ctx.request.body)
       this.ctx.body = setCtxBody(200, res)
     } catch (err) {
       this.ctx.body = setCtxBody(500, err, '系统错误')
@@ -25,7 +25,7 @@ class SendController extends Controller {
   // 理财 - 股票
   async gupiao () {
     try {
-      const res = await this.ctx.service.send.gupiao(this.app.config.money)
+      const res = await this.ctx.service.send.gupiao(this.ctx.request.body)
       this.ctx.body = setCtxBody(200, res)
     } catch (err) {
       this.ctx.body = setCtxBody(500, err, '系统错误')

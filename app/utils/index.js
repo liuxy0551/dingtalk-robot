@@ -116,6 +116,14 @@ const getTimeStr = (second) => {
   return { isDelete: 0, ...params }
 }
 
+/**
+ * 查询数据时排序，默认 按 sort 升序(ASC 升序，DESC 降序)
+ * @param {Array} arr 
+ */
+const getOrder = (arr = [['sort', 'ASC']]) => {
+  return arr
+}
+
 // 获取单个 uuid
 const getUuid = () => {
 	return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
@@ -134,7 +142,6 @@ const setCtxBody = (code = 200, data, message = '成功', extraParams) => {
 // 红涨绿跌 #ff0000 #007500
 const getColorNum = (suffix, num, flag) => {
   let tempFlag = Number(flag ? flag : num)
-  console.log(111, num, tempFlag)
   if (tempFlag > 0) {
     return `<font color=#ff0000>${ num }${ suffix }</font>`
   } else if (tempFlag < 0) {
@@ -152,6 +159,7 @@ module.exports = {
   getDate,
   getTimeStr,
   getWhere,
+  getOrder,
   getUuid,
   setCtxBody,
   getColorNum
