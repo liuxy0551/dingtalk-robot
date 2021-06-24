@@ -1,6 +1,6 @@
 const Service = require('egg').Service
 const { jijinAPI, gupiaoAPI, jizhanglaAPI, baidutjAPI, zhihuhotAPI, juejinhotAPI } = require('../utils/axios')
-const { sendMsgToGroup, getTimeStr, getNow, getColorNum } = require('../utils')
+const { sendMsgToGroup, getTimeStr, getNow, getColorNum, getAccountInfo } = require('../utils')
 
 class SendService extends Service {
   // 获取钉钉提供的用户信息
@@ -116,9 +116,10 @@ class SendService extends Service {
   }
 
   // 记账啦
-  async jizhangla (config) {
+  async jizhangla () {
     try {
-      const list = await jizhanglaAPI(config)
+      const jizhanglaConfig = await getAccountInfo(this.ctx.request.body, this.app.config.jizhangla, 'jizhangla')
+      const list = await jizhanglaAPI(jizhanglaConfig)
       let text = ''
       for (let i of list) {
         text += `【${ i.name }】\n- 支出：${ i.expense }元\n- 收入：${ i.income }元\n\n`
@@ -140,9 +141,10 @@ class SendService extends Service {
   }
 
   // 百度统计
-  async baidutj (config) {
+  async baidutj () {
     try {
-      const { body } = await baidutjAPI(config)
+      const baidutjConfig = await getAccountInfo(this.ctx.request.body, this.app.config.baidutj, 'baidutj')
+      const { body } = await baidutjAPI(baidutjConfig)
       const list = body.data[0].result.items
 
       const yesterday = list[1][0]
@@ -155,7 +157,7 @@ class SendService extends Service {
           title: '百度统计 - 网站数据',
           text,
           singleTitle: '点此查看更多数据',
-          singleURL: `https://tongji.baidu.com/m/#/report/${config.body.siteId}`
+          singleURL: `https://tongji.baidu.com/m/#/report/${baidutjConfig.body.siteId}`
         }
       }
 

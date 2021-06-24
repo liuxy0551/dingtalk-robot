@@ -1,9 +1,10 @@
 const Controller = require('egg').Controller
+const { getVersion } = require('../utils')
 
 class HomeController extends Controller {
   async check () {
-    console.log('dingtalk-robot v1.0.0')
-    this.ctx.body = 'dingtalk-robot v1.0.0'
+    console.log(`dingtalk-robot v${ getVersion() }`)
+    this.ctx.body = `dingtalk-robot v${ getVersion() }`
   }
 }
 

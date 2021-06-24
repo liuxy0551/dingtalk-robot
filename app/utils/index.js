@@ -1,5 +1,7 @@
+const fs = require('fs')
 const crypto = require('crypto')
 const request = require('request')
+const db = require('./db')
 
 /**
  * 获取签名后的 url
@@ -151,6 +153,45 @@ const getColorNum = (suffix, num, flag) => {
   }
 }
 
+// 获取 package.json 中的版本号
+const getVersion = () => {
+  const packageJson = fs.readFileSync(`${process.cwd()}/package.json`)
+  return JSON.parse(packageJson).version
+}
+
+// 获取用户的多个账号信息
+const getAccountInfo = async ({ senderId }, config, type) => {
+  const { jizhanglaUserId, baidutjUsername, baidutjPassword, baidutjToken, baidutjSiteId, dingtalkRobotAppSecret } = await db.AccountInfo.findOne({
+    where: getWhere({ senderId }),
+    raw: true
+  })
+
+  let result = {}
+  switch (type) {
+    case 'jizhangla':
+      result = { ...config, userId: jizhanglaUserId }
+      break
+    case 'baidutj':
+      const header = {
+        username: baidutjUsername,
+        password: baidutjPassword,
+        token: baidutjToken
+      }
+      let { body } = config
+      body = { ...body, siteId: baidutjSiteId }
+
+      result = { ...config, header, body }
+      break
+    case 'dingtalkRobot':
+      result = { appSecret: dingtalkRobotAppSecret }
+      break
+    default:
+      break
+  }
+
+  return result
+}
+
 module.exports = {
   getSignUrl,
   getAtSign,
@@ -162,5 +203,7 @@ module.exports = {
   getOrder,
   getUuid,
   setCtxBody,
-  getColorNum
+  getColorNum,
+  getVersion,
+  getAccountInfo
 }

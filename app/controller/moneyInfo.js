@@ -15,7 +15,7 @@ class MoneyInfoController extends Controller {
   // 新增理财信息
   async createMoneyInfo () {
     try {
-      const { senderId, jijinList, gupiaoList } = this.ctx.request.body
+      const { senderId, jijinList = [], gupiaoList = [] } = this.ctx.request.body
       let moneyInfos = []
       for (let i of jijinList) {
         const { name, code, sort } = i

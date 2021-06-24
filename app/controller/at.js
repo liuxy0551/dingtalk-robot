@@ -1,11 +1,12 @@
 const Controller = require('egg').Controller
-const { getAtSign, setCtxBody } = require('../utils')
+const { getAtSign, setCtxBody, getAccountInfo } = require('../utils')
 
 class AtController extends Controller {
   async atRobot () {
     try {
       const { sign, timestamp } = this.ctx.request.header
-      await AtController.checkIsDingtalk(this.app.config.atConfig.appSecret, sign, timestamp)
+      const { appSecret } = await getAccountInfo(this.ctx.request.body, {}, 'dingtalkRobot')
+      await AtController.checkIsDingtalk(appSecret, sign, timestamp)
       const res = await this.ctx.service.at.atRobot(this.ctx.request.body)
       this.ctx.body = setCtxBody(200, res)
     } catch (err) {

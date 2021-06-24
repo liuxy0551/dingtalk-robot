@@ -1,5 +1,5 @@
 const Service = require('egg').Service
-const { sendMsgToGroup, setCtxBody } = require('../utils')
+const { sendMsgToGroup, setCtxBody, getVersion } = require('../utils')
 
 class AtService extends Service {
   async atRobot (body) {
@@ -53,11 +53,11 @@ class AtService extends Service {
           result = setCtxBody(200, { ...jijinResult, ...gupiaoResult })
           break
         case 'jizhangla':
-          const jizhanglaRes = await this.ctx.service.send.jizhangla(this.app.config.jizhangla)
+          const jizhanglaRes = await this.ctx.service.send.jizhangla()
           result = setCtxBody(200, jizhanglaRes)
           break
         case 'baidutj':
-          const baidutjRes = await this.ctx.service.send.baidutj(this.app.config.baidutj)
+          const baidutjRes = await this.ctx.service.send.baidutj()
           result = setCtxBody(200, baidutjRes)
           break
         case 'zhihuhot':
@@ -70,7 +70,7 @@ class AtService extends Service {
           result = setCtxBody(200, juejinhotRes)
           break
         default:
-          const defaultText = '抱歉，我还不明白您的问题，您可以这样问我：\n - 我的信息 \n - 我的理财 \n - 基金 \n - 股票 \n - 理财 \n - 记账啦 \n- 百度统计 \n - 知乎热榜 \n - 掘金热榜 \n 当前版本: v1.0.0'
+          const defaultText = `抱歉，不明白您的问题，您可以这样问：\n - 我的信息 \n - 我的理财 \n - 基金 \n - 股票 \n - 理财 \n - 知乎热榜 \n - 掘金前端热榜 \n\n当前版本: v${ getVersion() }`
           const defaultMsg = {
             msgtype: 'markdown',
             markdown: {
