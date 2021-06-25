@@ -38,11 +38,6 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true,
       comment: "百度统计 siteId"
     },
-    dingtalkRobotAppSecret: {
-      type: DataTypes.STRING(200),
-      allowNull: true,
-      comment: "钉钉机器人 secret"
-    },
     senderId: {
       type: DataTypes.STRING(200),
       allowNull: true,

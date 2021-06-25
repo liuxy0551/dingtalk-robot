@@ -161,7 +161,7 @@ const getVersion = () => {
 
 // 获取用户的多个账号信息
 const getAccountInfo = async ({ senderId }, config, type) => {
-  const { jizhanglaUserId, baidutjUsername, baidutjPassword, baidutjToken, baidutjSiteId, dingtalkRobotAppSecret } = await db.AccountInfo.findOne({
+  const { jizhanglaUserId, baidutjUsername, baidutjPassword, baidutjToken, baidutjSiteId } = await db.AccountInfo.findOne({
     where: getWhere({ senderId }),
     raw: true
   })
@@ -181,9 +181,6 @@ const getAccountInfo = async ({ senderId }, config, type) => {
       body = { ...body, siteId: baidutjSiteId }
 
       result = { ...config, header, body }
-      break
-    case 'dingtalkRobot':
-      result = { appSecret: dingtalkRobotAppSecret }
       break
     default:
       break

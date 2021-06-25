@@ -36,7 +36,6 @@ CREATE TABLE `AccountInfo` (
   `baidutjPassword` varchar(200) NULL COMMENT '百度统计密码',
   `baidutjToken` varchar(200) NULL COMMENT '百度统计 token',
   `baidutjSiteId` varchar(200) NULL COMMENT '百度统计 siteId',
-  `dingtalkRobotAppSecret` varchar(200) NULL COMMENT '钉钉机器人 secret',
   `senderId` varchar(200) NULL COMMENT '群里@机器人时钉钉返回的 加密的发送者ID',
   `createTime` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updateTime` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
