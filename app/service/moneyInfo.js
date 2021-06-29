@@ -23,10 +23,10 @@ class MoneyInfoService extends Service {
     }
   }
 
-  async createMoneyInfo (moneyInfos) {
+  async createMoneyInfo (moneyInfo) {
     try {
-      const list = await db.MoneyInfo.bulkCreate(moneyInfos)
-      return list
+      const res = await db.MoneyInfo.create(moneyInfo)
+      return res
     } catch (err) {
       throw err
     }

@@ -15,18 +15,8 @@ class MoneyInfoController extends Controller {
   // 新增理财信息
   async createMoneyInfo () {
     try {
-      const { senderId, jijinList = [], gupiaoList = [] } = this.ctx.request.body
-      let moneyInfos = []
-      for (let i of jijinList) {
-        const { name, code, sort } = i
-        moneyInfos.push({ senderId, moneyInfoId: getUuid(), type: 'jijin', name, code, sort })
-      }
-      for (let i of gupiaoList) {
-        const { name, code, sort } = i
-        moneyInfos.push({ senderId, moneyInfoId: getUuid(), type: 'gupiao', name, code, sort })
-      }
-
-      const res = await this.ctx.service.moneyInfo.createMoneyInfo(moneyInfos)
+      const { senderId, type, name, code, sort } = this.ctx.request.body
+      const res = await this.ctx.service.moneyInfo.createMoneyInfo({ moneyInfoId: getUuid(), senderId, type, name, code, sort })
       this.ctx.body = setCtxBody(200, res)
     } catch (err) {
       this.ctx.body = setCtxBody(500, err, '系统错误')
