@@ -4,6 +4,7 @@
 module.exports = app => {
   const { router, controller } = app
   
+  router.get('/', controller.home.check)
   router.get('/api/', controller.home.check)
 
   router.post('/api/sendMsg', controller.send.sendMsg)
@@ -19,6 +20,7 @@ module.exports = app => {
 
   router.get('/api/getMoneyInfos', controller.moneyInfo.getMoneyInfos)
   router.post('/api/createMoneyInfo', controller.moneyInfo.createMoneyInfo)
+  router.post('/api/deleteMoneyInfo', controller.moneyInfo.deleteMoneyInfo)
 
   router.post('/api/atRobot', controller.at.atRobot)
 }

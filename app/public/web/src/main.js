@@ -7,6 +7,6 @@ import 'amfe-flexible/index.js'
 const app = createApp(App)
 
 app.use(router)
-  .use(vant)
+   .use(vant)
 
 app.mount('#app')

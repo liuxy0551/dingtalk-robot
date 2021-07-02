@@ -15,7 +15,7 @@ class MoneyInfoController extends Controller {
   // 新增理财信息
   async createMoneyInfo () {
     try {
-      const { senderId, type, name, code, sort } = this.ctx.request.body
+      const { senderId, type, name, code, sort = 1 } = this.ctx.request.body
       const res = await this.ctx.service.moneyInfo.createMoneyInfo({ moneyInfoId: getUuid(), senderId, type, name, code, sort })
       this.ctx.body = setCtxBody(200, res)
     } catch (err) {
@@ -23,6 +23,16 @@ class MoneyInfoController extends Controller {
     }
   }
   
+  // 删除理财信息
+  async deleteMoneyInfo () {
+    try {
+      const { senderId, code } = this.ctx.request.body
+      const res = await this.ctx.service.moneyInfo.deleteMoneyInfo(senderId, code)
+      this.ctx.body = setCtxBody(200, res)
+    } catch (err) {
+      this.ctx.body = setCtxBody(500, err, '系统错误')
+    }
+  }
 }
 
 module.exports = MoneyInfoController

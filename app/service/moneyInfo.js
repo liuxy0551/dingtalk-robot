@@ -31,6 +31,21 @@ class MoneyInfoService extends Service {
       throw err
     }
   }
+
+  async deleteMoneyInfo (senderId, code) {
+    try {
+      const res = await db.MoneyInfo.update({ isDelete: 1 }, {
+        where: getWhere({
+          senderId,
+          code
+        }),
+        raw: true
+      })
+      return res
+    } catch (err) {
+      throw err
+    }
+  }
 }
 
 module.exports = MoneyInfoService

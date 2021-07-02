@@ -1,12 +1,13 @@
-import { Button, Tabs, Tab, Search, Tabbar, TabbarItem } from 'vant'
+import { Button, Tabs, Tab, Search, Tabbar, TabbarItem, ActionSheet } from 'vant'
 
 export default {
   install(app) {
     app.use(Button)
-      .use(Tabs)
-      .use(Tab)
-      .use(Search)
-      .use(Tabbar)
-      .use(TabbarItem)
+       .use(Tabs)
+       .use(Tab)
+       .use(Search)
+       .use(Tabbar)
+       .use(TabbarItem)
+       .use(ActionSheet)
   }
 }

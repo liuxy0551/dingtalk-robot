@@ -19,6 +19,11 @@ axios.interceptors.response.use(res => {
     Toast('搜索失败')
     return Promise.reject(res)
   }
+  const { code, message } = res.data
+  if (code && code !== 200) {
+    Toast(message)
+    return Promise.reject(res)
+  }
   return res.data
 })
 

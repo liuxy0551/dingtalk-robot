@@ -46,6 +46,11 @@ module.exports = appInfo => {
     }
   };
 
+  config.static = {
+    prefix: '/web',
+    dir: path.join(appInfo.baseDir, 'app/public/web/dist')
+  }
+
   // add your user config here
   const userConfig = {
     // myAppName: 'egg',

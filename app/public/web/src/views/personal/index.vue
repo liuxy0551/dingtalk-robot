@@ -1,64 +1,109 @@
 <template>
-  <div class="money-content">
+  <div class="personal-content">
+    <div class="top-search">
+      <van-tabs type="card" v-model="tabSelected" @change="onChange">
+        <van-tab v-for="item in tabList" :key="item.value" :title="item.label" :name="item.value" />
+      </van-tabs>
+    </div>
     
-    1234
+    <div class="box top-tab">
+      <div class="item" v-for="item in result[tabSelected]" :key="item.code">
+        <div class="row">
+          <div class="text">{{ item.code }} - {{ item.name }}</div>
+          <van-button type="warning" size="mini" @click="deleteMoneyInfo(item)">删除自选</van-button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
   import { onMounted, reactive, toRefs } from 'vue'
-  import { useRoute } from 'vue-router'
   import axios from '@/utils/axios'
+  import { Toast } from 'vant'
 
   export default {
     setup() {
-      const route = useRoute()
-      const { senderId } = route.query
-      const callbackName = 'callbackCode'
+      const senderId = localStorage.getItem('senderId')
       const state = reactive({
         tabSelected: 'jijin',
         tabList: [
           { label: '基金', value: 'jijin' }, { label: '股票', value: 'gupiao' }
         ],
-        keyword: '长安',
-        result: []
+        result: {
+          jijin: [],
+          gupiao: []
+        }
       })
 
       onMounted(() => {
-        // console.log(333, senderId)
+        getMoneyInfos()
       })
 
       const onChange = (val) => {
-        console.log(222, val)
+        state.tabSelected = val
+      }
+      
+      const getMoneyInfos = () => {
+        axios.get(`/api/getMoneyInfos?senderId=${ senderId }`).then(res => {
+          const { jijin, gupiao } = res.data
+          localStorage.setItem('moneyInfoCodes', jijin.concat(gupiao).map(item => item.code).join(','))
+          state.result = { jijin, gupiao }
+        })
       }
 
-      const onSearch = (val) => {
-        axios.get(`http://suggest3.sinajs.cn/suggest/key=${ val }&name=${ callbackName }`).then(res => {
-          let list = []
-          res.split(';').forEach(item => {
-            console.log(111, item.split(','))
-            item = item.split(',')
-            list.push({
-              codeA: item[2],
-              codeB: item[3],
-              name: item[6]
-            })
-          })
-          state.result = list
+      // 删除自选
+      const deleteMoneyInfo = (item) => {
+        const params = {
+          senderId,
+          code: item.code
+        }
+        axios.post('/api/deleteMoneyInfo', params).then(() => {
+          getMoneyInfos()
+          Toast('删除成功')
         })
       }
 
       return {
         ...toRefs(state),
         onChange,
-        onSearch
+        deleteMoneyInfo
       }
     }
   }
 </script>
 
 <style scoped>
-  .money-content {
-    padding: 20px 0;
+  .personal-content {
+  }
+    
+  .top-search {
+    width: 100%;
+    padding: 15px 0 8px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px 0px rgba(6,14,26,0.08);
+    position: fixed;
+    z-index: 1;
+  }
+  .box {
+    padding: 60px 20px 60px;
+  }
+  .item {
+  }
+  .row {
+    font-size: 14px;
+    padding: 6px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .text {
+    max-width: 252px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .van-button {
+    width: 70px;
   }
 </style>
