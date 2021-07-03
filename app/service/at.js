@@ -6,8 +6,7 @@ class AtService extends Service {
     try {
       const { content } = body.text
       let key = '', result = undefined
-      content.includes('我的信息') && (key = 'myUserInfo')
-      content.includes('我的理财') && (key = 'myMoney')
+      content.includes('我的') && (key = 'myMoney')
       content.includes('基金') && (key = 'jijin')
       content.includes('股票') && (key = 'gupiao')
       content.includes('理财') && !content.includes('我的') && (key = 'money')
@@ -31,10 +30,6 @@ class AtService extends Service {
       }
 
       switch (key) {
-        case 'myUserInfo':
-          const myUserInfoRes = await this.ctx.service.send.getDingUserInfo(body)
-          result = setCtxBody(200, myUserInfoRes)
-          break
         case 'myMoney':
           const myMoneyRes = await this.ctx.service.send.getMyMoneyInfo(body)
           result = setCtxBody(200, myMoneyRes)
@@ -54,10 +49,12 @@ class AtService extends Service {
           break
         case 'jizhangla':
           const jizhanglaRes = await this.ctx.service.send.jizhangla()
+          // await AtService.replyGroupAt(msg, this.ctx.service, [robot])
           result = setCtxBody(200, jizhanglaRes)
           break
         case 'baidutj':
           const baidutjRes = await this.ctx.service.send.baidutj()
+          // await AtService.replyGroupAt(msg, this.ctx.service, [robot])
           result = setCtxBody(200, baidutjRes)
           break
         case 'zhihuhot':
@@ -66,11 +63,10 @@ class AtService extends Service {
           break
         case 'juejinhot':
           const juejinhotRes = await this.ctx.service.send.juejinhot()
-          // await AtService.replyGroupAt(msg, this.ctx.service, [robot])
           result = setCtxBody(200, juejinhotRes)
           break
         default:
-          const defaultText = `抱歉，不明白您的问题，您可以这样问：\n - 我的信息 \n - 我的理财 \n - 基金 \n - 股票 \n - 理财 \n - 知乎热榜 \n - 掘金前端热榜 \n\n当前版本: v${ getVersion() }`
+          const defaultText = `抱歉，不明白您的问题，您可以这样问：\n - 我的理财 \n - 基金 \n - 股票 \n - 理财(同时查询基金、股票) \n - 知乎热榜 \n - 掘金前端热榜 \n\n当前版本: v${ getVersion() }`
           const defaultMsg = {
             msgtype: 'markdown',
             markdown: {

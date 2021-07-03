@@ -3,47 +3,31 @@ const { jijinAPI, gupiaoTTAPI, gupiaoTencentAPI, jizhanglaAPI, baidutjAPI, zhihu
 const { sendMsgToGroup, getTimeStr, getNow, getColorNum, getAccountInfo } = require('../utils')
 
 class SendService extends Service {
-  // 获取钉钉提供的用户信息
-  async getDingUserInfo ({ senderNick, senderId, senderStaffId }) {
-    try {
-      const msg = {
-        msgtype: 'markdown',
-        markdown: {
-          title: '用户信息',
-          text: `昵称: ${ senderNick }\n\n senderId: ${ senderId }\n\n senderStaffId: ${ senderStaffId }`
-        },
-        at: {
-          atUserIds: [senderStaffId]
-        }
-      }
-
-      const res = await sendMsgToGroup(msg, this.ctx.service)
-      return res
-    } catch (err) {
-      throw err
-    }
-  }
-
-  // 根据钉钉提供的用户信息查询理财信息
+  // 我的理财信息
   async getMyMoneyInfo ({ senderNick, senderId, senderStaffId }) {
     try {
       const { jijin, gupiao } = await this.ctx.service.moneyInfo.getMoneyInfos(senderId)
-
       let text = `昵称: ${ senderNick }\n\n`
       let jijinText = '【基金】\n\n', gupiaoText = '【股票】\n\n'
-      for (let i of jijin) {
-        jijinText += `${ i.sort }、${ i.name }(${ i.code })\n\n`
+      for (let i = 0; i < 2; i++) {
+        jijin[i] && (jijinText += `${ i + 1 }、${ jijin[i].name }(${ jijin[i].code })\n\n`)
       }
-      for (let i of gupiao) {
-        gupiaoText += `${ i.sort }、${ i.name }(${ i.code })\n\n`
+      for (let i = 0; i < 2; i++) {
+        gupiao[i] && (gupiaoText += `${ i + 1 }、${ gupiao[i].name }(${ gupiao[i].code })\n\n`)
       }
       text = text + jijinText + gupiaoText
 
       const msg = {
-        msgtype: 'markdown',
-        markdown: {
+        msgtype: 'actionCard',
+        actionCard: {
           title: '我的理财信息',
-          text
+          text,
+          btns: [
+              {
+                title: `查看更多${ senderNick }的理财信息`,
+                actionURL: `http://dingtalk-robot.liuxianyu.cn/web/index.html#/auth?senderId=${ senderId }`
+              }
+          ]
         },
         at: {
           atUserIds: [senderStaffId]
