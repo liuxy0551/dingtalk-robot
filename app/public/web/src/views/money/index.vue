@@ -46,7 +46,7 @@
       })
 
       const onSearch = (val) => {
-        axios.get(`http://suggest3.sinajs.cn/suggest/key=${ val }&name=${ callbackName }`).then(res => {
+        axios.get(`https://suggest3.sinajs.cn/suggest/key=${ encodeURI(val) }&name=${ callbackName }`).then(res => {
           if (res.split(';')[0].length < 25) return Toast('查无结果')
           let list = []
           res.split(';').forEach(item => {

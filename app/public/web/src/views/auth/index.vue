@@ -1,7 +1,9 @@
 <script>
   import { onMounted } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
+  import { getDevice } from '@/utils/mixins'
   import axios from '@/utils/axios'
+  import { Toast } from 'vant'
 
   export default {
     setup() {
@@ -10,9 +12,9 @@
       const { senderId } = route.query
 
       onMounted(() => {
-        localStorage.setItem('senderId', senderId)
-        getMoneyInfos()
-        router.push({ name: 'Money' })
+          localStorage.setItem('senderId', senderId)
+          getMoneyInfos()
+          router.push({ name: 'Money' })
       })
       
       const getMoneyInfos = () => {
@@ -24,6 +26,3 @@
     }
   }
 </script>
-
-<style scoped>
-</style>
