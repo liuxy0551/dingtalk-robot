@@ -1,8 +1,8 @@
 <template>
   <div class="container">
-    <router-view v-if="getDevice() === 'pc'" />
+    <router-view />
     
-    <van-tabbar route v-if="getDevice() === 'pc'">
+    <van-tabbar route>
       <van-tabbar-item replace to="/money" icon="search">搜索</van-tabbar-item>
       <van-tabbar-item replace to="/personal" icon="friends-o">我的</van-tabbar-item>
     </van-tabbar>
@@ -10,7 +10,8 @@
 </template>
 
 <script>
-  import { getDevice, changeStyle } from '@/utils/mixins'
+  import { getDevice, changeStyle } from '@/utils'
+  import { getVersion } from '@/utils'
   import { onMounted } from 'vue'
   import { Toast } from 'vant'
 
@@ -23,14 +24,13 @@
           window.addEventListener('resize', () => {
             changeStyle()
           })
-        } else {
-          Toast({ message: '请在电脑端打开', duration: 0 })
+        }
+
+        if (!localStorage.getItem('versionShow')) {
+          localStorage.setItem('versionShow', 'yes')
+          Toast(`当前版本：${ getVersion() }`)
         }
       })
-
-      return {
-        getDevice
-      }
     }
   }
 </script>

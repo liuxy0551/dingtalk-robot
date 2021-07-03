@@ -10,7 +10,7 @@
       <div class="item" v-for="item in result[tabSelected]" :key="item.code">
         <div class="row">
           <div class="text">{{ item.code }} - {{ item.name }}</div>
-          <van-button type="warning" size="mini" @click="deleteMoneyInfo(item)">删除自选</van-button>
+          <van-button type="warning" size="mini" :loading="item.loading" @click="deleteMoneyInfo(item)">删除自选</van-button>
         </div>
       </div>
     </div>
@@ -20,7 +20,7 @@
 <script>
   import { onMounted, reactive, toRefs } from 'vue'
   import axios from '@/utils/axios'
-  import { Toast } from 'vant'
+  import { Toast, Dialog } from 'vant'
 
   export default {
     setup() {
@@ -48,19 +48,32 @@
         axios.get(`/api/getMoneyInfos?senderId=${ senderId }`).then(res => {
           const { jijin, gupiao } = res.data
           localStorage.setItem('moneyInfoCodes', jijin.concat(gupiao).map(item => item.code).join(','))
-          state.result = { jijin, gupiao }
+          state.result = {
+            jijin: jijin.map(i => { return { ...i, loading: false } }),
+            gupiao: gupiao.map(i => { return { ...i, loading: false } })
+          }
         })
       }
 
       // 删除自选
       const deleteMoneyInfo = (item) => {
-        const params = {
-          senderId,
-          code: item.code
-        }
-        axios.post('/api/deleteMoneyInfo', params).then(() => {
-          getMoneyInfos()
-          Toast('删除成功')
+        item.loading = true
+        Dialog.confirm({
+          title: '删除自选',
+          message: `确认删除该自选理财信息吗？`,
+        }).then(() => {
+          const params = {
+            senderId,
+            code: item.code
+          }
+          axios.post('/api/deleteMoneyInfo', params).then(() => {
+            getMoneyInfos()
+            Toast('删除成功')
+          }).finally(() => {
+            item.loading = false
+          })
+        }).catch(() => {
+          item.loading = false
         })
       }
 

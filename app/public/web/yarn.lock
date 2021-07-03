@@ -115,11 +115,6 @@
     "@vue/compiler-dom" "3.1.2"
     "@vue/shared" "3.1.2"
 
-"@vue/devtools-api@^6.0.0-beta.11":
-  version "6.0.0-beta.15"
-  resolved "http://registry.npm.dtstack.com/@vue%2fdevtools-api/-/devtools-api-6.0.0-beta.15.tgz#ad7cb384e062f165bcf9c83732125bffbc2ad83d"
-  integrity sha1-rXyzhOBi8WW8+cg3MhJb/7wq2D0=
-
 "@vue/devtools-api@^6.0.0-beta.14":
   version "6.0.0-beta.14"
   resolved "http://registry.npm.dtstack.com/@vue%2fdevtools-api/-/devtools-api-6.0.0-beta.14.tgz#6ed2d6f8d66a9256c9ad04bfff08309ba87b9723"
@@ -232,6 +227,16 @@ constant-case@^3.0.4:
     tslib "^2.0.3"
     upper-case "^2.0.2"
 
+copy-text-to-clipboard@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.nlark.com/copy-text-to-clipboard/download/copy-text-to-clipboard-3.0.1.tgz#8cbf8f90e0a47f12e4a24743736265d157bce69c"
+  integrity sha1-jL+PkOCkfxLkokdDc2Jl0Ve85pw=
+
+core-js@^3.11.0:
+  version "3.15.2"
+  resolved "https://registry.nlark.com/core-js/download/core-js-3.15.2.tgz?cache=0&sync_timestamp=1624966012065&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fcore-js%2Fdownload%2Fcore-js-3.15.2.tgz#740660d2ff55ef34ce664d7e2455119c5bdd3d61"
+  integrity sha1-dAZg0v9V7zTOZk1+JFURnFvdPWE=
+
 cssesc@^3.0.0:
   version "3.0.0"
   resolved "http://registry.npm.dtstack.com/cssesc/-/cssesc-3.0.0.tgz#37741919903b868565e1c09ea747445cd18983ee"
@@ -281,6 +286,11 @@ follow-redirects@^1.10.0:
   version "1.14.1"
   resolved "http://registry.npm.dtstack.com/follow-redirects/-/follow-redirects-1.14.1.tgz#d9114ded0a1cfdd334e164e6662ad02bfd91ff43"
   integrity sha1-2RFN7Qoc/dM04WTmZirQK/2R/0M=
+
+fs@^0.0.1-security:
+  version "0.0.1-security"
+  resolved "https://registry.npm.taobao.org/fs/download/fs-0.0.1-security.tgz#8a7bd37186b6dddf3813f23858b57ecaaf5e41d4"
+  integrity sha1-invTcYa23d84E/I4WLV+yq9eQdQ=
 
 fsevents@~2.3.2:
   version "2.3.2"
@@ -394,6 +404,11 @@ ms@2.1.2:
   version "2.1.2"
   resolved "http://registry.npm.dtstack.com/ms/-/ms-2.1.2.tgz#d09d1f357b443f493382a8eb3ccd183872ae6009"
   integrity sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==
+
+mutation-observer@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.npm.taobao.org/mutation-observer/download/mutation-observer-1.0.3.tgz#42e9222b101bca82e5ba9d5a7acf4a14c0f263d0"
+  integrity sha1-QukiKxAbyoLlup1aes9KFMDyY9A=
 
 nanoid@^3.1.23:
   version "3.1.23"
@@ -602,6 +617,15 @@ vant@^3.1.1:
     "@vant/popperjs" "^1.1.0"
     "@vant/use" "^1.1.2"
 
+vconsole@^3.8.1:
+  version "3.8.1"
+  resolved "https://registry.nlark.com/vconsole/download/vconsole-3.8.1.tgz#b9bd28451277b11615e85e3b54b680473694b3a1"
+  integrity sha1-ub0oRRJ3sRYV6F47VLaARzaUs6E=
+  dependencies:
+    copy-text-to-clipboard "^3.0.1"
+    core-js "^3.11.0"
+    mutation-observer "^1.0.3"
+
 vite-plugin-style-import@^1.0.1:
   version "1.0.1"
   resolved "http://registry.npm.dtstack.com/vite-plugin-style-import/-/vite-plugin-style-import-1.0.1.tgz#bf61337dd11e4ebc0f355f271e06d374b1ca5c79"
@@ -640,13 +664,6 @@ vue@^3.0.5:
     "@vue/compiler-dom" "3.1.2"
     "@vue/runtime-dom" "3.1.2"
     "@vue/shared" "3.1.2"
-
-vuex@^4.0.2:
-  version "4.0.2"
-  resolved "http://registry.npm.dtstack.com/vuex/-/vuex-4.0.2.tgz#f896dbd5bf2a0e963f00c67e9b610de749ccacc9"
-  integrity sha1-+Jbb1b8qDpY/AMZ+m2EN50nMrMk=
-  dependencies:
-    "@vue/devtools-api" "^6.0.0-beta.11"
 
 yallist@^3.0.2:
   version "3.1.1"

@@ -1,4 +1,5 @@
 const Controller = require('egg').Controller
+const { getMoneyInfoBySinaAPI } = require('../utils/axios')
 const { getUuid, setCtxBody } = require('../utils')
 
 class MoneyInfoController extends Controller {
@@ -28,6 +29,16 @@ class MoneyInfoController extends Controller {
     try {
       const { senderId, code } = this.ctx.request.body
       const res = await this.ctx.service.moneyInfo.deleteMoneyInfo(senderId, code)
+      this.ctx.body = setCtxBody(200, res)
+    } catch (err) {
+      this.ctx.body = setCtxBody(500, err, '系统错误')
+    }
+  }
+  
+  // 新浪关键词查询
+  async getMoneyInfoBySina () {
+    try {
+      const res = await getMoneyInfoBySinaAPI(this.ctx.query.key)
       this.ctx.body = setCtxBody(200, res)
     } catch (err) {
       this.ctx.body = setCtxBody(500, err, '系统错误')

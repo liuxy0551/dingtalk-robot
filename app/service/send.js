@@ -6,42 +6,28 @@ class SendService extends Service {
   // 我的理财信息
   async getMyMoneyInfo ({ senderNick, senderId, senderStaffId }) {
     try {
-      // const { jijin, gupiao } = await this.ctx.service.moneyInfo.getMoneyInfos(senderId)
-      // let text = `昵称: ${ senderNick }\n\n`
-      // let jijinText = '【基金】\n\n', gupiaoText = '【股票】\n\n'
-      // for (let i = 0; i < 2; i++) {
-      //   jijin[i] && (jijinText += `${ i + 1 }、${ jijin[i].name }(${ jijin[i].code })\n\n`)
-      // }
-      // for (let i = 0; i < 2; i++) {
-      //   gupiao[i] && (gupiaoText += `${ i + 1 }、${ gupiao[i].name }(${ gupiao[i].code })\n\n`)
-      // }
-      // text = text + jijinText + gupiaoText
-
-      // const msg = {
-      //   msgtype: 'actionCard',
-      //   actionCard: {
-      //     title: '我的理财信息',
-      //     text,
-      //     btns: [
-      //         {
-      //           title: `查看更多${ senderNick }的理财信息`,
-      //           actionURL: `http://dingtalk-robot.liuxianyu.cn/web/index.html#/auth?senderId=${ senderId }`
-      //         }
-      //     ]
-      //   },
-      //   at: {
-      //     atUserIds: [senderStaffId]
-      //   }
-      // }
-
-      const url = `http://dingtalk-robot.liuxianyu.cn/web/index.html#/auth?senderId=${ senderId }`
+      const { jijin, gupiao } = await this.ctx.service.moneyInfo.getMoneyInfos(senderId)
       let text = `昵称: ${ senderNick }\n\n`
-      text += `请在电脑端浏览器打开：[管理我的理财信息](${ url })`
+      let jijinText = '【基金】\n\n', gupiaoText = '【股票】\n\n'
+      for (let i = 0; i < 2; i++) {
+        jijin[i] && (jijinText += `${ i + 1 }、${ jijin[i].name }(${ jijin[i].code })\n\n`)
+      }
+      for (let i = 0; i < 2; i++) {
+        gupiao[i] && (gupiaoText += `${ i + 1 }、${ gupiao[i].name }(${ gupiao[i].code })\n\n`)
+      }
+      text = text + jijinText + gupiaoText
+
       const msg = {
-        msgtype: 'markdown',
-        markdown: {
+        msgtype: 'actionCard',
+        actionCard: {
           title: '我的理财信息',
-          text
+          text,
+          btns: [
+              {
+                title: `查看更多${ senderNick }的理财信息`,
+                actionURL: `http://dingtalk-robot.liuxianyu.cn/web/index.html#/auth?senderId=${ senderId }`
+              }
+          ]
         },
         at: {
           atUserIds: [senderStaffId]

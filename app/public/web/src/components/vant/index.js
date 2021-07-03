@@ -1,4 +1,4 @@
-import { Button, Tabs, Tab, Search, Tabbar, TabbarItem, ActionSheet } from 'vant'
+import { Button, Tabs, Tab, Search, Tabbar, TabbarItem, ActionSheet, Icon } from 'vant'
 
 export default {
   install(app) {
@@ -9,5 +9,6 @@ export default {
        .use(Tabbar)
        .use(TabbarItem)
        .use(ActionSheet)
+       .use(Icon)
   }
 }

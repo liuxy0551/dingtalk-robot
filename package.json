@@ -1,6 +1,6 @@
 {
   "name": "dingtalk-robot",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "",
   "private": true,
   "egg": {
@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
+    "bufferhelper": "^0.2.1",
     "egg": "^2.15.1",
     "egg-cors": "^2.2.3",
     "egg-scripts": "^2.11.0",

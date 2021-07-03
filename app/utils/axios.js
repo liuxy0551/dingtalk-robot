@@ -35,8 +35,32 @@ const gupiaoTTAPI = async (gupiaoList) => {
   })
 }
 
+// 理财 - 新浪关键词查询
+// http://suggest3.sinajs.cn/suggest/key=changan&name=callbackCode`
+const getMoneyInfoBySinaAPI = async (key) => {
+  const apiUrl = `http://suggest3.sinajs.cn/suggest/key=${ encodeURI(key) }&name=callbackCode`
+  
+  return new Promise((resolve, reject) => {
+    const url = require('url').parse(apiUrl)
+    http.get(url, (res) => {
+      const bufferHelper = new BufferHelper()
+      res.on('data', (chunk) => {
+        bufferHelper.concat(chunk)
+      })
+      res.on('end', () => {
+        const res = iconv.decode(bufferHelper.toBuffer(), 'GBK')
+        resolve(res)
+      })
+      res.on('error', (err) => {
+        console.error(222, 'getMoneyInfoBySinaAPI', err)
+        reject()
+      })
+    })
+  })
+}
+
 // 理财 - 腾讯股票
-// https://qt.gtimg.cn/q=sz000625,sh600519
+// http://qt.gtimg.cn/q=sz000625,sh600519
 const gupiaoTencentAPI = async (gupiaoList) => {
   const apiUrl = `http://qt.gtimg.cn/q=${ gupiaoList.map(item => item.code).join(',') }`
   
@@ -61,7 +85,7 @@ const gupiaoTencentAPI = async (gupiaoList) => {
         resolve(list)
       })
       res.on('error', (err) => {
-        console.error(222, gupiaoTencentAPI, err)
+        console.error(222, 'gupiaoTencentAPI', err)
         reject()
       })
     })
@@ -151,6 +175,7 @@ const juejinhotAPI = async () => {
 module.exports = {
   jijinAPI,
   gupiaoTTAPI,
+  getMoneyInfoBySinaAPI,
   gupiaoTencentAPI,
   jizhanglaAPI,
   baidutjAPI,

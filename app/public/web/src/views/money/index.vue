@@ -14,6 +14,10 @@
       </div>
     </div>
 
+    <div class="refresh-box" :class="{ 'loading': refreshing }" @click="refreshAPP">
+      <van-icon name="replay" />
+    </div>
+
     <van-action-sheet v-model:show="typeConfirmVisible" :actions="typeActions" cancel-text="取消"
       close-on-click-action @select="createMoneyInfo" title="选择理财类型" />
   </div>
@@ -22,13 +26,12 @@
 <script>
   import { onMounted, reactive, toRefs } from 'vue'
   import axios from '@/utils/axios'
-  import { Toast } from 'vant'
+  import { Toast, Dialog } from 'vant'
 
   export default {
     setup() {
       const senderId = localStorage.getItem('senderId')
       const moneyInfoCodes = localStorage.getItem('moneyInfoCodes')
-      const callbackName = 'callbackCode'
       const state = reactive({
         typeConfirmVisible: false,
         typeActions: [
@@ -38,7 +41,8 @@
         moneyInfo: null,
         keyword: '',
         result: [],
-        moneyInfoCodeList: []
+        moneyInfoCodeList: [],
+        refreshing: false
       })
 
       onMounted(() => {
@@ -46,10 +50,13 @@
       })
 
       const onSearch = (val) => {
-        axios.get(`https://suggest3.sinajs.cn/suggest/key=${ encodeURI(val) }&name=${ callbackName }`).then(res => {
-          if (res.split(';')[0].length < 25) return Toast('查无结果')
+        axios.get(`/api/getMoneyInfoBySina?key=${ val }`).then(res => {
+          if (res.data.split(';')[0].length < 25) {
+            state.result = []
+            Toast('查无结果')
+          }
           let list = []
-          res.split(';').forEach(item => {
+          res.data.split(';').forEach(item => {
             item = item.split(',')
             list.push({
               code: item[3],
@@ -91,20 +98,37 @@
 
       // 删除自选
       const deleteMoneyInfo = (item) => {
-        const isCode = state.moneyInfoCodeList.some(i => i === item.code)
         item.loading = true
-        const params = {
-          senderId,
-          code: item[isCode ? 'code' : 'codeB']
-        }
-        axios.post('/api/deleteMoneyInfo', params).then(() => {
-          state.moneyInfoCodeList.splice(state.moneyInfoCodeList.indexOf(item[isCode ? 'code' : 'codeB']), 1)
-          localStorage.setItem('moneyInfoCodes', state.moneyInfoCodeList.join(','))
-          Toast('删除成功')
-          item.selected = false
-        }).finally(() => {
+        Dialog.confirm({
+          title: '删除自选',
+          message: `确认删除该自选理财信息吗？`,
+        }).then(() => {
+          const isCode = state.moneyInfoCodeList.some(i => i === item.code)
+          const params = {
+            senderId,
+            code: item[isCode ? 'code' : 'codeB']
+          }
+          axios.post('/api/deleteMoneyInfo', params).then(() => {
+            state.moneyInfoCodeList.splice(state.moneyInfoCodeList.indexOf(item[isCode ? 'code' : 'codeB']), 1)
+            localStorage.setItem('moneyInfoCodes', state.moneyInfoCodeList.join(','))
+            Toast('删除成功')
+            item.selected = false
+          }).finally(() => {
+            item.loading = false
+          })
+        }).catch(() => {
           item.loading = false
         })
+      }
+
+      // 刷新应用
+      const refreshAPP = () => {
+        state.refreshing = true
+        localStorage.removeItem('versionShow')
+        location.reload()
+        setTimeout(() => {
+          state.refreshing = false
+        }, 2500)
       }
 
       return {
@@ -113,7 +137,8 @@
         onSearch,
         showConfirm,
         createMoneyInfo,
-        deleteMoneyInfo
+        deleteMoneyInfo,
+        refreshAPP
       }
     }
   }
@@ -130,6 +155,33 @@
     position: fixed;
     z-index: 1;
   }
+
+  .refresh-box {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #fff;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.28);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    bottom: 80px;
+    right: 20px;
+  }
+  .loading {
+    animation: rotate 1s linear infinite;
+  }
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg)
+    }
+    to {
+      transform: rotate(359deg)
+    }
+  }
+
   .box {
     padding: 60px 20px 60px;
   }
