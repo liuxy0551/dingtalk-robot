@@ -1,5 +1,5 @@
 const Service = require('egg').Service
-const { jijinAPI, gupiaoAPI, jizhanglaAPI, baidutjAPI, zhihuhotAPI, juejinhotAPI } = require('../utils/axios')
+const { jijinAPI, gupiaoTTAPI, gupiaoTencentAPI, jizhanglaAPI, baidutjAPI, zhihuhotAPI, juejinhotAPI } = require('../utils/axios')
 const { sendMsgToGroup, getTimeStr, getNow, getColorNum, getAccountInfo } = require('../utils')
 
 class SendService extends Service {
@@ -90,12 +90,22 @@ class SendService extends Service {
   async gupiao ({ senderNick, senderId, senderStaffId }) {
     try {
       const { gupiao } = await this.ctx.service.moneyInfo.getMoneyInfos(senderId, ['gupiao'])
-      const list = await gupiaoAPI(gupiao)
+
+      // 天天基金 - 查询股票
+      // const list = await gupiaoTTAPI(gupiao)
+      // let text = `昵称: ${ senderNick }\n\n 当前时间：${ getNow() }\n\n`
+      // for (let i = 0; i < list.length; i++) {
+      //   text += `${ i + 1 }、【${ list[i].f14 }】\n\n 最新价：**${ getColorNum('', (list[i].f2 / 100).toFixed(2), (list[i].f3 / 100).toFixed(2)) }**，涨幅：**${ getColorNum('%', (list[i].f3 / 100).toFixed(2)) }**\n\n`
+      // }
+      // text += '数据来源：天天基金'
+
+      // 腾讯 - 查询股票
+      const list = await gupiaoTencentAPI(gupiao)
       let text = `昵称: ${ senderNick }\n\n 当前时间：${ getNow() }\n\n`
       for (let i = 0; i < list.length; i++) {
-        text += `${ i + 1 }、【${ list[i].f14 }】\n\n 最新价：**${ getColorNum('', (list[i].f2 / 100).toFixed(2), (list[i].f3 / 100).toFixed(2)) }**，涨幅：**${ getColorNum('%', (list[i].f3 / 100).toFixed(2)) }**\n\n`
+        text += `${ i + 1 }、【${ list[i].name }】\n\n 最新价：**${ getColorNum('', list[i].nowPrice, list[i].range) }**，涨幅：**${ getColorNum('%', list[i].range) }**\n\n`
       }
-      text += '数据来源：天天基金'
+      text += '数据来源：腾讯'
 
       const msg = {
         msgtype: 'markdown',

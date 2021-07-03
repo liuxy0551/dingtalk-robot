@@ -2,8 +2,7 @@
  * @description: 各类发送请求
  */
 const axios = require("axios")
-const { getDate } = require('./index')
-const { getUuid } = require('../utils')
+const { getUuid, getDate } = require('../utils')
 
 // 理财 - 基金
 // https://gitee.com/base/leek-fund/blob/master/development.md
@@ -19,14 +18,36 @@ const jijinAPI = async (jijinList) => {
   })
 }
 
-// 理财 - 股票
+// 理财 - 天天基金股票
 // https://gitee.com/base/leek-fund/blob/master/development.md
-const gupiaoAPI = async (gupiaoList) => {
+const gupiaoTTAPI = async (gupiaoList) => {
   const apiUrl = `https://push2.eastmoney.com/api/qt/ulist.np/get?fields=f2,f3,f14&secids=${ gupiaoList.map(item => item.code).join(',') }`
   
   return new Promise((resolve, reject) => {
     axios.get(apiUrl).then(res => {
       resolve(res.data.data.diff)
+    }).catch(err => {
+      reject(err)
+    })
+  })
+}
+
+// 理财 - 腾讯股票
+// https://qt.gtimg.cn/q=sz000625,sh600519
+const gupiaoTencentAPI = async (gupiaoList) => {
+  const apiUrl = `https://qt.gtimg.cn/q=${ gupiaoList.map(item => item.code).join(',') }`
+  
+  return new Promise((resolve, reject) => {
+    axios.get(apiUrl, { responseType: 'UTF8' }).then(res => {
+      let list = [], arr = res.data.split(';')
+      for (let i = 0; i < arr.length; i++) {
+        arr[i].split('~').length > 33 && list.push({
+          name: gupiaoList[i].name,
+          nowPrice: arr[i].split('~')[3],
+          range: arr[i].split('~')[32]
+        })
+      }
+      resolve(list)
     }).catch(err => {
       reject(err)
     })
@@ -115,7 +136,8 @@ const juejinhotAPI = async () => {
 
 module.exports = {
   jijinAPI,
-  gupiaoAPI,
+  gupiaoTTAPI,
+  gupiaoTencentAPI,
   jizhanglaAPI,
   baidutjAPI,
   zhihuhotAPI,
