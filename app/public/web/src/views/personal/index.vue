@@ -1,7 +1,7 @@
 <template>
   <div class="personal-content">
     <div class="top-search">
-      <van-tabs type="card" v-model="tabSelected" @change="onChange">
+      <van-tabs v-model="tabSelected" @change="onChange">
         <van-tab v-for="item in tabList" :key="item.value" :title="item.label" :name="item.value" />
       </van-tabs>
     </div>
@@ -79,7 +79,6 @@
     
   .top-search {
     width: 100%;
-    padding: 15px 0 8px;
     background-color: #fff;
     box-shadow: 0 4px 8px 0px rgba(6,14,26,0.08);
     position: fixed;

@@ -1,7 +1,7 @@
 <template>
   <div class="money-content">
     <div class="top-search">
-      <van-search v-model="keyword" placeholder="请输入简称/拼音/代码" @search="onSearch" />
+      <van-search v-model="keyword" placeholder="请输入简称/拼音/代码" @search="onSearch" @update:model-value="onSearch" />
     </div>
 
     <div class="box">
