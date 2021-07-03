@@ -2,6 +2,9 @@
  * @description: 各类发送请求
  */
 const axios = require("axios")
+const http = require('http')
+const iconv = require('iconv-lite')
+const BufferHelper = require('bufferhelper')
 const { getUuid, getDate } = require('../utils')
 
 // 理财 - 基金
@@ -35,21 +38,32 @@ const gupiaoTTAPI = async (gupiaoList) => {
 // 理财 - 腾讯股票
 // https://qt.gtimg.cn/q=sz000625,sh600519
 const gupiaoTencentAPI = async (gupiaoList) => {
-  const apiUrl = `https://qt.gtimg.cn/q=${ gupiaoList.map(item => item.code).join(',') }`
+  const apiUrl = `http://qt.gtimg.cn/q=${ gupiaoList.map(item => item.code).join(',') }`
   
   return new Promise((resolve, reject) => {
-    axios.get(apiUrl, { responseType: 'UTF8' }).then(res => {
-      let list = [], arr = res.data.split(';')
-      for (let i = 0; i < arr.length; i++) {
-        arr[i].split('~').length > 33 && list.push({
-          name: gupiaoList[i].name,
-          nowPrice: arr[i].split('~')[3],
-          range: arr[i].split('~')[32]
-        })
-      }
-      resolve(list)
-    }).catch(err => {
-      reject(err)
+    const url = require('url').parse(apiUrl)
+    http.get(url, (res) => {
+      const bufferHelper = new BufferHelper()
+      res.on('data', (chunk) => {
+        bufferHelper.concat(chunk)
+      })
+      res.on('end', () => {
+        const res = iconv.decode(bufferHelper.toBuffer(), 'GBK')
+        let list = [], arr = res.split(';')
+        for (let i = 0; i < arr.length; i++) {
+          arr[i].split('~').length > 33 && list.push({
+            name: arr[i].split('~')[1],
+            // name: gupiaoList[i].name,
+            nowPrice: arr[i].split('~')[3],
+            range: arr[i].split('~')[32]
+          })
+        }
+        resolve(list)
+      })
+      res.on('error', (err) => {
+        console.error(222, gupiaoTencentAPI, err)
+        reject()
+      })
     })
   })
 }

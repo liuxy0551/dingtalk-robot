@@ -35,7 +35,8 @@ class SendService extends Service {
       // }
 
       const url = `http://dingtalk-robot.liuxianyu.cn/web/index.html#/auth?senderId=${ senderId }`
-      let text = `请在电脑端浏览器打开：[${ url }](${ url })`
+      let text = `昵称: ${ senderNick }\n\n`
+      text += `请在电脑端浏览器打开：[管理我的理财信息](${ url })`
       const msg = {
         msgtype: 'markdown',
         markdown: {
