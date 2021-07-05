@@ -1,5 +1,5 @@
 const Controller = require('egg').Controller
-const { getAtSign, setCtxBody, getAccountInfo } = require('../utils')
+const { setCtxBody } = require('../utils')
 
 class AtController extends Controller {
   // http://dingtalk-robot.liuxianyu.cn/api/atRobot

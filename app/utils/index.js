@@ -163,33 +163,42 @@ const getVersion = () => {
 
 // 获取用户的多个账号信息
 const getAccountInfo = async ({ senderId }, config, type) => {
-  const { jizhanglaUserId, baidutjUsername, baidutjPassword, baidutjToken, baidutjSiteId } = await db.AccountInfo.findOne({
+  const accountInfo = await db.AccountInfo.findOne({
     where: getWhere({ senderId }),
     raw: true
   })
 
-  let result = {}
-  switch (type) {
-    case 'jizhangla':
-      result = { ...config, userId: jizhanglaUserId }
-      break
-    case 'baidutj':
-      const header = {
-        username: baidutjUsername,
-        password: baidutjPassword,
-        token: baidutjToken
+  return new Promise((resolve, reject) => {
+    if (accountInfo) {
+      const { jizhanglaUserId, baidutjUsername, baidutjPassword, baidutjToken, baidutjSiteId } = accountInfo
+    
+      let result = {}
+      switch (type) {
+        case 'jizhangla':
+          result = { ...config, userId: jizhanglaUserId }
+          break
+        case 'baidutj':
+          const header = {
+            username: baidutjUsername,
+            password: baidutjPassword,
+            token: baidutjToken
+          }
+          let { body } = config
+          body = { ...body, siteId: baidutjSiteId }
+    
+          result = { ...config, header, body }
+          break
+        default:
+          break
       }
-      let { body } = config
-      body = { ...body, siteId: baidutjSiteId }
-
-      result = { ...config, header, body }
-      break
-    default:
-      break
-  }
-
-  return result
+      resolve(result)
+    } else {
+      reject(404)
+    }
+  })
 }
+
+const getDefaultText = `您可以这样问：\n - 我的理财 \n - 基金 \n - 股票 \n - 知乎热榜 \n - 掘金前端热榜 \n\n当前版本: v${ getVersion() }`
 
 module.exports = {
   getSignUrl,
@@ -204,5 +213,6 @@ module.exports = {
   setCtxBody,
   getColorNum,
   getVersion,
-  getAccountInfo
+  getAccountInfo,
+  getDefaultText
 }

@@ -1,5 +1,5 @@
 const Service = require('egg').Service
-const { sendMsgToGroup, setCtxBody, getVersion } = require('../utils')
+const { sendMsgToGroup, setCtxBody, getDefaultText } = require('../utils')
 
 class AtService extends Service {
   async atRobot (body) {
@@ -48,12 +48,12 @@ class AtService extends Service {
           result = setCtxBody(200, { ...jijinResult, ...gupiaoResult })
           break
         case 'jizhangla':
-          const jizhanglaRes = await this.ctx.service.send.jizhangla({ senderStaffId: body.senderStaffId })
+          const jizhanglaRes = await this.ctx.service.send.jizhangla(body)
           await AtService.replyGroupAt(msg, this.ctx.service)
           result = setCtxBody(200, jizhanglaRes)
           break
         case 'baidutj':
-          const baidutjRes = await this.ctx.service.send.baidutj({ senderStaffId: body.senderStaffId })
+          const baidutjRes = await this.ctx.service.send.baidutj(body)
           await AtService.replyGroupAt(msg, this.ctx.service)
           result = setCtxBody(200, baidutjRes)
           break
@@ -66,7 +66,7 @@ class AtService extends Service {
           result = setCtxBody(200, juejinhotRes)
           break
         default:
-          const defaultText = `@${ body.senderStaffId } 抱歉，不明白您的问题，您可以这样问：\n - 我的理财 \n - 基金 \n - 股票 \n - 知乎热榜 \n - 掘金前端热榜 \n\n当前版本: v${ getVersion() }`
+          const defaultText = `@${ body.senderStaffId } 抱歉，不明白您的问题，${ getDefaultText }`
           const defaultMsg = {
             msgtype: 'markdown',
             markdown: {

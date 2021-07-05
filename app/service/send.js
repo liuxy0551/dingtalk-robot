@@ -1,6 +1,6 @@
 const Service = require('egg').Service
 const { jijinAPI, gupiaoTTAPI, gupiaoTencentAPI, jizhanglaAPI, baidutjAPI, zhihuhotAPI, juejinhotAPI } = require('../utils/axios')
-const { sendMsgToGroup, getTimeStr, getNow, getColorNum, getAccountInfo } = require('../utils')
+const { sendMsgToGroup, getTimeStr, getNow, getColorNum, getAccountInfo, getDefaultText } = require('../utils')
 
 class SendService extends Service {
   // 我的理财信息
@@ -120,7 +120,7 @@ class SendService extends Service {
   }
 
   // 记账啦
-  async jizhangla ({ senderStaffId }) {
+  async jizhangla ({ senderStaffId, conversationTitle, sessionWebhook }) {
     try {
       const jizhanglaConfig = await getAccountInfo(this.ctx.request.body, this.app.config.jizhangla, 'jizhangla')
       const list = await jizhanglaAPI(jizhanglaConfig)
@@ -140,12 +140,19 @@ class SendService extends Service {
       const res = await sendMsgToGroup(msg, this.ctx.service, null, senderStaffId)
       return res
     } catch (err) {
+      if (err === 404) {
+        const robot = {
+          name: conversationTitle,
+          Webhook: sessionWebhook
+        }
+        await SendService.sendNotFound(this.ctx.service, robot, senderStaffId)
+      }
       throw err
     }
   }
 
   // 百度统计
-  async baidutj ({ senderStaffId }) {
+  async baidutj ({ senderStaffId, conversationTitle, sessionWebhook }) {
     try {
       const baidutjConfig = await getAccountInfo(this.ctx.request.body, this.app.config.baidutj, 'baidutj')
       const { body } = await baidutjAPI(baidutjConfig)
@@ -168,6 +175,13 @@ class SendService extends Service {
       const res = await sendMsgToGroup(msg, this.ctx.service, null, senderStaffId)
       return res
     } catch (err) {
+      if (err === 404) {
+        const robot = {
+          name: conversationTitle,
+          Webhook: sessionWebhook
+        }
+        await SendService.sendNotFound(this.ctx.service, robot, senderStaffId)
+      }
       throw err
     }
   }
@@ -214,6 +228,26 @@ class SendService extends Service {
       }
 
       const res = await sendMsgToGroup(msg, this.ctx.service)
+      return res
+    } catch (err) {
+      throw err
+    }
+  }
+
+  // 没有账号的用户查询百度统计、记账啦
+  static async sendNotFound (service, robot, senderStaffId) {
+    try {
+      const msg = {
+        msgtype: 'markdown',
+        markdown: {
+          title: '没有查询到您的信息',
+          text: `@${ senderStaffId } 没有查询到您的信息，${ getDefaultText }`
+        },
+        at: {
+          atUserIds: [senderStaffId]
+        }
+      }
+      const res = await sendMsgToGroup(msg, service, robot)
       return res
     } catch (err) {
       throw err
