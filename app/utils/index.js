@@ -34,7 +34,7 @@ const getAtSign = (appSecret, time) => {
  * 发送消息
  * 企业内部机器人，只用 Webhook 发送消息，此时不从数据库查询机器人列表
  */
-const sendMsgToGroup = async (msg, service, robots, senderStaffId) => {
+const sendMsgToGroup = async (msg, service, robots, senderStaffId = '') => {
   try {
     let robotList = []
     if (robots && robots.length) {
@@ -44,7 +44,6 @@ const sendMsgToGroup = async (msg, service, robots, senderStaffId) => {
       robotList = list.length ? list : await service.robot.getRobots() // 没有专属群则发送到大群
     }
 
-    console.log(1222, robotList)
     let promiseList = []
     for (let i of robotList) {
       promiseList.push(sendOne(getSignUrl(i.Webhook, i.secret), msg, i.name))

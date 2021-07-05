@@ -120,11 +120,11 @@ class SendService extends Service {
   }
 
   // 记账啦
-  async jizhangla (senderStaffId) {
+  async jizhangla ({ senderStaffId }) {
     try {
       const jizhanglaConfig = await getAccountInfo(this.ctx.request.body, this.app.config.jizhangla, 'jizhangla')
       const list = await jizhanglaAPI(jizhanglaConfig)
-      let text = `@${ senderStaffId }`
+      let text = ``
       for (let i of list) {
         text += `【${ i.name }】\n- 支出：${ i.expense }元\n- 收入：${ i.income }元\n\n`
       }
@@ -134,9 +134,6 @@ class SendService extends Service {
         markdown: {
           title: '记账啦 - 昨日、本月账单',
           text
-        },
-        at: {
-          atUserIds: [senderStaffId]
         }
       }
 
@@ -148,7 +145,7 @@ class SendService extends Service {
   }
 
   // 百度统计
-  async baidutj (senderStaffId) {
+  async baidutj ({ senderStaffId }) {
     try {
       const baidutjConfig = await getAccountInfo(this.ctx.request.body, this.app.config.baidutj, 'baidutj')
       const { body } = await baidutjAPI(baidutjConfig)
@@ -157,7 +154,7 @@ class SendService extends Service {
       const yesterday = list[1][0]
       const today = list[1][1]
 
-      const text = `@${ senderStaffId }【今日】\n- PV：${ today[0] }\n- UV：${ today[1] }\n- IP数：${ today[2] }\n- 平均访问时长：${ getTimeStr(today[3]) }\n\n【昨日】\n- PV：${ yesterday[0] }\n- UV：${ yesterday[1] }\n- IP数：${ yesterday[2] }\n- 平均访问时长：${ getTimeStr(yesterday[3]) }`
+      const text = `【今日】\n- PV：${ today[0] }\n- UV：${ today[1] }\n- IP数：${ today[2] }\n- 平均访问时长：${ getTimeStr(today[3]) }\n\n【昨日】\n- PV：${ yesterday[0] }\n- UV：${ yesterday[1] }\n- IP数：${ yesterday[2] }\n- 平均访问时长：${ getTimeStr(yesterday[3]) }`
       const msg = {
         msgtype: 'actionCard',
         actionCard: {
@@ -165,9 +162,6 @@ class SendService extends Service {
           text,
           singleTitle: '点此查看更多数据',
           singleURL: `https://tongji.baidu.com/m/#/report/${baidutjConfig.body.siteId}`
-        },
-        at: {
-          atUserIds: [senderStaffId]
         }
       }
 

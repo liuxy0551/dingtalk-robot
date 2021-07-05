@@ -48,12 +48,12 @@ class AtService extends Service {
           result = setCtxBody(200, { ...jijinResult, ...gupiaoResult })
           break
         case 'jizhangla':
-          const jizhanglaRes = await this.ctx.service.send.jizhangla(body.senderStaffId)
+          const jizhanglaRes = await this.ctx.service.send.jizhangla({ senderStaffId: body.senderStaffId })
           await AtService.replyGroupAt(msg, this.ctx.service)
           result = setCtxBody(200, jizhanglaRes)
           break
         case 'baidutj':
-          const baidutjRes = await this.ctx.service.send.baidutj(body.senderStaffId)
+          const baidutjRes = await this.ctx.service.send.baidutj({ senderStaffId: body.senderStaffId })
           await AtService.replyGroupAt(msg, this.ctx.service)
           result = setCtxBody(200, baidutjRes)
           break
