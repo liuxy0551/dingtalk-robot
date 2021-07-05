@@ -3,10 +3,12 @@ const db = require('../utils/db')
 const { getWhere } = require('../utils')
 
 class RobotService extends Service {
-  async getRobots () {
+  async getRobots (senderStaffId = '') {
     try {
       const robots = await db.Robot.findAll({
-        where: getWhere(),
+        where: getWhere({
+          senderStaffId
+        }),
         raw: true
       })
       return robots

@@ -6,28 +6,38 @@ class SendService extends Service {
   // 我的理财信息
   async getMyMoneyInfo ({ senderNick, senderId, senderStaffId }) {
     try {
-      const { jijin, gupiao } = await this.ctx.service.moneyInfo.getMoneyInfos(senderId)
-      let text = `昵称: ${ senderNick }\n\n`
-      let jijinText = '【基金】\n\n', gupiaoText = '【股票】\n\n'
-      for (let i = 0; i < 2; i++) {
-        jijin[i] && (jijinText += `${ i + 1 }、${ jijin[i].name }(${ jijin[i].code })\n\n`)
-      }
-      for (let i = 0; i < 2; i++) {
-        gupiao[i] && (gupiaoText += `${ i + 1 }、${ gupiao[i].name }(${ gupiao[i].code })\n\n`)
-      }
-      text = text + jijinText + gupiaoText
+      // const { jijin, gupiao } = await this.ctx.service.moneyInfo.getMoneyInfos(senderId)
+      // let text = `@${ senderStaffId }\n\n`
+      // let jijinText = '【基金】\n\n', gupiaoText = '【股票】\n\n'
+      // for (let i = 0; i < 2; i++) {
+      //   jijin[i] && (jijinText += `${ i + 1 }、${ jijin[i].name }(${ jijin[i].code })\n\n`)
+      // }
+      // for (let i = 0; i < 2; i++) {
+      //   gupiao[i] && (gupiaoText += `${ i + 1 }、${ gupiao[i].name }(${ gupiao[i].code })\n\n`)
+      // }
+      // text = text + jijinText + gupiaoText
+      // const msg = {
+      //   msgtype: 'actionCard',
+      //   actionCard: {
+      //     title: '我的理财信息',
+      //     text,
+      //     btns: [
+      //         {
+      //           title: `查看更多${ senderNick }的理财信息`,
+      //           actionURL: `http://dingtalk-robot.liuxianyu.cn/web/index.html#/auth?senderId=${ senderId }`
+      //         }
+      //     ]
+      //   },
+      //   at: {
+      //     atUserIds: [senderStaffId]
+      //   }
+      // }
 
       const msg = {
-        msgtype: 'actionCard',
-        actionCard: {
+        msgtype: 'markdown',
+        markdown: {
           title: '我的理财信息',
-          text,
-          btns: [
-              {
-                title: `查看更多${ senderNick }的理财信息`,
-                actionURL: `http://dingtalk-robot.liuxianyu.cn/web/index.html#/auth?senderId=${ senderId }`
-              }
-          ]
+          text: `@${ senderStaffId }点击 [查看更多${ senderNick }的理财信息](http://dingtalk-robot.liuxianyu.cn/web/index.html#/auth?senderId=${ senderId })`
         },
         at: {
           atUserIds: [senderStaffId]
@@ -46,7 +56,7 @@ class SendService extends Service {
     try {
       const { jijin } = await this.ctx.service.moneyInfo.getMoneyInfos(senderId, ['jijin'])
       const list = await jijinAPI(jijin)
-      let text = `昵称: ${ senderNick }\n\n 当前时间：${ getNow() }\n\n`
+      let text = `@${ senderStaffId } 当前时间：${ getNow() }\n\n`
       for (let i = 0; i < list.length; i++) {
         text += `${ i + 1 }、【${ list[i].SHORTNAME }】\n\n 预估：**${ getColorNum('%', list[i].GSZZL) }**，昨日：${ getColorNum('%', list[i].NAVCHGRT) }\n\n`
       }
@@ -85,7 +95,7 @@ class SendService extends Service {
 
       // 腾讯 - 查询股票
       const list = await gupiaoTencentAPI(gupiao)
-      let text = `昵称: ${ senderNick }\n\n 当前时间：${ getNow() }\n\n`
+      let text = `@${ senderStaffId } 当前时间：${ getNow() }\n\n`
       for (let i = 0; i < list.length; i++) {
         text += `${ i + 1 }、【${ list[i].name }】\n\n 最新价：**${ getColorNum('', list[i].nowPrice, list[i].range) }**，涨幅：**${ getColorNum('%', list[i].range) }**\n\n`
       }
@@ -110,11 +120,11 @@ class SendService extends Service {
   }
 
   // 记账啦
-  async jizhangla () {
+  async jizhangla (senderStaffId) {
     try {
       const jizhanglaConfig = await getAccountInfo(this.ctx.request.body, this.app.config.jizhangla, 'jizhangla')
       const list = await jizhanglaAPI(jizhanglaConfig)
-      let text = ''
+      let text = `@${ senderStaffId }`
       for (let i of list) {
         text += `【${ i.name }】\n- 支出：${ i.expense }元\n- 收入：${ i.income }元\n\n`
       }
@@ -124,10 +134,13 @@ class SendService extends Service {
         markdown: {
           title: '记账啦 - 昨日、本月账单',
           text
+        },
+        at: {
+          atUserIds: [senderStaffId]
         }
       }
 
-      const res = await sendMsgToGroup(msg, this.ctx.service)
+      const res = await sendMsgToGroup(msg, this.ctx.service, null, senderStaffId)
       return res
     } catch (err) {
       throw err
@@ -135,7 +148,7 @@ class SendService extends Service {
   }
 
   // 百度统计
-  async baidutj () {
+  async baidutj (senderStaffId) {
     try {
       const baidutjConfig = await getAccountInfo(this.ctx.request.body, this.app.config.baidutj, 'baidutj')
       const { body } = await baidutjAPI(baidutjConfig)
@@ -144,7 +157,7 @@ class SendService extends Service {
       const yesterday = list[1][0]
       const today = list[1][1]
 
-      const text = `【今日】\n- PV：${ today[0] }\n- UV：${ today[1] }\n- IP数：${ today[2] }\n- 平均访问时长：${ getTimeStr(today[3]) }\n\n【昨日】\n- PV：${ yesterday[0] }\n- UV：${ yesterday[1] }\n- IP数：${ yesterday[2] }\n- 平均访问时长：${ getTimeStr(yesterday[3]) }`
+      const text = `@${ senderStaffId }【今日】\n- PV：${ today[0] }\n- UV：${ today[1] }\n- IP数：${ today[2] }\n- 平均访问时长：${ getTimeStr(today[3]) }\n\n【昨日】\n- PV：${ yesterday[0] }\n- UV：${ yesterday[1] }\n- IP数：${ yesterday[2] }\n- 平均访问时长：${ getTimeStr(yesterday[3]) }`
       const msg = {
         msgtype: 'actionCard',
         actionCard: {
@@ -152,10 +165,13 @@ class SendService extends Service {
           text,
           singleTitle: '点此查看更多数据',
           singleURL: `https://tongji.baidu.com/m/#/report/${baidutjConfig.body.siteId}`
+        },
+        at: {
+          atUserIds: [senderStaffId]
         }
       }
 
-      const res = await sendMsgToGroup(msg, this.ctx.service)
+      const res = await sendMsgToGroup(msg, this.ctx.service, null, senderStaffId)
       return res
     } catch (err) {
       throw err

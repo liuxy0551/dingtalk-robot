@@ -18,7 +18,7 @@ class AtService extends Service {
       const msg = {
         msgtype: 'text',
         text: {
-          content: `已经把【${ content.replace(/^\s*|\s*$/g, '') }】相关的内容发送到指定群里啦，请前往查收。`
+          content: `已经把【${ content.replace(/^\s*|\s*$/g, '') }】相关的内容发送到专属群里啦，请前往查收。`
         },
         at: {
           atUserIds: [body.senderStaffId]
@@ -48,13 +48,13 @@ class AtService extends Service {
           result = setCtxBody(200, { ...jijinResult, ...gupiaoResult })
           break
         case 'jizhangla':
-          const jizhanglaRes = await this.ctx.service.send.jizhangla()
-          // await AtService.replyGroupAt(msg, this.ctx.service, [robot])
+          const jizhanglaRes = await this.ctx.service.send.jizhangla(body.senderStaffId)
+          await AtService.replyGroupAt(msg, this.ctx.service)
           result = setCtxBody(200, jizhanglaRes)
           break
         case 'baidutj':
-          const baidutjRes = await this.ctx.service.send.baidutj()
-          // await AtService.replyGroupAt(msg, this.ctx.service, [robot])
+          const baidutjRes = await this.ctx.service.send.baidutj(body.senderStaffId)
+          await AtService.replyGroupAt(msg, this.ctx.service)
           result = setCtxBody(200, baidutjRes)
           break
         case 'zhihuhot':
@@ -66,12 +66,15 @@ class AtService extends Service {
           result = setCtxBody(200, juejinhotRes)
           break
         default:
-          const defaultText = `抱歉，不明白您的问题，您可以这样问：\n - 我的理财 \n - 基金 \n - 股票 \n - 理财(同时查询基金、股票) \n - 知乎热榜 \n - 掘金前端热榜 \n\n当前版本: v${ getVersion() }`
+          const defaultText = `@${ body.senderStaffId } 抱歉，不明白您的问题，您可以这样问：\n - 我的理财 \n - 基金 \n - 股票 \n - 知乎热榜 \n - 掘金前端热榜 \n\n当前版本: v${ getVersion() }`
           const defaultMsg = {
             msgtype: 'markdown',
             markdown: {
               title: defaultText,
               text: defaultText
+            },
+            at: {
+              atUserIds: [body.senderStaffId]
             }
           }
           const res = await AtService.replyGroupAt(defaultMsg, this.ctx.service, [robot])

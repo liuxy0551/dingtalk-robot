@@ -3,7 +3,7 @@ import App from '@/App.vue'
 import router from '@/router'
 import vant from '@/components/vant'
 // import VConsole from 'vconsole'
-import 'amfe-flexible/index.js'
+import 'amfe-flexible'
 
 const app = createApp(App)
 

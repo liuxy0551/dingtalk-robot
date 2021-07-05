@@ -5,7 +5,7 @@ CREATE TABLE `Robot` (
   `name` varchar(100) NULL COMMENT '机器人名称',
   `secret` varchar(200) NULL COMMENT '秘钥',
   `Webhook` varchar(1000) NULL COMMENT 'Webhook地址',
-  `type` varchar(10) NULL COMMENT '管理员使用 admin, 用户 user',
+  `senderStaffId` varchar(200) NULL COMMENT '发送者加密 userId, 绑定专属群',
   `createTime` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updateTime` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`robotId`) USING BTREE

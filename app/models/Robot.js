@@ -28,6 +28,11 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true,
       comment: "Webhook地址"
     },
+    senderStaffId: {
+      type: DataTypes.STRING(200),
+      allowNull: true,
+      comment: "发送者加密 userId, 绑定专属群"
+    },
     createTime: {
       type: DataTypes.DATE,
       allowNull: true,
