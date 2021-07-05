@@ -14,7 +14,7 @@
       </div>
     </div>
 
-    <div class="refresh-box" :class="{ 'loading': refreshing }" @click="refreshAPP">
+    <div class="refresh-box" :class="{ 'loading': refreshing }" @click="refreshAPP" v-if="showRefresh">
       <van-icon name="replay" />
     </div>
 
@@ -25,8 +25,8 @@
 
 <script>
   import { onMounted, reactive, toRefs } from 'vue'
-  import axios from '@/utils/axios'
   import { Toast, Dialog } from 'vant'
+  import axios from '@/utils/axios'
 
   export default {
     setup() {
@@ -42,6 +42,7 @@
         keyword: '',
         result: [],
         moneyInfoCodeList: [],
+        showRefresh: false,
         refreshing: false
       })
 

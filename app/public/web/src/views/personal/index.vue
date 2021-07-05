@@ -19,8 +19,8 @@
 
 <script>
   import { onMounted, reactive, toRefs } from 'vue'
-  import axios from '@/utils/axios'
   import { Toast, Dialog } from 'vant'
+  import axios from '@/utils/axios'
 
   export default {
     setup() {

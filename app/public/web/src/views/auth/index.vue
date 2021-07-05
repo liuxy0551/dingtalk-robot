@@ -2,17 +2,23 @@
   import { onMounted } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
   import axios from '@/utils/axios'
+  import { Dialog } from 'vant'
 
   export default {
     setup() {
       const route = useRoute()
       const router = useRouter()
-      const { senderId } = route.query
+      const { senderId, senderNick } = route.query
 
       onMounted(() => {
           localStorage.setItem('senderId', senderId)
           getMoneyInfos()
-          router.push({ name: 'Money' })
+
+          Dialog.alert({
+            message: `【${ senderNick }】的理财信息`,
+          }).then(() => {
+            router.push({ name: 'Money' })
+          })
       })
       
       const getMoneyInfos = () => {

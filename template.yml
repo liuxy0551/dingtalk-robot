@@ -4,7 +4,7 @@ Resources:
   dingtalk-robot: # service name
     Type: 'Aliyun::Serverless::Service'
     Properties:
-      Description: This is FC service
+      Description: 钉小弟 - 钉钉群机器人
       LogConfig:
         Project: aliyun-fc-cn-hangzhou-3ff06808-bae1-59f3-a782-6e6623a34e1f
         Logstore: function-log
@@ -20,7 +20,7 @@ Resources:
         CodeUri: ./
         MemorySize: 512
         InstanceConcurrency: 10
-        Timeout: 600
+        Timeout: 60
         
       Events:
         httpTrigger:

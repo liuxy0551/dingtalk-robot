@@ -4,7 +4,7 @@ Resources:
   dingtalk-robot:
     Type: 'Aliyun::Serverless::Service'
     Properties:
-      Description: This is FC service
+      Description: 钉小弟 - 钉钉群机器人
       Role: >-
         acs:ram::1348483923043559:role/aliyunfcgeneratedrole-cn-hangzhou-dingtalk-robot
       LogConfig:
@@ -32,7 +32,7 @@ Resources:
       Properties:
         Handler: index.handler
         Runtime: custom
-        Timeout: 600
+        Timeout: 60
         MemorySize: 512
         InstanceConcurrency: 10
         EnvironmentVariables:
@@ -82,4 +82,20 @@ Resources:
           Properties:
             Qualifier: LATEST
             CronExpression: '0 35 01,6 ? * MON-FRI'
+            Enable: true
+    refresh-fc:
+      Type: 'Aliyun::Serverless::Function'
+      Properties:
+        Handler: index.handler
+        Runtime: nodejs12
+        Timeout: 5
+        MemorySize: 512
+        InstanceConcurrency: 1
+        EnvironmentVariables: {}
+      Events:
+        refresh-fc:
+          Type: Timer
+          Properties:
+            Qualifier: LATEST
+            CronExpression: '@every 2m'
             Enable: true

@@ -24,7 +24,7 @@ class SendService extends Service {
       //     btns: [
       //         {
       //           title: `查看更多${ senderNick }的理财信息`,
-      //           actionURL: `http://dingtalk-robot.liuxianyu.cn/web/index.html#/auth?senderId=${ senderId }`
+      //           actionURL: `http://dingtalk-robot.liuxianyu.cn/web/index.html#/auth?senderId=${ senderId }&senderNick=${ senderNick }`
       //         }
       //     ]
       //   },
@@ -37,7 +37,7 @@ class SendService extends Service {
         msgtype: 'markdown',
         markdown: {
           title: '我的理财信息',
-          text: `@${ senderStaffId }点击 [查看更多${ senderNick }的理财信息](http://dingtalk-robot.liuxianyu.cn/web/index.html#/auth?senderId=${ senderId })`
+          text: `@${ senderStaffId }点此 [查看更多${ senderNick }的理财信息](http://dingtalk-robot.liuxianyu.cn/web/index.html#/auth?senderId=${ senderId }&senderNick=${ senderNick })`
         },
         at: {
           atUserIds: [senderStaffId]
