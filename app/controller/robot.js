@@ -22,8 +22,7 @@ class RobotController extends Controller {
     } catch (err) {
       this.ctx.body = setCtxBody(500, err, '系统错误')
     }
-  }
-  
+  } 
 }
 
 module.exports = RobotController

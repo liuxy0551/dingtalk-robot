@@ -17,6 +17,10 @@ module.exports = app => {
 
   router.get('/api/getRobots', controller.robot.getRobots)
   router.post('/api/createRobot', controller.robot.createRobot)
+  
+  router.get('/api/getMorningReports', controller.moneyReport.getMorningReports)
+  router.get('/api/getAfternoonReports', controller.moneyReport.getAfternoonReports)
+  router.get('/api/getEveningReports', controller.moneyReport.getEveningReports)
 
   router.get('/api/getMoneyInfos', controller.moneyInfo.getMoneyInfos)
   router.post('/api/createMoneyInfo', controller.moneyInfo.createMoneyInfo)

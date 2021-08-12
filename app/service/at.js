@@ -9,6 +9,7 @@ class AtService extends Service {
       content.includes('我的') && (key = 'myMoney')
       content.includes('基金') && (key = 'jijin')
       content.includes('股票') && (key = 'gupiao')
+      content.includes('早报') && (key = 'morning')
       content.includes('理财') && !content.includes('我的') && (key = 'money')
       content.includes('记账') && (key = 'jizhangla')
       content.includes('百度') && (key = 'baidutj')
@@ -46,6 +47,10 @@ class AtService extends Service {
           const jijinResult = await this.ctx.service.send.jijin(body)
           const gupiaoResult = await this.ctx.service.send.gupiao(body)
           result = setCtxBody(200, { ...jijinResult, ...gupiaoResult })
+          break
+        case 'morning':
+          const morningRes = await this.ctx.service.moneyReport.getMorningReports()
+          result = setCtxBody(200, morningRes)
           break
         case 'jizhangla':
           const jizhanglaRes = await this.ctx.service.send.jizhangla(body)
