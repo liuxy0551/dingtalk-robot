@@ -35,6 +35,7 @@ const getAtSign = (appSecret, time) => {
  * 企业内部机器人，只用 Webhook 发送消息，此时不从数据库查询机器人列表
  */
 const sendMsgToGroup = async (isDev = false, msg, service, robots, senderStaffId = '') => {
+  if (msg === null) return
   try {
     let robotList = []
     if (robots && robots.length) {

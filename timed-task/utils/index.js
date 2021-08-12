@@ -1,3 +1,5 @@
+const axios = require('axios')
+
 // 获取日期，num 为 0 时返回今天，为 -1 时返回昨天，为 1 时返回明天，如 20210520
 const getDate = (num = 0) => {
   const time = new Date().getTime() + 24 * 60 * 60 * 1000 * num
@@ -22,6 +24,20 @@ const getNow = (hours = 8) => {
   return `${ date } ${ hour }:${ minute }:${ second }`
 }
 
+// 发送请求
+const apiFunc = (url, params, callback) => {
+  let msg
+  axios.post(url, params).then(res => {
+    msg = `success, ${ getNow() }, ${ url }, ${ JSON.stringify(res.data) }`
+  }).catch(err => {
+    msg = `failed, ${ getNow() }, ${ url }, ${ err.response.status }`
+  }).finally(() => {
+    const isSuccess = msg.includes('success')
+    isSuccess && console.log(msg)
+    callback(msg.includes('success') ? null : msg)
+  })
+}
+
 module.exports = {
-  getNow
+  apiFunc
 }

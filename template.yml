@@ -26,5 +26,12 @@ Resources:
         httpTrigger:
           Type: HTTP
           Properties:
+            Qualifier: prod
             AuthType: ANONYMOUS
+            Methods: ['GET', 'POST']
+        devHttpTrigger:
+          Type: HTTP
+          Properties:
+            Qualifier: LATEST
+            AuthType: anonymous
             Methods: ['GET', 'POST']

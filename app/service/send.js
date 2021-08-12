@@ -52,7 +52,7 @@ class SendService extends Service {
   }
 
   // 理财 - 基金
-  async jijin ({ senderNick, senderId, senderStaffId, isDev }) {
+  async jijin ({ senderNick, senderId, senderStaffId, isTimedTask = false, isDev }) {
     try {
       let msg
       const { jijin } = await this.ctx.service.moneyInfo.getMoneyInfos(senderId, ['jijin'])
@@ -74,7 +74,7 @@ class SendService extends Service {
           }
         }
       } else {
-        msg = {
+        msg = isTimedTask ? null : {
           msgtype: 'text',
           text: {
             content: `您还没有添加基金信息，可以先和我说 “我的理财”，点击链接添加信息后再查询`
@@ -93,7 +93,7 @@ class SendService extends Service {
   }
 
   // 理财 - 股票
-  async gupiao ({ senderNick, senderId, senderStaffId, isDev }) {
+  async gupiao ({ senderNick, senderId, senderStaffId, isTimedTask = false, isDev }) {
     try {
       let msg
       const { gupiao } = await this.ctx.service.moneyInfo.getMoneyInfos(senderId, ['gupiao'])
@@ -125,7 +125,7 @@ class SendService extends Service {
           }
         }
       } else {
-        msg = {
+        msg = isTimedTask ? null : {
           msgtype: 'text',
           text: {
             content: `您还没有添加股票信息，可以先和我说 “我的理财”，添加信息后再查询`
