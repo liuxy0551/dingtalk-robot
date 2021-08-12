@@ -8,9 +8,16 @@
     setup() {
       const route = useRoute()
       const router = useRouter()
-      const { senderId, senderNick } = route.query
+      const { senderNick } = route.query
+      let senderId
 
       onMounted(() => {
+          let params = location.hash.split('senderId=')
+          if (params && params.length > 1) {
+              let list = params[1].split('&senderNick=')
+              senderId = list.length ? list[0] : ''
+          }
+
           localStorage.setItem('senderId', senderId)
           getMoneyInfos()
 
