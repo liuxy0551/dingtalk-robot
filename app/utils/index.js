@@ -34,14 +34,14 @@ const getAtSign = (appSecret, time) => {
  * 发送消息
  * 企业内部机器人，只用 Webhook 发送消息，此时不从数据库查询机器人列表
  */
-const sendMsgToGroup = async (msg, service, robots, senderStaffId = '') => {
+const sendMsgToGroup = async (isDev = false, msg, service, robots, senderStaffId = '') => {
   try {
     let robotList = []
     if (robots && robots.length) {
       robotList = robots
-    } else {
-      const list = await service.robot.getRobots(senderStaffId)
-      robotList = list.length ? list : await service.robot.getRobots() // 没有专属群则发送到大群
+    } else { // 没有专属群则发送到大群（钉小弟全员群）
+      const list = await service.robot.getRobots(isDev ? 'isDev' : senderStaffId)
+      robotList = list.length ? list : await service.robot.getRobots()
     }
 
     let promiseList = []

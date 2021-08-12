@@ -92,7 +92,7 @@ class AtService extends Service {
   // 默认在群里回复
   static async replyGroupAt (msg, ctxService, robots) {
     try {
-      const res = await sendMsgToGroup(msg, ctxService, robots)
+      const res = await sendMsgToGroup(false, msg, ctxService, robots)
       return res
     } catch (err) {
       throw err

@@ -4,7 +4,7 @@ const { sendMsgToGroup, getTimeStr, getNow, getColorNum, getAccountInfo, getDefa
 
 class SendService extends Service {
   // 我的理财信息
-  async getMyMoneyInfo ({ senderNick, senderId, senderStaffId }) {
+  async getMyMoneyInfo ({ senderNick, senderId, senderStaffId, isDev }) {
     try {
       // const { jijin, gupiao } = await this.ctx.service.moneyInfo.getMoneyInfos(senderId)
       // let text = `@${ senderStaffId }\n\n`
@@ -44,7 +44,7 @@ class SendService extends Service {
         }
       }
 
-      const res = await sendMsgToGroup(msg, this.ctx.service)
+      const res = await sendMsgToGroup(isDev, msg, this.ctx.service)
       return res
     } catch (err) {
       throw err
@@ -52,28 +52,40 @@ class SendService extends Service {
   }
 
   // 理财 - 基金
-  async jijin ({ senderNick, senderId, senderStaffId }) {
+  async jijin ({ senderNick, senderId, senderStaffId, isDev }) {
     try {
+      let msg
       const { jijin } = await this.ctx.service.moneyInfo.getMoneyInfos(senderId, ['jijin'])
-      const list = await jijinAPI(jijin)
-      let text = `@${ senderStaffId } 当前时间：${ getNow() }\n\n`
-      for (let i = 0; i < list.length; i++) {
-        text += `${ i + 1 }、【${ list[i].SHORTNAME }】\n\n 预估：**${ getColorNum('%', list[i].GSZZL) }**，昨日：${ getColorNum('%', list[i].NAVCHGRT) }\n\n`
-      }
-      text += '数据来源：天天基金'
-
-      const msg = {
-        msgtype: 'markdown',
-        markdown: {
-          title: '韭零后 - 基金',
-          text
-        },
-        at: {
-          atUserIds: [senderStaffId]
+      if (jijin && jijin.length) {
+        const list = await jijinAPI(jijin)
+        let text = `@${ senderStaffId } 当前时间：${ getNow() }\n\n`
+        for (let i = 0; i < list.length; i++) {
+          text += `${ i + 1 }、【${ list[i].SHORTNAME }】\n\n 预估：**${ getColorNum('%', list[i].GSZZL) }**，昨日：${ getColorNum('%', list[i].NAVCHGRT) }\n\n`
+        }
+        text += '数据来源：天天基金'
+        msg = {
+          msgtype: 'markdown',
+          markdown: {
+            title: '韭零后 - 基金',
+            text
+          },
+          at: {
+            atUserIds: [senderStaffId]
+          }
+        }
+      } else {
+        msg = {
+          msgtype: 'text',
+          text: {
+            content: `您还没有添加基金信息，可以先和我说 “我的理财”，点击链接添加信息后再查询`
+          },
+          at: {
+            atUserIds: [senderStaffId]
+          }
         }
       }
 
-      const res = await sendMsgToGroup(msg, this.ctx.service)
+      const res = await sendMsgToGroup(isDev, msg, this.ctx.service)
       return res
     } catch (err) {
       throw err
@@ -81,38 +93,50 @@ class SendService extends Service {
   }
 
   // 理财 - 股票
-  async gupiao ({ senderNick, senderId, senderStaffId }) {
+  async gupiao ({ senderNick, senderId, senderStaffId, isDev }) {
     try {
+      let msg
       const { gupiao } = await this.ctx.service.moneyInfo.getMoneyInfos(senderId, ['gupiao'])
-
-      // 天天基金 - 查询股票
-      // const list = await gupiaoTTAPI(gupiao)
-      // let text = `昵称: ${ senderNick }\n\n 当前时间：${ getNow() }\n\n`
-      // for (let i = 0; i < list.length; i++) {
-      //   text += `${ i + 1 }、【${ list[i].f14 }】\n\n 最新价：**${ getColorNum('', (list[i].f2 / 100).toFixed(2), (list[i].f3 / 100).toFixed(2)) }**，涨幅：**${ getColorNum('%', (list[i].f3 / 100).toFixed(2)) }**\n\n`
-      // }
-      // text += '数据来源：天天基金'
-
-      // 腾讯 - 查询股票
-      const list = await gupiaoTencentAPI(gupiao)
-      let text = `@${ senderStaffId } 当前时间：${ getNow() }\n\n`
-      for (let i = 0; i < list.length; i++) {
-        text += `${ i + 1 }、【${ list[i].name }】\n\n 最新价：**${ getColorNum('', list[i].nowPrice, list[i].range) }**，涨幅：**${ getColorNum('%', list[i].range) }**\n\n`
-      }
-      text += '数据来源：腾讯'
-
-      const msg = {
-        msgtype: 'markdown',
-        markdown: {
-          title: '韭零后 - 股票',
-          text
-        },
-        at: {
-          atUserIds: [senderStaffId]
+      if (gupiao && gupiao.length) {
+        // 天天基金 - 查询股票
+        // const list = await gupiaoTTAPI(gupiao)
+        // let text = `昵称: ${ senderNick }\n\n 当前时间：${ getNow() }\n\n`
+        // for (let i = 0; i < list.length; i++) {
+        //   text += `${ i + 1 }、【${ list[i].f14 }】\n\n 最新价：**${ getColorNum('', (list[i].f2 / 100).toFixed(2), (list[i].f3 / 100).toFixed(2)) }**，涨幅：**${ getColorNum('%', (list[i].f3 / 100).toFixed(2)) }**\n\n`
+        // }
+        // text += '数据来源：天天基金'
+  
+        // 腾讯 - 查询股票
+        const list = await gupiaoTencentAPI(gupiao)
+        let text = `@${ senderStaffId } 当前时间：${ getNow() }\n\n`
+        for (let i = 0; i < list.length; i++) {
+          text += `${ i + 1 }、【${ list[i].name }】\n\n 最新价：**${ getColorNum('', list[i].nowPrice, list[i].range) }**，涨幅：**${ getColorNum('%', list[i].range) }**\n\n`
+        }
+        text += '数据来源：腾讯'
+  
+        msg = {
+          msgtype: 'markdown',
+          markdown: {
+            title: '韭零后 - 股票',
+            text
+          },
+          at: {
+            atUserIds: [senderStaffId]
+          }
+        }
+      } else {
+        msg = {
+          msgtype: 'text',
+          text: {
+            content: `您还没有添加股票信息，可以先和我说 “我的理财”，添加信息后再查询`
+          },
+          at: {
+            atUserIds: [senderStaffId]
+          }
         }
       }
 
-      const res = await sendMsgToGroup(msg, this.ctx.service)
+      const res = await sendMsgToGroup(isDev, msg, this.ctx.service)
       return res
     } catch (err) {
       throw err
@@ -120,7 +144,7 @@ class SendService extends Service {
   }
 
   // 记账啦
-  async jizhangla ({ senderStaffId, conversationTitle, sessionWebhook }) {
+  async jizhangla ({ senderStaffId, conversationTitle, sessionWebhook, isDev }) {
     try {
       const jizhanglaConfig = await getAccountInfo(this.ctx.request.body, this.app.config.jizhangla, 'jizhangla')
       const list = await jizhanglaAPI(jizhanglaConfig)
@@ -137,7 +161,7 @@ class SendService extends Service {
         }
       }
 
-      const res = await sendMsgToGroup(msg, this.ctx.service, null, senderStaffId)
+      const res = await sendMsgToGroup(isDev, msg, this.ctx.service, null, senderStaffId)
       return res
     } catch (err) {
       if (err === 404) {
@@ -152,7 +176,7 @@ class SendService extends Service {
   }
 
   // 百度统计
-  async baidutj ({ senderStaffId, conversationTitle, sessionWebhook }) {
+  async baidutj ({ senderStaffId, conversationTitle, sessionWebhook, isDev }) {
     try {
       const baidutjConfig = await getAccountInfo(this.ctx.request.body, this.app.config.baidutj, 'baidutj')
       const { body } = await baidutjAPI(baidutjConfig)
@@ -172,7 +196,7 @@ class SendService extends Service {
         }
       }
 
-      const res = await sendMsgToGroup(msg, this.ctx.service, null, senderStaffId)
+      const res = await sendMsgToGroup(isDev, msg, this.ctx.service, null, senderStaffId)
       return res
     } catch (err) {
       if (err === 404) {
@@ -203,7 +227,7 @@ class SendService extends Service {
         }
       }
 
-      const res = await sendMsgToGroup(msg, this.ctx.service)
+      const res = await sendMsgToGroup(this.ctx.request.body.isDev, msg, this.ctx.service)
       return res
     } catch (err) {
       throw err
@@ -227,7 +251,7 @@ class SendService extends Service {
         }
       }
 
-      const res = await sendMsgToGroup(msg, this.ctx.service)
+      const res = await sendMsgToGroup(this.ctx.request.body.isDev, msg, this.ctx.service)
       return res
     } catch (err) {
       throw err
@@ -235,7 +259,7 @@ class SendService extends Service {
   }
 
   // 没有账号的用户查询百度统计、记账啦
-  static async sendNotFound (service, robot, senderStaffId) {
+  static async sendNotFound (isDev, service, robot, senderStaffId) {
     try {
       const msg = {
         msgtype: 'markdown',
@@ -247,7 +271,7 @@ class SendService extends Service {
           atUserIds: [senderStaffId]
         }
       }
-      const res = await sendMsgToGroup(msg, service, robot)
+      const res = await sendMsgToGroup(isDev, msg, service, robot)
       return res
     } catch (err) {
       throw err

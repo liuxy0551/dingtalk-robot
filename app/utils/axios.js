@@ -14,7 +14,7 @@ const jijinAPI = async (jijinList) => {
   
   return new Promise((resolve, reject) => {
     axios.get(apiUrl).then(res => {
-      resolve(res.data.Datas)
+      resolve(res.data.Datas || [])
     }).catch(err => {
       reject(err)
     })

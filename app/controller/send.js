@@ -5,7 +5,7 @@ class SendController extends Controller {
   async sendMsg () {
     try {
       const { msg } = this.ctx.request.body
-      const res = await sendMsgToGroup(msg, this.ctx.service)
+      const res = await sendMsgToGroup(this.ctx.request.body.isDev, msg, this.ctx.service)
       this.ctx.body = setCtxBody(200, res)
     } catch (err) {
       this.ctx.body = setCtxBody(500, err, '系统错误')
