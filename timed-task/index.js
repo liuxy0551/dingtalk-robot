@@ -2,14 +2,39 @@ const { apiFunc } = require('./utils')
 
 exports.handler = (event, context, callback) => {
   // jijin 基金, gupiao 股票, baidutj 百度统计, jizhangla 记账啦, zhihuhot 知乎热榜, juejinhot 掘金热榜
-  const urlList = ['http://dingtalk-robot.liuxianyu.cn/api/jizhangla']
-  const params = {
-    senderNick: '琉易',
-    senderId: '$:LWCP_v1:$QrBRmHUHxbh9U3245346356trWgZV0FDF2K',
-    senderStaffId: '21336862123452345946986'
-  }
+  const urlList = ['http://dingtalk-robot.liuxianyu.cn/api/jijin', 'http://dingtalk-robot.liuxianyu.cn/api/gupiao']
+  // const urlList = ['http://dingtalk-robot-dev.liuxianyu.cn/api/jijin']
+  // const urlList = ['http://liuyi.vaiwan.com/api/jijin']
+  const paramsList = [
+    {
+      senderNick: '琉易',
+      senderId: '$:LWCP_v1:$QrBRmHUHxbh9UEtbK43yCrWgZV0FDF2K',
+      senderStaffId: '2133686213946986',
+      isTimedTask: true
+    },
+    {
+      senderNick: '风巽',
+      senderId: '$:LWCP_v1:$mf8Av6QVPyYNCnimFtvhQn2fz8Uccl9x',
+      senderStaffId: '24285333671236719',
+      isTimedTask: true
+    },
+    {
+      senderNick: '三木',
+      senderId: '$:LWCP_v1:$96/Gh3CsPXxiL0+g1+osFCzKHONNcfHX',
+      senderStaffId: '2355425553-657112227',
+      isTimedTask: true
+    },
+    {
+      senderNick: '帽子',
+      senderId: '$:LWCP_v1:$zevYPZhdmykepIUztVROzA==',
+      senderStaffId: '0124426341771251',
+      isTimedTask: true
+    }
+  ]
 
-  for (let url of urlList) {
-    apiFunc(url, params, callback)
+  for (let params of paramsList) {
+    for (let url of urlList) {
+      apiFunc(url, params, callback)
+    }
   }
 }

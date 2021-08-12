@@ -43,6 +43,14 @@ Resources:
             /code/.fun/root/usr/local/bin:/code/.fun/root/usr/local/sbin:/code/.fun/root/usr/bin:/code/.fun/root/usr/sbin:/code/.fun/root/sbin:/code/.fun/root/bin:/code:/code/node_modules/.bin:/code/.fun/python/bin:/code/.fun/node_modules/.bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/sbin:/bin
           PYTHONUSERBASE: /code/.fun/python
       Events:
+        devHttpTrigger:
+          Type: HTTP
+          Properties:
+            Qualifier: LATEST
+            AuthType: anonymous
+            Methods:
+              - GET
+              - POST
         httpTrigger:
           Type: HTTP
           Properties:
@@ -83,6 +91,15 @@ Resources:
             Qualifier: LATEST
             CronExpression: '0 35 1,3,5,6 ? * MON-FRI'
             Enable: true
+    morningReport:
+      Type: 'Aliyun::Serverless::Function'
+      Properties:
+        Handler: index.handler
+        Runtime: nodejs12
+        Timeout: 30
+        MemorySize: 512
+        InstanceConcurrency: 1
+        EnvironmentVariables: {}
     refresh-fc:
       Type: 'Aliyun::Serverless::Function'
       Properties:
