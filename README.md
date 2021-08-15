@@ -24,7 +24,7 @@ yarn
 yarn dev
 ```
 
-浏览器打开：http://localhost:9003/api
+浏览器打开：http://localhost:9003
 
 ### 项目部署
 

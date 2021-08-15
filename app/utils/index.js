@@ -199,7 +199,7 @@ const getAccountInfo = async ({ senderId }, config, type) => {
   })
 }
 
-const getDefaultText = `您可以这样问：\n - 我的理财 \n - 基金 \n - 股票 \n - 财经早报 \n - 知乎热榜 \n - 掘金前端热榜 \n\n当前版本: v${ getVersion() }`
+const getDefaultText = `您可以这样问：\n - 我的理财 \n - 基金 \n - 股票 \n - 财经早报 \n - 财经午报 \n - 财经晚报 \n - 知乎热榜 \n - 掘金前端热榜 \n\n当前版本: v${ getVersion() }`
 
 // 财经报告的图片链接
 const reportPicUrl = 'http://media.liuxianyu.cn/money-report-logo.png'

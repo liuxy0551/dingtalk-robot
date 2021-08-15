@@ -70,6 +70,13 @@ module.exports = appInfo => {
     }
   }
 
+  // 财联社财经报告
+  config.report = {
+    morning: 'https://www.cls.cn/subject/1151',
+    afternoon: 'https://www.cls.cn/subject/1140',
+    evening: 'https://www.cls.cn/subject/1139'
+  }
+
   return {
     ...config,
     ...userConfig

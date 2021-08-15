@@ -4,10 +4,8 @@ const cheerio = require('cheerio')
 const { sendMsgToGroup, reportPicUrl } = require('../utils')
 
 class MoneyReportService extends Service {
-  // 早报列表
-  async getMorningReports () {
+  async getReports (url) {
     return new Promise((resolve, reject) => {
-      const url = 'https://www.cls.cn/subject/1151'
       https.get(url, res => {
         // 分段返回的 自己拼接
         let html = ''

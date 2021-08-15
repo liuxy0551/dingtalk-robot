@@ -10,6 +10,8 @@ class AtService extends Service {
       content.includes('基金') && (key = 'jijin')
       content.includes('股票') && (key = 'gupiao')
       content.includes('早报') && (key = 'morning')
+      content.includes('午报') && (key = 'afternoon')
+      content.includes('晚报') && (key = 'evening')
       content.includes('理财') && !content.includes('我的') && (key = 'money')
       content.includes('记账') && (key = 'jizhangla')
       content.includes('百度') && (key = 'baidutj')
@@ -49,7 +51,18 @@ class AtService extends Service {
           result = setCtxBody(200, { ...jijinResult, ...gupiaoResult })
           break
         case 'morning':
-          const morningRes = await this.ctx.service.moneyReport.getMorningReports()
+          const { morning } = this.app.config.report
+          const morningRes = await this.ctx.service.moneyReport.getMorningReports(morning)
+          result = setCtxBody(200, morningRes)
+          break
+        case 'afternoon':
+          const { afternoon } = this.app.config.report
+          const morningRes = await this.ctx.service.moneyReport.getMorningReports(afternoon)
+          result = setCtxBody(200, morningRes)
+          break
+        case 'evening':
+          const { evening } = this.app.config.report
+          const morningRes = await this.ctx.service.moneyReport.getReports(evening)
           result = setCtxBody(200, morningRes)
           break
         case 'jizhangla':
