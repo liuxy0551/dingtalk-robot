@@ -57,13 +57,13 @@ class AtService extends Service {
           break
         case 'afternoon':
           const { afternoon } = this.app.config.report
-          const morningRes = await this.ctx.service.moneyReport.getMorningReports(afternoon)
-          result = setCtxBody(200, morningRes)
+          const afternoonRes = await this.ctx.service.moneyReport.getMorningReports(afternoon)
+          result = setCtxBody(200, afternoonRes)
           break
         case 'evening':
           const { evening } = this.app.config.report
-          const morningRes = await this.ctx.service.moneyReport.getReports(evening)
-          result = setCtxBody(200, morningRes)
+          const eveningRes = await this.ctx.service.moneyReport.getReports(evening)
+          result = setCtxBody(200, eveningRes)
           break
         case 'jizhangla':
           const jizhanglaRes = await this.ctx.service.send.jizhangla(body)

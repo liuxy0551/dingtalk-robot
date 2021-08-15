@@ -3975,9 +3975,9 @@ egg@^2.15.1:
     ylru "^1.2.1"
 
 electron-to-chromium@^1.3.47:
-  version "1.3.804"
-  resolved "http://registry.npm.dtstack.com/electron-to-chromium/-/electron-to-chromium-1.3.804.tgz#92ba2db611951f9f13b0b7565f9163d4fc7b5440"
-  integrity sha1-krotthGVH58TsLdWX5Fj1Px7VEA=
+  version "1.3.806"
+  resolved "http://registry.npm.dtstack.com/electron-to-chromium/-/electron-to-chromium-1.3.806.tgz#21502100f11aead6c501d1cd7f2504f16c936642"
+  integrity sha1-IVAhAPEa6tbFAdHNfyUE8WyTZkI=
 
 elfy@^1.0.0:
   version "1.0.0"
@@ -8862,10 +8862,10 @@ snyk-cpp-plugin@2.2.1:
     hosted-git-info "^3.0.7"
     tslib "^2.0.0"
 
-snyk-docker-plugin@4.22.1:
-  version "4.22.1"
-  resolved "http://registry.npm.dtstack.com/snyk-docker-plugin/-/snyk-docker-plugin-4.22.1.tgz#09283bfb7beb98553abde0719e96bccfd5bac0d9"
-  integrity sha1-CSg7+3vrmFU6veBxnpa8z9W6wNk=
+snyk-docker-plugin@4.23.0:
+  version "4.23.0"
+  resolved "http://registry.npm.dtstack.com/snyk-docker-plugin/-/snyk-docker-plugin-4.23.0.tgz#c1762b7366da4906ad61113c7ddf830050b2ef28"
+  integrity sha1-wXYrc2baSQatYRE8fd+DAFCy7yg=
   dependencies:
     "@snyk/dep-graph" "^1.28.0"
     "@snyk/rpm-parser" "^2.0.0"
@@ -8879,7 +8879,7 @@ snyk-docker-plugin@4.22.1:
     gunzip-maybe "^1.4.2"
     mkdirp "^1.0.4"
     semver "^7.3.4"
-    snyk-nodejs-lockfile-parser "1.35.1"
+    snyk-nodejs-lockfile-parser "1.36.0"
     tar-stream "^2.1.0"
     tmp "^0.2.1"
     tslib "^1"
@@ -8970,11 +8970,12 @@ snyk-nodejs-lockfile-parser@1.35.0:
     tslib "^1.9.3"
     uuid "^8.3.0"
 
-snyk-nodejs-lockfile-parser@1.35.1:
-  version "1.35.1"
-  resolved "http://registry.npm.dtstack.com/snyk-nodejs-lockfile-parser/-/snyk-nodejs-lockfile-parser-1.35.1.tgz#bd7da418637acadbbb011ee03e1db3c9ba998842"
-  integrity sha1-vX2kGGN6ytu7AR7gPh2zybqZiEI=
+snyk-nodejs-lockfile-parser@1.36.0:
+  version "1.36.0"
+  resolved "http://registry.npm.dtstack.com/snyk-nodejs-lockfile-parser/-/snyk-nodejs-lockfile-parser-1.36.0.tgz#4591cbc3e94a62df2ac15041ff09f60f5b3c0354"
+  integrity sha1-RZHLw+lKYt8qwVBB/wn2D1s8A1Q=
   dependencies:
+    "@snyk/dep-graph" "^1.28.0"
     "@snyk/graphlib" "2.1.9-patch.3"
     "@yarnpkg/core" "^2.4.0"
     "@yarnpkg/lockfile" "^1.1.0"
@@ -8985,6 +8986,7 @@ snyk-nodejs-lockfile-parser@1.35.1:
     lodash.isempty "^4.4.0"
     lodash.set "^4.3.2"
     lodash.topairs "^4.3.0"
+    semver "^7.3.5"
     snyk-config "^4.0.0-rc.2"
     tslib "^1.9.3"
     uuid "^8.3.0"
@@ -9119,9 +9121,9 @@ snyk-try-require@^2.0.0:
     lru-cache "^5.1.1"
 
 snyk@^1.230.5:
-  version "1.680.0"
-  resolved "http://registry.npm.dtstack.com/snyk/-/snyk-1.680.0.tgz#d05199876147d2bfef0dc86488f01f04349d4b84"
-  integrity sha1-0FGZh2FH0r/vDchkiPAfBDSdS4Q=
+  version "1.681.0"
+  resolved "http://registry.npm.dtstack.com/snyk/-/snyk-1.681.0.tgz#ff0300a94deffd5e82d14145a6b97ed9486eb71f"
+  integrity sha1-/wMAqU3v/V6C0UFFprl+2Uhutx8=
   dependencies:
     "@open-policy-agent/opa-wasm" "^1.2.0"
     "@snyk/cli-interface" "2.11.0"
@@ -9172,7 +9174,7 @@ snyk@^1.230.5:
     semver "^6.0.0"
     snyk-config "4.0.0"
     snyk-cpp-plugin "2.2.1"
-    snyk-docker-plugin "4.22.1"
+    snyk-docker-plugin "4.23.0"
     snyk-go-plugin "1.17.0"
     snyk-gradle-plugin "3.16.1"
     snyk-module "3.1.0"
