@@ -39,5 +39,6 @@ const apiFunc = (url, params, callback) => {
 }
 
 module.exports = {
+  getNow,
   apiFunc
 }

@@ -1,16 +1,15 @@
 const { apiFunc } = require('./utils')
 
 exports.handler = (event, context, callback) => {
-  // jijin 基金, gupiao 股票, baidutj 百度统计, jizhangla 记账啦, zhihuhot 知乎热榜, juejinhot 掘金热榜
+  // jijin 基金, gupiao 股票
   const urlList = ['http://dingtalk-robot.liuxianyu.cn/api/jijin', 'http://dingtalk-robot.liuxianyu.cn/api/gupiao']
-  // const urlList = ['http://dingtalk-robot-dev.liuxianyu.cn/api/jijin']
-  // const urlList = ['http://liuyi.vaiwan.com/api/jijin']
   const paramsList = [
     {
       senderNick: '琉易',
       senderId: '$:LWCP_v1:$QrBRmHUHxbh9UEtbK43yCrWgZV0FDF2K',
       senderStaffId: '2133686213946986',
-      isTimedTask: true
+      isTimedTask: true,
+      isDev: true
     },
     {
       senderNick: '风巽',
@@ -34,7 +33,9 @@ exports.handler = (event, context, callback) => {
 
   for (let params of paramsList) {
     for (let url of urlList) {
-      apiFunc(url, params, callback)
+        apiFunc(url, params, callback)
     }
   }
 }
+
+// 0 35 1,3,5,6 ? * MON-FRI
