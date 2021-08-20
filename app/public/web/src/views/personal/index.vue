@@ -5,14 +5,17 @@
         <van-tab v-for="item in tabList" :key="item.value" :title="item.label" :name="item.value" />
       </van-tabs>
     </div>
-    
-    <div class="box top-tab">
+
+    <div class="box top-tab" v-if="result[tabSelected] && result[tabSelected].length">
       <div class="item" v-for="item in result[tabSelected]" :key="item.code">
         <div class="row">
           <div class="text">{{ item.code }} - {{ item.name }}</div>
           <van-button type="warning" size="mini" :loading="item.loading" @click="deleteMoneyInfo(item)">删除自选</van-button>
         </div>
       </div>
+    </div>
+    <div class="box top-tab" v-else>
+      <van-empty description="暂无数据" />
     </div>
   </div>
 </template>
@@ -45,7 +48,7 @@
       }
       
       const getMoneyInfos = () => {
-        axios.get(`/api/getMoneyInfos?senderId=${ senderId }`).then(res => {
+        axios.post(`/api/getMoneyInfos`, { senderId }).then(res => {
           const { jijin, gupiao } = res.data
           localStorage.setItem('moneyInfoCodes', jijin.concat(gupiao).map(item => item.code).join(','))
           state.result = {

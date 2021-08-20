@@ -29,7 +29,7 @@
       })
       
       const getMoneyInfos = () => {
-        axios.get(`/api/getMoneyInfos?senderId=${ senderId }`).then(res => {
+        axios.post(`/api/getMoneyInfos`, { senderId }).then(res => {
           const { jijin, gupiao } = res.data
           localStorage.setItem('moneyInfoCodes', jijin.concat(gupiao).map(item => item.code).join(','))
         })

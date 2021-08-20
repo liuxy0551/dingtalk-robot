@@ -52,7 +52,7 @@ const getMoneyInfoBySinaAPI = async (key) => {
         resolve(res)
       })
       res.on('error', (err) => {
-        console.error(222, 'getMoneyInfoBySinaAPI', err)
+        console.error('getMoneyInfoBySinaAPI', err)
         reject()
       })
     })

@@ -50,8 +50,8 @@
         moneyInfoCodes && (state.moneyInfoCodeList = moneyInfoCodes.split(','))
       })
 
-      const onSearch = (val) => {
-        axios.get(`/api/getMoneyInfoBySina?key=${ val }`).then(res => {
+      const onSearch = (key) => {
+        axios.post(`/api/getMoneyInfoBySina`, { key }).then(res => {
           if (res.data.split(';')[0].length < 25) {
             state.result = []
             Toast('查无结果')
@@ -125,7 +125,7 @@
       // 刷新应用
       const refreshAPP = () => {
         state.refreshing = true
-        localStorage.removeItem('versionShow')
+        localStorage.removeItem('version')
         location.reload()
         setTimeout(() => {
           state.refreshing = false

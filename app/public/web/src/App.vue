@@ -26,9 +26,10 @@
           })
         }
 
-        if (!localStorage.getItem('versionShow')) {
-          localStorage.setItem('versionShow', 'yes')
-          Toast(`当前版本：${ getVersion() }`)
+        const version = getVersion()
+        if (localStorage.getItem('version') !== version) {
+          localStorage.setItem('version', version)
+          Toast(`当前版本：${ version }`)
         }
       })
     }

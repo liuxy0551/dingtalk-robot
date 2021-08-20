@@ -6,7 +6,7 @@ class MoneyInfoController extends Controller {
   // 获取理财信息列表
   async getMoneyInfos () {
     try {
-      const res = await this.ctx.service.moneyInfo.getMoneyInfos(this.ctx.query.senderId)
+      const res = await this.ctx.service.moneyInfo.getMoneyInfos(this.ctx.request.body)
       this.ctx.body = setCtxBody(200, res)
     } catch (err) {
       this.ctx.body = setCtxBody(500, err, '系统错误')
@@ -38,7 +38,8 @@ class MoneyInfoController extends Controller {
   // 新浪关键词查询
   async getMoneyInfoBySina () {
     try {
-      const res = await getMoneyInfoBySinaAPI(this.ctx.query.key)
+      const { key = '' } = this.ctx.request.body
+      const res = await getMoneyInfoBySinaAPI(key)
       this.ctx.body = setCtxBody(200, res)
     } catch (err) {
       this.ctx.body = setCtxBody(500, err, '系统错误')

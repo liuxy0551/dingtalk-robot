@@ -22,10 +22,10 @@ module.exports = app => {
   router.get('/api/getAfternoonReports', controller.moneyReport.getAfternoonReports)
   router.get('/api/getEveningReports', controller.moneyReport.getEveningReports)
 
-  router.get('/api/getMoneyInfos', controller.moneyInfo.getMoneyInfos)
+  router.post('/api/getMoneyInfos', controller.moneyInfo.getMoneyInfos)
   router.post('/api/createMoneyInfo', controller.moneyInfo.createMoneyInfo)
   router.post('/api/deleteMoneyInfo', controller.moneyInfo.deleteMoneyInfo)
-  router.get('/api/getMoneyInfoBySina', controller.moneyInfo.getMoneyInfoBySina)
+  router.post('/api/getMoneyInfoBySina', controller.moneyInfo.getMoneyInfoBySina)
 
   router.post('/api/atRobot', controller.at.atRobot)
 }

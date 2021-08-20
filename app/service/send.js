@@ -30,7 +30,7 @@ class SendService extends Service {
   async jijin ({ senderNick, senderId, senderStaffId, isTimedTask = false, isDev, conversationTitle: name = '', sessionWebhook: Webhook = '' }) {
     try {
       let msg
-      const { jijin } = await this.ctx.service.moneyInfo.getMoneyInfos(senderId, ['jijin'])
+      const { jijin } = await this.ctx.service.moneyInfo.getMoneyInfos({ senderId }, ['jijin'])
       if (jijin && jijin.length) {
         const list = await jijinAPI(jijin)
         let text = `@${ senderStaffId } 当前时间：${ getNow() }\n\n`
@@ -72,7 +72,7 @@ class SendService extends Service {
   async gupiao ({ senderNick, senderId, senderStaffId, isTimedTask = false, isDev, conversationTitle: name = '', sessionWebhook: Webhook = '' }) {
     try {
       let msg
-      const { gupiao } = await this.ctx.service.moneyInfo.getMoneyInfos(senderId, ['gupiao'])
+      const { gupiao } = await this.ctx.service.moneyInfo.getMoneyInfos({ senderId }, ['gupiao'])
       if (gupiao && gupiao.length) {
         // 天天基金 - 查询股票
         // const list = await gupiaoTTAPI(gupiao)

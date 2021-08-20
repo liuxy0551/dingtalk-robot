@@ -3,7 +3,7 @@ const db = require('../utils/db')
 const { getWhere, getOrder } = require('../utils')
 
 class MoneyInfoService extends Service {
-  async getMoneyInfos (senderId, typeList = ['jijin', 'gupiao']) {
+  async getMoneyInfos ({ senderId = '' }, typeList = ['jijin', 'gupiao']) {
     try {
       let moneyInfos = {}
       for (let type of typeList) {
