@@ -203,8 +203,11 @@ const getAccountInfo = async ({ senderId }, config, type) => {
 
 const getDefaultText = `您可以这样问：\n - 我的理财 \n - 基金 \n - 股票 \n - 财经早报、午报、晚报 \n - 知乎热榜 \n - 掘金前端热榜 \n\n当前版本: v${ getVersion() }`
 
-// 财经报告的图片链接
-const reportPicUrl = 'http://media.liuxianyu.cn/money-report-logo.png'
+// 财经报告 图片链接
+const reportPicUrl = 'http://media.liuxianyu.cn/dingtalk-robot-money-report-logo.png'
+
+// 我的理财信息 图片链接
+const moneyInfoPicUrl = 'http://media.liuxianyu.cn/dingtalk-robot-money-info-logo.png'
 
 module.exports = {
   getSignUrl,
@@ -221,5 +224,6 @@ module.exports = {
   getVersion,
   getAccountInfo,
   getDefaultText,
-  reportPicUrl
+  reportPicUrl,
+  moneyInfoPicUrl
 }

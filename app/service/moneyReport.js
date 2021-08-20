@@ -30,7 +30,9 @@ class MoneyReportService extends Service {
             }
           }
   
-          const result = await sendMsgToGroup(this.ctx.query.isDev === 'true', msg, this.ctx.service)
+          const { conversationTitle: name = '', sessionWebhook: Webhook = '' } = this.ctx.request.body
+          const robots = Webhook ? [{ name, Webhook }] : [] // 当前群
+          const result = await sendMsgToGroup(this.ctx.query.isDev === 'true', msg, this.ctx.service, robots)
           resolve(result)
         })
       }).on('error', (err) => {

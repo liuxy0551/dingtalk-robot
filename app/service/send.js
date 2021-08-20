@@ -1,20 +1,18 @@
 const Service = require('egg').Service
 const { jijinAPI, gupiaoTTAPI, gupiaoTencentAPI, jizhanglaAPI, baidutjAPI, zhihuhotAPI, juejinhotAPI } = require('../utils/axios')
-const { sendMsgToGroup, getTimeStr, getNow, getColorNum, getAccountInfo, getDefaultText } = require('../utils')
+const { sendMsgToGroup, getTimeStr, getNow, getColorNum, getAccountInfo, getDefaultText, moneyInfoPicUrl } = require('../utils')
 
 class SendService extends Service {
   // 我的理财信息
   async getMyMoneyInfo ({ senderNick, senderId, senderStaffId, isDev, conversationTitle: name = '', sessionWebhook: Webhook = '' }) {
     try {
       const msg = {
-        msgtype: 'markdown',
-        markdown: {
-          title: '我的理财信息',
-          // text: `@${ senderStaffId }点此 [查看更多${ senderNick }的理财信息](http://dingtalk-robot.liuxianyu.cn/web/index.html#/auth?senderId=${ senderId }&senderNick=${ senderNick })`
-          text: `@${ senderStaffId }点此 [查看更多${ senderNick }的理财信息](http://liuyi-dev.vaiwan.com/web/index.html#/auth?senderId=${ senderId }&senderNick=${ senderNick })`
-        },
-        at: {
-          atUserIds: [senderStaffId]
+        msgtype: 'link',
+        link: {
+          title: `『${ senderNick }』的理财信息`,
+          text: `点击查看更多『${ senderNick }』的理财信息`,
+          picUrl: moneyInfoPicUrl,
+          messageUrl: `http://dingtalk-robot.liuxianyu.cn/web/index.html#/auth?senderId=${ senderId }&senderNick=${ senderNick }`
         }
       }
 
