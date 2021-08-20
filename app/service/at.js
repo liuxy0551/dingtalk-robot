@@ -5,6 +5,8 @@ class AtService extends Service {
   async atRobot (body) {
     try {
       const { content } = body.text
+      const { senderStaffId = '', conversationTitle: name = '', sessionWebhook: Webhook = '' } = body
+
       let key = '', result = undefined
       content.includes('我的') && (key = 'myMoney')
       content.includes('基金') && (key = 'jijin')
@@ -24,13 +26,10 @@ class AtService extends Service {
           content: `已经把【${ content.replace(/^\s*|\s*$/g, '') }】相关的内容发送到专属群里啦，请前往查收。`
         },
         at: {
-          atUserIds: [body.senderStaffId]
+          atUserIds: [senderStaffId]
         }
       }
-      const robot = {
-        name: body.conversationTitle,
-        Webhook: body.sessionWebhook
-      }
+      const robots = Webhook ? [{ name, Webhook }] : [] // 当前群
 
       switch (key) {
         case 'myMoney':
@@ -52,12 +51,12 @@ class AtService extends Service {
           break
         case 'morning':
           const { morning } = this.app.config.report
-          const morningRes = await this.ctx.service.moneyReport.getMorningReports(morning)
+          const morningRes = await this.ctx.service.moneyReport.getReports(morning)
           result = setCtxBody(200, morningRes)
           break
         case 'afternoon':
           const { afternoon } = this.app.config.report
-          const afternoonRes = await this.ctx.service.moneyReport.getMorningReports(afternoon)
+          const afternoonRes = await this.ctx.service.moneyReport.getReports(afternoon)
           result = setCtxBody(200, afternoonRes)
           break
         case 'evening':
@@ -76,11 +75,11 @@ class AtService extends Service {
           result = setCtxBody(200, baidutjRes)
           break
         case 'zhihuhot':
-          const zhihuhotRes = await this.ctx.service.send.zhihuhot()
+          const zhihuhotRes = await this.ctx.service.send.zhihuhot(body)
           result = setCtxBody(200, zhihuhotRes)
           break
         case 'juejinhot':
-          const juejinhotRes = await this.ctx.service.send.juejinhot()
+          const juejinhotRes = await this.ctx.service.send.juejinhot(body)
           result = setCtxBody(200, juejinhotRes)
           break
         default:
@@ -95,7 +94,7 @@ class AtService extends Service {
               atUserIds: [body.senderStaffId]
             }
           }
-          const res = await AtService.replyGroupAt(defaultMsg, this.ctx.service, [robot])
+          const res = await AtService.replyGroupAt(defaultMsg, this.ctx.service, robots)
 
           result = setCtxBody(200, res)
           break

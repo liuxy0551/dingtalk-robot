@@ -38,7 +38,7 @@ const sendMsgToGroup = async (isDev = false, msg, service, robots, senderStaffId
   if (msg === null) return
   try {
     let robotList = []
-    if (robots && robots.length) {
+    if (robots && robots.length && robots[0]) {
       robotList = robots
     } else { // 没有专属群则发送到大群（钉小弟全员群）
       const list = await service.robot.getRobots(isDev ? 'isDev' : senderStaffId)
@@ -47,7 +47,8 @@ const sendMsgToGroup = async (isDev = false, msg, service, robots, senderStaffId
 
     let promiseList = []
     for (let i of robotList) {
-      promiseList.push(sendOne(getSignUrl(i.Webhook, i.secret), msg, i.name))
+      const { Webhook, secret, name } = i
+      promiseList.push(sendOne(getSignUrl(Webhook, secret), msg, name))
     }
     const res = await Promise.all(promiseList)
     return res
@@ -55,6 +56,7 @@ const sendMsgToGroup = async (isDev = false, msg, service, robots, senderStaffId
     throw err
   }
 
+  // 发消息到钉钉群
   function sendOne (url, msg, name) {
     const params = {
       json: msg,
@@ -199,7 +201,7 @@ const getAccountInfo = async ({ senderId }, config, type) => {
   })
 }
 
-const getDefaultText = `您可以这样问：\n - 我的理财 \n - 基金 \n - 股票 \n - 财经早报 \n - 财经午报 \n - 财经晚报 \n - 知乎热榜 \n - 掘金前端热榜 \n\n当前版本: v${ getVersion() }`
+const getDefaultText = `您可以这样问：\n - 我的理财 \n - 基金 \n - 股票 \n - 财经早报、午报、晚报 \n - 知乎热榜 \n - 掘金前端热榜 \n\n当前版本: v${ getVersion() }`
 
 // 财经报告的图片链接
 const reportPicUrl = 'http://media.liuxianyu.cn/money-report-logo.png'

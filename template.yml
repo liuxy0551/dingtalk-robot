@@ -5,22 +5,20 @@ Resources:
     Type: 'Aliyun::Serverless::Service'
     Properties:
       Description: 钉小弟 - 钉钉群机器人
+      Role: 'acs:ram::1348483923043559:role/AliyunFcDefaultRole'
       LogConfig:
-        Project: aliyun-fc-cn-hangzhou-3ff06808-bae1-59f3-a782-6e6623a34e1f
-        Logstore: function-log
-        EnableRequestMetrics: true
-      TracingConfig: Disable
+        Project: dingtalk-robot-log
+        Logstore: dingtalk-robot-log
       InternetAccess: true
-
-    dingtalk-robot: # function name
+    dingtalk-robot-fc: # function name
       Type: 'Aliyun::Serverless::Function'
       Properties:
         Handler: index.handler
         Runtime: custom
         CodeUri: ./
-        MemorySize: 512
-        InstanceConcurrency: 10
-        Timeout: 60
+        MemorySize: 1024
+        InstanceConcurrency: 5
+        Timeout: 120
         
       Events:
         httpTrigger:
@@ -29,9 +27,9 @@ Resources:
             Qualifier: prod
             AuthType: ANONYMOUS
             Methods: ['GET', 'POST']
-        devHttpTrigger:
+        httpTrigger-dev:
           Type: HTTP
           Properties:
             Qualifier: LATEST
-            AuthType: anonymous
+            AuthType: ANONYMOUS
             Methods: ['GET', 'POST']

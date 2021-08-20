@@ -4,47 +4,22 @@ const { sendMsgToGroup, getTimeStr, getNow, getColorNum, getAccountInfo, getDefa
 
 class SendService extends Service {
   // 我的理财信息
-  async getMyMoneyInfo ({ senderNick, senderId, senderStaffId, isDev }) {
+  async getMyMoneyInfo ({ senderNick, senderId, senderStaffId, isDev, conversationTitle: name = '', sessionWebhook: Webhook = '' }) {
     try {
-      // const { jijin, gupiao } = await this.ctx.service.moneyInfo.getMoneyInfos(senderId)
-      // let text = `@${ senderStaffId }\n\n`
-      // let jijinText = '【基金】\n\n', gupiaoText = '【股票】\n\n'
-      // for (let i = 0; i < 2; i++) {
-      //   jijin[i] && (jijinText += `${ i + 1 }、${ jijin[i].name }(${ jijin[i].code })\n\n`)
-      // }
-      // for (let i = 0; i < 2; i++) {
-      //   gupiao[i] && (gupiaoText += `${ i + 1 }、${ gupiao[i].name }(${ gupiao[i].code })\n\n`)
-      // }
-      // text = text + jijinText + gupiaoText
-      // const msg = {
-      //   msgtype: 'actionCard',
-      //   actionCard: {
-      //     title: '我的理财信息',
-      //     text,
-      //     btns: [
-      //         {
-      //           title: `查看更多${ senderNick }的理财信息`,
-      //           actionURL: `http://dingtalk-robot.liuxianyu.cn/web/index.html#/auth?senderId=${ senderId }&senderNick=${ senderNick }`
-      //         }
-      //     ]
-      //   },
-      //   at: {
-      //     atUserIds: [senderStaffId]
-      //   }
-      // }
-
       const msg = {
         msgtype: 'markdown',
         markdown: {
           title: '我的理财信息',
-          text: `@${ senderStaffId }点此 [查看更多${ senderNick }的理财信息](http://dingtalk-robot.liuxianyu.cn/web/index.html#/auth?senderId=${ senderId }&senderNick=${ senderNick })`
+          // text: `@${ senderStaffId }点此 [查看更多${ senderNick }的理财信息](http://dingtalk-robot.liuxianyu.cn/web/index.html#/auth?senderId=${ senderId }&senderNick=${ senderNick })`
+          text: `@${ senderStaffId }点此 [查看更多${ senderNick }的理财信息](http://liuyi-dev.vaiwan.com/web/index.html#/auth?senderId=${ senderId }&senderNick=${ senderNick })`
         },
         at: {
           atUserIds: [senderStaffId]
         }
       }
 
-      const res = await sendMsgToGroup(isDev, msg, this.ctx.service)
+      const robots = Webhook ? [{ name, Webhook }] : [] // 当前群
+      const res = await sendMsgToGroup(isDev, msg, this.ctx.service, robots)
       return res
     } catch (err) {
       throw err
@@ -52,7 +27,7 @@ class SendService extends Service {
   }
 
   // 理财 - 基金
-  async jijin ({ senderNick, senderId, senderStaffId, isTimedTask = false, isDev }) {
+  async jijin ({ senderNick, senderId, senderStaffId, isTimedTask = false, isDev, conversationTitle: name = '', sessionWebhook: Webhook = '' }) {
     try {
       let msg
       const { jijin } = await this.ctx.service.moneyInfo.getMoneyInfos(senderId, ['jijin'])
@@ -85,7 +60,8 @@ class SendService extends Service {
         }
       }
 
-      const res = await sendMsgToGroup(isDev, msg, this.ctx.service)
+      const robots = Webhook ? [{ name, Webhook }] : [] // 当前群
+      const res = await sendMsgToGroup(isDev, msg, this.ctx.service, robots)
       return res
     } catch (err) {
       throw err
@@ -93,7 +69,7 @@ class SendService extends Service {
   }
 
   // 理财 - 股票
-  async gupiao ({ senderNick, senderId, senderStaffId, isTimedTask = false, isDev }) {
+  async gupiao ({ senderNick, senderId, senderStaffId, isTimedTask = false, isDev, conversationTitle: name = '', sessionWebhook: Webhook = '' }) {
     try {
       let msg
       const { gupiao } = await this.ctx.service.moneyInfo.getMoneyInfos(senderId, ['gupiao'])
@@ -136,7 +112,8 @@ class SendService extends Service {
         }
       }
 
-      const res = await sendMsgToGroup(isDev, msg, this.ctx.service)
+      const robots = Webhook ? [{ name, Webhook }] : [] // 当前群
+      const res = await sendMsgToGroup(isDev, msg, this.ctx.service, robots)
       return res
     } catch (err) {
       throw err
@@ -144,7 +121,9 @@ class SendService extends Service {
   }
 
   // 记账啦
-  async jizhangla ({ senderStaffId, conversationTitle, sessionWebhook, isDev }) {
+  async jizhangla ({ senderStaffId, conversationTitle: name = '', sessionWebhook: Webhook = '', isDev }) {
+    const robots = Webhook ? [{ name, Webhook }] : [] // 当前群
+
     try {
       const jizhanglaConfig = await getAccountInfo(this.ctx.request.body, this.app.config.jizhangla, 'jizhangla')
       const list = await jizhanglaAPI(jizhanglaConfig)
@@ -161,22 +140,20 @@ class SendService extends Service {
         }
       }
 
-      const res = await sendMsgToGroup(isDev, msg, this.ctx.service, null, senderStaffId)
+      const res = await sendMsgToGroup(isDev, msg, this.ctx.service, robots, senderStaffId)
       return res
     } catch (err) {
       if (err === 404) {
-        const robot = {
-          name: conversationTitle,
-          Webhook: sessionWebhook
-        }
-        await SendService.sendNotFound(this.ctx.service, robot, senderStaffId)
+        await SendService.sendNotFound(this.ctx.service, robots, senderStaffId)
       }
       throw err
     }
   }
 
   // 百度统计
-  async baidutj ({ senderStaffId, conversationTitle, sessionWebhook, isDev }) {
+  async baidutj ({ senderStaffId, conversationTitle: name = '', sessionWebhook: Webhook = '', isDev }) {
+    const robots = Webhook ? [{ name, Webhook }] : [] // 当前群
+
     try {
       const baidutjConfig = await getAccountInfo(this.ctx.request.body, this.app.config.baidutj, 'baidutj')
       const { body } = await baidutjAPI(baidutjConfig)
@@ -196,22 +173,18 @@ class SendService extends Service {
         }
       }
 
-      const res = await sendMsgToGroup(isDev, msg, this.ctx.service, null, senderStaffId)
+      const res = await sendMsgToGroup(isDev, msg, this.ctx.service, robots, senderStaffId)
       return res
     } catch (err) {
       if (err === 404) {
-        const robot = {
-          name: conversationTitle,
-          Webhook: sessionWebhook
-        }
-        await SendService.sendNotFound(this.ctx.service, robot, senderStaffId)
+        await SendService.sendNotFound(this.ctx.service, robots, senderStaffId)
       }
       throw err
     }
   }
 
   // 知乎热榜
-  async zhihuhot () {
+  async zhihuhot ({ isDev, conversationTitle: name = '', sessionWebhook: Webhook = '' }) {
     try {
       const list = await zhihuhotAPI()
       let text = '知乎热榜 Top 10\n\n'
@@ -227,7 +200,8 @@ class SendService extends Service {
         }
       }
 
-      const res = await sendMsgToGroup(this.ctx.request.body.isDev, msg, this.ctx.service)
+      const robots = Webhook ? [{ name, Webhook }] : [] // 当前群
+      const res = await sendMsgToGroup(isDev, msg, this.ctx.service, robots)
       return res
     } catch (err) {
       throw err
@@ -235,7 +209,7 @@ class SendService extends Service {
   }
 
   // 掘金前端七天热榜
-  async juejinhot () {
+  async juejinhot ({ isDev, conversationTitle: name = '', sessionWebhook: Webhook = '' }) {
     try {
       const list = await juejinhotAPI()
       let text = '掘金前端七天热榜 Top 10\n\n'
@@ -251,7 +225,8 @@ class SendService extends Service {
         }
       }
 
-      const res = await sendMsgToGroup(this.ctx.request.body.isDev, msg, this.ctx.service)
+      const robots = Webhook ? [{ name, Webhook }] : [] // 当前群
+      const res = await sendMsgToGroup(isDev, msg, this.ctx.service, robots)
       return res
     } catch (err) {
       throw err
@@ -259,7 +234,7 @@ class SendService extends Service {
   }
 
   // 没有账号的用户查询百度统计、记账啦
-  static async sendNotFound (isDev, service, robot, senderStaffId) {
+  static async sendNotFound (isDev, service, robots, senderStaffId) {
     try {
       const msg = {
         msgtype: 'markdown',
@@ -271,7 +246,7 @@ class SendService extends Service {
           atUserIds: [senderStaffId]
         }
       }
-      const res = await sendMsgToGroup(isDev, msg, service, robot)
+      const res = await sendMsgToGroup(isDev, msg, service, robots)
       return res
     } catch (err) {
       throw err

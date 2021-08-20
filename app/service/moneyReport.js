@@ -40,7 +40,7 @@ class MoneyReportService extends Service {
   }
 
   // 从 a 标签的字符串中拿出参数
-  static getParamsFromStr = (str) => {
+  static getParamsFromStr (str) {
     return {
       title: str.split('">')[1].split('</a>')[0],
       url: `https://www.cls.cn/detail/${ str.split('href="/detail/')[1].split('" target')[0] }`
@@ -48,7 +48,7 @@ class MoneyReportService extends Service {
   }
 
   // 从 div 标签中拿出参数
-  static getDescFromStr = (str) => {
+  static getDescFromStr (str) {
     return str.split('brief">')[1].split('</div>')[0]
   }
 }
