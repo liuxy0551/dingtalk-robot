@@ -91,7 +91,7 @@ const sendMsgToGroup = async (isDev = false, msg, service, robots, senderStaffId
         'Content-Type': 'application/json'
       }
     }
-    const apiUrl = `http://at-dingtalk-robot/api/replyRecord/createReplyRecord`
+    const apiUrl = `http://at-dingtalk-robot.liuxianyu.cn/api/replyRecord/createReplyRecord`
     request.post(apiUrl, params, (error, response, body) => {
       if (!error && response.statusCode == 200) {
         console.log('success createReplyRecord', body, name)
