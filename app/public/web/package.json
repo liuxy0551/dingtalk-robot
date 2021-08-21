@@ -1,5 +1,5 @@
 {
-  "version": "1.6.3",
+  "version": "1.6.5",
   "scripts": {
     "dev": "vite --port 8081",
     "build": "vite build",

@@ -5,3 +5,6 @@ yarn --production
 
 echo "fun deploy -y"
 fun deploy -y
+
+echo "yarn"
+yarn

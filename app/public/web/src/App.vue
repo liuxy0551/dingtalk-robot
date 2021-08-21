@@ -11,9 +11,7 @@
 
 <script>
   import { getDevice, changeStyle } from '@/utils'
-  import { getVersion } from '@/utils'
   import { onMounted } from 'vue'
-  import { Toast } from 'vant'
 
   export default {
     setup() {
@@ -24,12 +22,6 @@
           window.addEventListener('resize', () => {
             changeStyle()
           })
-        }
-
-        const version = getVersion()
-        if (localStorage.getItem('version') !== version) {
-          localStorage.setItem('version', version)
-          Toast(`当前版本：${ version }`)
         }
       })
     }

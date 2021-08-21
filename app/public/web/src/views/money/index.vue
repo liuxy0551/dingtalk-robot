@@ -26,6 +26,7 @@
 <script>
   import { onMounted, reactive, toRefs } from 'vue'
   import { Toast, Dialog } from 'vant'
+  import { getVersion } from '@/utils'
   import axios from '@/utils/axios'
 
   export default {
@@ -48,7 +49,16 @@
 
       onMounted(() => {
         moneyInfoCodes && (state.moneyInfoCodeList = moneyInfoCodes.split(','))
+        showVersion()
       })
+
+      const showVersion = () => {
+        const version = getVersion()
+        if (localStorage.getItem('version') !== version) {
+          localStorage.setItem('version', version)
+          Toast(`当前版本：${ version }`)
+        }
+      }
 
       const onSearch = (key) => {
         axios.post(`/api/getMoneyInfoBySina`, { key }).then(res => {

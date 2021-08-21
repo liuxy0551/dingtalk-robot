@@ -24,7 +24,7 @@
           Dialog.alert({
             message: `【${ senderNick }】的理财信息`,
           }).then(() => {
-            router.push({ name: 'Money' })
+            router.replace({ name: 'Money' })
           })
       })
       
