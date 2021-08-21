@@ -8,8 +8,7 @@ exports.handler = (event, context, callback) => {
       senderNick: '琉易',
       senderId: '$:LWCP_v1:$QrBRmHUHxbh9UEtbK43yCrWgZV0FDF2K',
       senderStaffId: '2133686213946986',
-      isTimedTask: true,
-      isDev: true
+      isTimedTask: true
     },
     {
       senderNick: '风巽',

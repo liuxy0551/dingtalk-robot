@@ -69,12 +69,37 @@ const sendMsgToGroup = async (isDev = false, msg, service, robots, senderStaffId
       request.post(url, params, (error, response, body) => {
           if (!error && response.statusCode == 200) {
             resolve({ ...body, name })
+            createSendRecord(url, msg, name)
           } else {
             reject({ ...error, name })
           }
         }
       )
     })
+  }
+  
+  // 保存回复记录
+  function createSendRecord (url, msg, name) {
+    const params = {
+      json: {
+        url,
+        msg: JSON.stringify(msg || {}),
+        name
+      },
+      encoding: 'utf-8',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+    const apiUrl = `http://at-dingtalk-robot/api/replyRecord/createReplyRecord`
+    request.post(apiUrl, params, (error, response, body) => {
+      if (!error && response.statusCode == 200) {
+        console.log('success createReplyRecord', body, name)
+      } else {
+        console.log('error createReplyRecord', error, name)
+      }
+    }
+  )
   }
 }
 
@@ -207,7 +232,7 @@ const getDefaultText = `您可以这样问：\n - 我的理财 \n - 基金 \n - 
 const reportPicUrl = 'http://media.liuxianyu.cn/dingtalk-robot-money-report-logo.png'
 
 // 我的理财信息 图片链接
-const moneyInfoPicUrl = 'http://media.liuxianyu.cn/dingtalk-robot-money-info-logo.png'
+const moneyInfoPicUrl = 'http://media.liuxianyu.cn/dingtalk-robot-money-info.png'
 
 module.exports = {
   getSignUrl,
