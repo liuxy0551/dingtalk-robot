@@ -48,6 +48,11 @@
       }
       
       const getMoneyInfos = () => {
+        Toast.loading({
+          message: '加载中...',
+          forbidClick: true,
+          loadingType: 'spinner'
+        })
         axios.post(`/api/getMoneyInfos`, { senderId }).then(res => {
           const { jijin, gupiao } = res.data
           localStorage.setItem('moneyInfoCodes', jijin.concat(gupiao).map(item => item.code).join(','))
@@ -55,6 +60,8 @@
             jijin: jijin.map(i => { return { ...i, loading: false } }),
             gupiao: gupiao.map(i => { return { ...i, loading: false } })
           }
+        }).finally(() => {
+          Toast.clear()
         })
       }
 

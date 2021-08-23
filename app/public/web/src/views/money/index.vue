@@ -61,6 +61,11 @@
       }
 
       const onSearch = (key) => {
+        Toast.loading({
+          message: '加载中...',
+          forbidClick: true,
+          loadingType: 'spinner'
+        })
         axios.post(`/api/getMoneyInfoBySina`, { key }).then(res => {
           if (res.data.split(';')[0].length < 25) {
             state.result = []
@@ -78,6 +83,8 @@
             })
           })
           state.result = list
+        }).finally(() => {
+          Toast.clear()
         })
       }
 
