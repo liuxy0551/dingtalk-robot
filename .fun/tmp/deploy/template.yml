@@ -16,7 +16,7 @@ Resources:
         Handler: index.handler
         Runtime: nodejs12
         Timeout: 20
-        MemorySize: 512
+        MemorySize: 256
         InstanceConcurrency: 1
         EnvironmentVariables: {}
       Events:
@@ -32,7 +32,7 @@ Resources:
         Handler: index.handler
         Runtime: custom
         Timeout: 120
-        MemorySize: 1024
+        MemorySize: 256
         InstanceConcurrency: 5
         EnvironmentVariables:
           LD_LIBRARY_PATH: >-
@@ -64,7 +64,7 @@ Resources:
         Handler: index.handler
         Runtime: nodejs12
         Timeout: 20
-        MemorySize: 512
+        MemorySize: 256
         InstanceConcurrency: 1
         EnvironmentVariables: {}
       Events:
@@ -80,7 +80,7 @@ Resources:
         Handler: index.handler
         Runtime: nodejs12
         Timeout: 20
-        MemorySize: 512
+        MemorySize: 256
         InstanceConcurrency: 1
         EnvironmentVariables: {}
       Events:
@@ -96,7 +96,7 @@ Resources:
         Handler: index.handler
         Runtime: nodejs12
         Timeout: 20
-        MemorySize: 512
+        MemorySize: 128
         InstanceConcurrency: 1
         EnvironmentVariables: {}
       Events:

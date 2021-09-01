@@ -48,7 +48,8 @@ module.exports = appInfo => {
 
   config.static = {
     prefix: '/web',
-    dir: path.join(appInfo.baseDir, 'app/public/web/dist')
+    dir: path.join(appInfo.baseDir, 'app/public/web/dist'),
+    maxAge: 24 * 60 * 60,
   }
 
   // add your user config here
