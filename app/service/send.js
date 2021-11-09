@@ -127,7 +127,7 @@ class SendService extends Service {
       const list = await jizhanglaAPI(jizhanglaConfig)
       let text = ``
       for (let i of list) {
-        text += `【${ i.name }】\n- 支出：${ i.expense }元\n- 收入：${ i.income }元\n\n`
+        text += `【${ i.name }】\n- 支出：${ `<font color=#007500>${ i.expense }</font>` }元\n- 收入：${ `<font color=#ff0000>${ i.income }</font>` }元\n\n`
       }
       // text += `微信扫码体验：\n![](https://a.jizhangla.liuxianyu.cn/assets/media/share.jpg)`
       const msg = {
