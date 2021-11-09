@@ -83,7 +83,7 @@ class AtService extends Service {
           result = setCtxBody(200, juejinhotRes)
           break
         default:
-          const defaultText = `@${ body.senderStaffId } 抱歉，不明白您的问题，${ getDefaultText }`
+          const defaultText = `@${ body.senderStaffId } ${ getDefaultText }`
           const defaultMsg = {
             msgtype: 'markdown',
             markdown: {
