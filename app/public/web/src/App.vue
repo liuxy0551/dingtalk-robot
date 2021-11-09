@@ -10,12 +10,13 @@
 </template>
 
 <script>
-  import { getDevice, changeStyle } from '@/utils'
+  import { getDevice, changeStyle, appInfo } from '@/utils'
   import { onMounted } from 'vue'
 
   export default {
     setup() {
       onMounted(() => {
+        appInfo()
         if (getDevice() === 'pc') {
           changeStyle()
           // 调试时改变 Element 的尺寸也能保持样式

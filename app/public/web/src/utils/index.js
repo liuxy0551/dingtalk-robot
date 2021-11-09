@@ -34,8 +34,16 @@ const getVersion = () => {
   return config.version
 }
 
+/**
+ * 输出应用版本以及运维信息
+ */
+ const appInfo = () => {
+  window.console.log(`%cCurrent version: V${getVersion()}`, 'font-family: Cabin, Helvetica, Arial, sans-serif;text-align: left;font-size:32px;color:#B21212;')
+}
+
 export {
   getDevice,
   changeStyle,
-  getVersion
+  getVersion,
+  appInfo
 }

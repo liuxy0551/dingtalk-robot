@@ -1,9 +1,14 @@
 #!/bin/bash
 
-echo -e "yarn --production\n"
+echo "start build web\n"
+cd app/public/web
+yarn build
+cd ../../../
+
+echo -e "\nyarn --production\n"
 yarn --production
 
-echo "fun deploy -y"
+echo "\nfun deploy -y\n"
 fun deploy -y
 
 echo "yarn"

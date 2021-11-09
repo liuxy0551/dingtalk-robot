@@ -227,7 +227,7 @@ const getAccountInfo = async ({ senderId }, config, type) => {
 }
 
 const options = ['我的理财', '基金', '股票', '财经早报', '财经午报', '财经晚报', '知乎热榜', '掘金前端热榜']
-const getDefaultText = `抱歉，我还不明白您的问题，您可以点击以下选项进行查询：\n\n ${ options.map((item, idx) => `[${ idx + 1 }、${ item }](dtmd://dingtalkclient/sendMessage?content=${ decodeURIComponent(item) })`).join(`\n\n`) } \n\n当前版本: v${ getVersion() }`
+const getDefaultText = `抱歉，我还不明白您的问题，您可以点击以下选项进行查询：\n\n ${ options.map((item, idx) => `${ idx + 1 }、[${ item }](dtmd://dingtalkclient/sendMessage?content=${ decodeURIComponent(item) })`).join(`\n\n`) } \n\n当前版本: v${ getVersion() }`
 
 // 财经报告 图片链接
 const reportPicUrl = 'http://media.liuxianyu.cn/dingtalk-robot-money-report-logo.png'
