@@ -2,10 +2,10 @@ const dbConfig = {
   port: 3306,
   dialect: 'mysql',
   timezone: '+08:00', // 东八时区
-  database : 'database',
+  database : 'dingtalk-robot',
   host : '127.0.0.1',
   user : 'root',
-  password : 'password',
+  password : '123456',
   logging: false
 }
 

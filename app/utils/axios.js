@@ -11,7 +11,7 @@ const { getUuid, getDate } = require('../utils')
 // https://gitee.com/base/leek-fund/blob/master/development.md
 const jijinAPI = async (jijinList) => {
   const apiUrl = `https://fundmobapi.eastmoney.com/FundMNewApi/FundMNFInfo?pageIndex=1&pageSize=20&appType=ttjj&product=EFund&plat=Android&deviceid=${ getUuid() }&Version=1&Fcodes=${ jijinList.map(item => item.code).join(',') }`
-  
+
   return new Promise((resolve, reject) => {
     axios.get(apiUrl).then(res => {
       resolve(res.data.Datas || [])
@@ -25,7 +25,7 @@ const jijinAPI = async (jijinList) => {
 // https://gitee.com/base/leek-fund/blob/master/development.md
 const gupiaoTTAPI = async (gupiaoList) => {
   const apiUrl = `https://push2.eastmoney.com/api/qt/ulist.np/get?fields=f2,f3,f14&secids=${ gupiaoList.map(item => item.code).join(',') }`
-  
+
   return new Promise((resolve, reject) => {
     axios.get(apiUrl).then(res => {
       resolve(res.data.data.diff)
@@ -39,7 +39,7 @@ const gupiaoTTAPI = async (gupiaoList) => {
 // http://suggest3.sinajs.cn/suggest/key=changan&name=callbackCode`
 const getMoneyInfoBySinaAPI = async (key) => {
   const apiUrl = `http://suggest3.sinajs.cn/suggest/key=${ encodeURI(key) }&name=callbackCode`
-  
+
   return new Promise((resolve, reject) => {
     const url = require('url').parse(apiUrl)
     http.get(url, (res) => {
@@ -63,7 +63,7 @@ const getMoneyInfoBySinaAPI = async (key) => {
 // http://qt.gtimg.cn/q=sz000625,sh600519
 const gupiaoTencentAPI = async (gupiaoList) => {
   const apiUrl = `http://qt.gtimg.cn/q=${ gupiaoList.map(item => item.code).join(',') }`
-  
+
   return new Promise((resolve, reject) => {
     const url = require('url').parse(apiUrl)
     http.get(url, (res) => {
@@ -103,7 +103,7 @@ const baidutjAPI = async (config) => {
       end_date: getDate(),
     }
   }
-  
+
   return new Promise((resolve, reject) => {
     axios.post(apiUrl, params).then(res => {
       const desc = res.data.header.desc
@@ -117,7 +117,7 @@ const baidutjAPI = async (config) => {
 // 记账啦
 const jizhanglaAPI = async (config) => {
   const { apiUrl, userId } = config
-  
+
   return new Promise((resolve, reject) => {
     axios.post(apiUrl, { userId }).then(res => {
       resolve(res.data.data)
@@ -130,7 +130,7 @@ const jizhanglaAPI = async (config) => {
 // 知乎热榜
 const zhihuhotAPI = async () => {
   const apiUrl = 'https://www.zhihu.com/api/v3/feed/topstory/hot-lists/total?limit=50&desktop=true'
-  
+
   return new Promise((resolve, reject) => {
     axios.get(apiUrl).then(res => {
       const list = res.data.data.slice(0, 10).map(item => {
@@ -156,7 +156,7 @@ const juejinhotAPI = async () => {
     limit: 10,
     sort_type: 7
   }
-  
+
   return new Promise((resolve, reject) => {
     axios.post(apiUrl, params).then(res => {
       const list = res.data.data.map(item => {

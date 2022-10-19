@@ -26,6 +26,13 @@ yarn dev
 
 浏览器打开：http://localhost:9003
 
+### 生成版本号
+
+```
+npm run release -r 1.8.0
+```
+
+
 ### 项目部署
 
 ```
