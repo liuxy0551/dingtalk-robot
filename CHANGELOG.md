@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 1.8.0 (2022-10-20)
+
+
 ### Features
 
 *  my money-info ([2848b23](https://github.com/liuxy0551/dingtalk-robot/commit/2848b23106d16c23242f5a279173aa79f5a2380f))
@@ -21,6 +24,7 @@ All notable changes to this project will be documented in this file. See [standa
 * baidutj、jizhangla reply ([ab2340d](https://github.com/liuxy0551/dingtalk-robot/commit/ab2340dba21c2b9039a6150452b693e49e68830f))
 * change web axios get to post ([5ef12eb](https://github.com/liuxy0551/dingtalk-robot/commit/5ef12eb4fad9e52a8d471959de19e50ce7925d1f))
 * color text ([efa90ef](https://github.com/liuxy0551/dingtalk-robot/commit/efa90ef676ef788fbe2c158b0a50d7bdf72228b0))
+* createBillByDingTalkRobot ([c914910](https://github.com/liuxy0551/dingtalk-robot/commit/c91491051886fea3fb7609802eac768e226b1775))
 * get gupiao info from tencent ([8d6be14](https://github.com/liuxy0551/dingtalk-robot/commit/8d6be143a18102213ba18decd08edfb5c848dec7))
 * getMorningReport ([87790de](https://github.com/liuxy0551/dingtalk-robot/commit/87790deb6cffa2be829d1c4d1a010a8a6819c847))
 * jizhangla text color ([e9df892](https://github.com/liuxy0551/dingtalk-robot/commit/e9df8923c4d16283f7b53475afcc70c6843fbfd3))
@@ -31,6 +35,7 @@ All notable changes to this project will be documented in this file. See [standa
 * node request gbk to utf-8 ([0f1b064](https://github.com/liuxy0551/dingtalk-robot/commit/0f1b064a1aad5307341f655dbff4b2186c6a995e))
 * optimize showVersion on mobile ([32670ed](https://github.com/liuxy0551/dingtalk-robot/commit/32670ed641684f2cef3197e8284d5ba0f3e1771c))
 * optimize text and  appInfo ([d50ddc7](https://github.com/liuxy0551/dingtalk-robot/commit/d50ddc717dba7e49f17ce5b0fe9da9e401add6cc))
+* remove ** ([5eda0e8](https://github.com/liuxy0551/dingtalk-robot/commit/5eda0e89d37ec4c9fa73774cb5680251db63be96))
 * remove some async when promise ([6b0c6b9](https://github.com/liuxy0551/dingtalk-robot/commit/6b0c6b95f806f52630c287626b8aa725912a067e))
 * reply record ([8ab2494](https://github.com/liuxy0551/dingtalk-robot/commit/8ab249444d892264ca5ea7d86692769e8221304f))
 * search when change ([cd71ff3](https://github.com/liuxy0551/dingtalk-robot/commit/cd71ff339b379d2f10098e7fc37128b88192f476))
@@ -43,6 +48,7 @@ All notable changes to this project will be documented in this file. See [standa
 * use dingtalk sendMessage ([8517c4c](https://github.com/liuxy0551/dingtalk-robot/commit/8517c4cd548b4a5d23229d6139a6feaf0c4c71d8))
 * user preview stock by web ([665e428](https://github.com/liuxy0551/dingtalk-robot/commit/665e428b6862240453b4a02541fb9a73977ddc9e))
 * V1.7.0 ([4d6122f](https://github.com/liuxy0551/dingtalk-robot/commit/4d6122f10cfd93ad8742e6b4482b27d8950b56e8))
+* version ([4c9196e](https://github.com/liuxy0551/dingtalk-robot/commit/4c9196e2e778ae5a47e822a60a9fa4cf2129a1b0))
 * web can used by mobile ([d4bfea3](https://github.com/liuxy0551/dingtalk-robot/commit/d4bfea38d662e11bae6ff4e38eddb082a7f3d4b1))
 * web dialog username of moneyInfo ([d76b2cf](https://github.com/liuxy0551/dingtalk-robot/commit/d76b2cf88ec4052f93e9689e2d0444045731ff8c))
 * web only on pc ([f2fa817](https://github.com/liuxy0551/dingtalk-robot/commit/f2fa817d2e41d6770e3e862ffa9b18308f544bf4))
