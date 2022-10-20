@@ -114,9 +114,22 @@ const baidutjAPI = async (config) => {
   })
 }
 
-// 记账啦
-const jizhanglaAPI = async (config) => {
-  const { apiUrl, userId } = config
+// 记账啦 - 新增账单
+const createBillByDingTalkRobotAPI = async (config, data) => {
+  const { createBillByDingTalkRobot: apiUrl, userId } = config
+
+  return new Promise((resolve, reject) => {
+    axios.post(apiUrl, { userId, ...data }).then(res => {
+      resolve(res.data)
+    }).catch(err => {
+      reject(err)
+    })
+  })
+}
+
+// 记账啦 - 查询昨日、本月账单
+const getTotalAmountByUserIdAPI = async (config) => {
+  const { getTotalAmountByUserId: apiUrl, userId } = config
 
   return new Promise((resolve, reject) => {
     axios.post(apiUrl, { userId }).then(res => {
@@ -177,7 +190,8 @@ module.exports = {
   gupiaoTTAPI,
   getMoneyInfoBySinaAPI,
   gupiaoTencentAPI,
-  jizhanglaAPI,
+  createBillByDingTalkRobotAPI,
+  getTotalAmountByUserIdAPI,
   baidutjAPI,
   zhihuhotAPI,
   juejinhotAPI

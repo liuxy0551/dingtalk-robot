@@ -2,9 +2,6 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-## 1.8.0 (2022-10-19)
-
-
 ### Features
 
 *  my money-info ([2848b23](https://github.com/liuxy0551/dingtalk-robot/commit/2848b23106d16c23242f5a279173aa79f5a2380f))

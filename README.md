@@ -36,5 +36,10 @@ npm run release -r 1.8.0
 ### 项目部署
 
 ```
-yarn deploy
+yarn global add @alicloud/fun
+```
+
+先将 node_modules 删除，执行以下命令将代码上传，然后在 web IED 的终端执行 `chmod 777 bootstrap`，yarn 安装依赖后部署即可
+```
+fun deploy -y
 ```

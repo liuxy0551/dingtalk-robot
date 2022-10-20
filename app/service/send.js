@@ -1,5 +1,5 @@
 const Service = require('egg').Service
-const { jijinAPI, gupiaoTTAPI, gupiaoTencentAPI, jizhanglaAPI, baidutjAPI, zhihuhotAPI, juejinhotAPI } = require('../utils/axios')
+const { jijinAPI, gupiaoTTAPI, gupiaoTencentAPI, createBillByDingTalkRobotAPI, getTotalAmountByUserIdAPI, baidutjAPI, zhihuhotAPI, juejinhotAPI } = require('../utils/axios')
 const { sendMsgToGroup, getTimeStr, getNow, getColorNum, getAccountInfo, getDefaultText, moneyInfoPicUrl } = require('../utils')
 
 class SendService extends Service {
@@ -118,13 +118,44 @@ class SendService extends Service {
     }
   }
 
-  // 记账啦
+  // 记账啦 - 新增账单
+  async jizhang ({ senderStaffId, conversationTitle: name = '', sessionWebhook: Webhook = '', isDev }) {
+    const robots = Webhook ? [{ name, Webhook }] : [] // 当前群
+
+    try {
+      const { body } = this.ctx.request
+      const jizhanglaConfig = await getAccountInfo(body, this.app.config.jizhangla, 'jizhangla')
+      const { content } = body.text
+      const [accountTypeName, amount = 0, note = ''] = content.split(' ').filter(item => item !== '' && item !== '记账')
+      const jizhangRes = await createBillByDingTalkRobotAPI(jizhanglaConfig, { accountTypeName, amount, note })
+
+      const msg = {
+        msgtype: 'markdown',
+        markdown: {
+          title: `记账啦 - 记账${ jizhangRes.code === 200 ? '成功' : '失败' }`,
+          text: `【记账${ jizhangRes.code === 200 ? '成功' : '失败' }】\n\n` + (jizhangRes.code === 200 ? (`分类：${ accountTypeName }\n\n金额：${ amount }` + (note ? `\n\n备注：${ note }` : '')) : jizhangRes.data.replace('Error: ', ''))
+        }
+      }
+
+      // 记账成功
+      jizhangRes.code === 200 && console.log('记账啦 - 新增账单 来自钉小弟', jizhangRes)
+      const res = await sendMsgToGroup(isDev, msg, this.ctx.service, robots, senderStaffId)
+      return res
+    } catch (err) {
+      if (err === 404) {
+        await SendService.sendNotFound(this.ctx.service, robots, senderStaffId)
+      }
+      throw err
+    }
+  }
+
+  // 记账啦 - 查询昨日、本月账单
   async jizhangla ({ senderStaffId, conversationTitle: name = '', sessionWebhook: Webhook = '', isDev }) {
     const robots = Webhook ? [{ name, Webhook }] : [] // 当前群
 
     try {
       const jizhanglaConfig = await getAccountInfo(this.ctx.request.body, this.app.config.jizhangla, 'jizhangla')
-      const list = await jizhanglaAPI(jizhanglaConfig)
+      const list = await getTotalAmountByUserIdAPI(jizhanglaConfig)
       let text = ``
       for (let i of list) {
         text += `【${ i.name }】\n- 支出：${ `<font color=#007500>${ i.expense }</font>` }元\n- 收入：${ `<font color=#ff0000>${ i.income }</font>` }元\n\n`
