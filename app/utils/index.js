@@ -77,7 +77,7 @@ const sendMsgToGroup = async (isDev = false, msg, service, robots, senderStaffId
       )
     })
   }
-  
+
   // 保存回复记录
   function createSendRecord (url, msg, name) {
     const params = {
@@ -94,9 +94,9 @@ const sendMsgToGroup = async (isDev = false, msg, service, robots, senderStaffId
     const apiUrl = `http://at-dingtalk-robot.liuxianyu.cn/api/replyRecord/createReplyRecord`
     request.post(apiUrl, params, (error, response, body) => {
       if (!error && response.statusCode == 200) {
-        console.log('success createReplyRecord', body, name)
+        console.log('回复成功：', body, name)
       } else {
-        console.log('error createReplyRecord', error, name)
+        console.log('回复失败：', error, name)
       }
     }
   )
@@ -142,7 +142,7 @@ const getTimeStr = (second) => {
 
 /**
  * 查询数据时排除被删除的行
- * @param {Object} params 
+ * @param {Object} params
  */
  const getWhere = (params = {}) => {
   return { isDelete: 0, ...params }
@@ -150,7 +150,7 @@ const getTimeStr = (second) => {
 
 /**
  * 查询数据时排序，默认 按 sort 升序(ASC 升序，DESC 降序)
- * @param {Array} arr 
+ * @param {Array} arr
  */
 const getOrder = (arr = [['sort', 'ASC']]) => {
   return arr
@@ -199,7 +199,7 @@ const getAccountInfo = async ({ senderId }, config, type) => {
   return new Promise((resolve, reject) => {
     if (accountInfo) {
       const { jizhanglaUserId, baidutjUsername, baidutjPassword, baidutjToken, baidutjSiteId } = accountInfo
-    
+
       let result = {}
       switch (type) {
         case 'jizhangla':
@@ -213,7 +213,7 @@ const getAccountInfo = async ({ senderId }, config, type) => {
           }
           let { body } = config
           body = { ...body, siteId: baidutjSiteId }
-    
+
           result = { ...config, header, body }
           break
         default:

@@ -15,7 +15,8 @@ class AtService extends Service {
       content.includes('午报') && (key = 'afternoon')
       content.includes('晚报') && (key = 'evening')
       content.includes('理财') && !content.includes('我的') && (key = 'money')
-      content.includes('记账') && (key = 'jizhangla')
+      content.includes('账单') && (key = 'jizhangla')
+      content.includes('记账') && (key = 'jizhang')
       content.includes('百度') && (key = 'baidutj')
       content.includes('知乎') && (key = 'zhihuhot')
       content.includes('掘金') && (key = 'juejinhot')
@@ -68,6 +69,10 @@ class AtService extends Service {
           const jizhanglaRes = await this.ctx.service.send.jizhangla(body)
           await AtService.replyGroupAt(msg, this.ctx.service, robots)
           result = setCtxBody(200, jizhanglaRes)
+          break
+        case 'jizhang':
+          const jizhangRes = await this.ctx.service.send.jizhang(body)
+          result = setCtxBody(200, jizhangRes)
           break
         case 'baidutj':
           const baidutjRes = await this.ctx.service.send.baidutj(body)

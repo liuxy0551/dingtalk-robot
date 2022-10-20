@@ -59,7 +59,8 @@ module.exports = appInfo => {
 
   // 记账啦
   config.jizhangla = {
-    apiUrl: 'https://api.jizhangla.liuxianyu.cn/v1/bill/getTotalAmountByUserId'
+    getTotalAmountByUserId: 'https://api.jizhangla.liuxianyu.cn/v1/bill/getTotalAmountByUserId',
+    createBillByDingTalkRobot: 'https://api.jizhangla.liuxianyu.cn/v1/bill/createBillByDingTalkRobot'
   }
 
   // 百度统计
