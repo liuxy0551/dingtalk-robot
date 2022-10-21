@@ -33,7 +33,7 @@ class SendController extends Controller {
     }
   }
 
-  // 记账啦
+  // 记账啦 - 查询昨日、本月账单
   async jizhangla () {
     try {
       const res = await this.ctx.service.send.jizhangla(this.ctx.request.body)

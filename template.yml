@@ -6,9 +6,6 @@ Resources:
     Properties:
       Description: 钉小弟 - 钉钉群机器人
       Role: 'acs:ram::1348483923043559:role/AliyunFcDefaultRole'
-      LogConfig:
-        Project: dingtalk-robot-log
-        Logstore: dingtalk-robot-log
       InternetAccess: true
     dingtalk-robot-fc: # function name
       Type: 'Aliyun::Serverless::Function'
@@ -19,7 +16,7 @@ Resources:
         MemorySize: 256
         InstanceConcurrency: 5
         Timeout: 120
-        
+
       Events:
         httpTrigger:
           Type: HTTP

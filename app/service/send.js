@@ -1,5 +1,5 @@
 const Service = require('egg').Service
-const { jijinAPI, gupiaoTTAPI, gupiaoTencentAPI, jizhanglaAPI, baidutjAPI, zhihuhotAPI, juejinhotAPI } = require('../utils/axios')
+const { jijinAPI, gupiaoTTAPI, gupiaoTencentAPI, createBillByDingTalkRobotAPI, getTotalAmountByUserIdAPI, baidutjAPI, zhihuhotAPI, juejinhotAPI } = require('../utils/axios')
 const { sendMsgToGroup, getTimeStr, getNow, getColorNum, getAccountInfo, getDefaultText, moneyInfoPicUrl } = require('../utils')
 
 class SendService extends Service {
@@ -33,7 +33,7 @@ class SendService extends Service {
         const list = await jijinAPI(jijin)
         let text = `@${ senderStaffId } 当前时间：${ getNow() }\n\n`
         for (let i = 0; i < list.length; i++) {
-          text += `${ i + 1 }、【${ list[i].SHORTNAME }】\n\n 预估：**${ getColorNum('%', list[i].GSZZL) }**，昨日：${ getColorNum('%', list[i].NAVCHGRT) }\n\n`
+          text += `${ i + 1 }、【${ list[i].SHORTNAME }】\n\n 预估：${ getColorNum('%', list[i].GSZZL) }，昨日：${ getColorNum('%', list[i].NAVCHGRT) }\n\n`
         }
         text += '数据来源：天天基金'
         msg = {
@@ -76,18 +76,18 @@ class SendService extends Service {
         // const list = await gupiaoTTAPI(gupiao)
         // let text = `昵称: ${ senderNick }\n\n 当前时间：${ getNow() }\n\n`
         // for (let i = 0; i < list.length; i++) {
-        //   text += `${ i + 1 }、【${ list[i].f14 }】\n\n 最新价：**${ getColorNum('', (list[i].f2 / 100).toFixed(2), (list[i].f3 / 100).toFixed(2)) }**，涨幅：**${ getColorNum('%', (list[i].f3 / 100).toFixed(2)) }**\n\n`
+        //   text += `${ i + 1 }、【${ list[i].f14 }】\n\n 最新价：${ getColorNum('', (list[i].f2 / 100).toFixed(2), (list[i].f3 / 100).toFixed(2)) }，涨幅：${ getColorNum('%', (list[i].f3 / 100).toFixed(2)) }\n\n`
         // }
         // text += '数据来源：天天基金'
-  
+
         // 腾讯 - 查询股票
         const list = await gupiaoTencentAPI(gupiao)
         let text = `@${ senderStaffId } 当前时间：${ getNow() }\n\n`
         for (let i = 0; i < list.length; i++) {
-          text += `${ i + 1 }、【${ list[i].name }】\n\n 最新价：**${ getColorNum('', list[i].nowPrice, list[i].range) }**，涨幅：**${ getColorNum('%', list[i].range) }**\n\n`
+          text += `${ i + 1 }、【${ list[i].name }】\n\n 最新价：${ getColorNum('', list[i].nowPrice, list[i].range) }，涨幅：${ getColorNum('%', list[i].range) }\n\n`
         }
         text += '数据来源：腾讯'
-  
+
         msg = {
           msgtype: 'markdown',
           markdown: {
@@ -118,13 +118,44 @@ class SendService extends Service {
     }
   }
 
-  // 记账啦
+  // 记账啦 - 新增账单
+  async jizhang ({ senderStaffId, conversationTitle: name = '', sessionWebhook: Webhook = '', isDev }) {
+    const robots = Webhook ? [{ name, Webhook }] : [] // 当前群
+
+    try {
+      const { body } = this.ctx.request
+      const jizhanglaConfig = await getAccountInfo(body, this.app.config.jizhangla, 'jizhangla')
+      const { content } = body.text
+      const [accountTypeName, amount = 0, note = ''] = content.split(' ').filter(item => item !== '' && item !== '记账')
+      const jizhangRes = await createBillByDingTalkRobotAPI(jizhanglaConfig, { accountTypeName, amount, note })
+
+      const msg = {
+        msgtype: 'markdown',
+        markdown: {
+          title: `记账啦 - 记账${ jizhangRes.code === 200 ? '成功' : '失败' }`,
+          text: `【记账${ jizhangRes.code === 200 ? '成功' : '失败' }】\n\n` + (jizhangRes.code === 200 ? (`分类：${ accountTypeName }\n\n金额：${ amount }` + (note ? `\n\n备注：${ note }` : '')) : jizhangRes.data.replace('Error: ', ''))
+        }
+      }
+
+      // 记账成功
+      jizhangRes.code === 200 && console.log('记账啦 - 新增账单 来自钉小弟', jizhangRes)
+      const res = await sendMsgToGroup(isDev, msg, this.ctx.service, robots, senderStaffId)
+      return res
+    } catch (err) {
+      if (err === 404) {
+        await SendService.sendNotFound(this.ctx.service, robots, senderStaffId)
+      }
+      throw err
+    }
+  }
+
+  // 记账啦 - 查询昨日、本月账单
   async jizhangla ({ senderStaffId, conversationTitle: name = '', sessionWebhook: Webhook = '', isDev }) {
     const robots = Webhook ? [{ name, Webhook }] : [] // 当前群
 
     try {
       const jizhanglaConfig = await getAccountInfo(this.ctx.request.body, this.app.config.jizhangla, 'jizhangla')
-      const list = await jizhanglaAPI(jizhanglaConfig)
+      const list = await getTotalAmountByUserIdAPI(jizhanglaConfig)
       let text = ``
       for (let i of list) {
         text += `【${ i.name }】\n- 支出：${ `<font color=#007500>${ i.expense }</font>` }元\n- 收入：${ `<font color=#ff0000>${ i.income }</font>` }元\n\n`

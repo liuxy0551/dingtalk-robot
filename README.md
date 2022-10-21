@@ -26,8 +26,25 @@ yarn dev
 
 浏览器打开：http://localhost:9003
 
+### 生成版本号
+
+```
+npm run release -r 1.8.0
+```
+
+
+### 联调
+
+先在 http://at-dingtalk-robot.liuxianyu.cn/admin#/robot/index 页面将机器人的推送地址修改为本地 ngrok 转发的地址，艾特机器人时钉钉会将消息推送到本地 ngrok 地址，即可本地调试 dingtalk-robot。
+
+
 ### 项目部署
 
 ```
-yarn deploy
+yarn global add @alicloud/fun
+```
+
+先将 node_modules 删除，执行以下命令将代码上传，然后在 web IED 的终端执行 `chmod 777 bootstrap`，yarn 安装依赖后部署即可
+```
+fun deploy -y
 ```
