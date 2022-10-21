@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.8.0](https://github.com/liuxy0551/dingtalk-robot/compare/v1.7.1...v1.8.0) (2022-10-21)
+
+
+### Features
+
+* createBillByDingTalkRobot ([11ff191](https://github.com/liuxy0551/dingtalk-robot/commit/11ff191c28e125dd64609bf6c5bfaf4e3b020ea3))
+
 ### 1.7.1 (2022-10-21)
 
 
