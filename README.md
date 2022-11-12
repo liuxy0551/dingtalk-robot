@@ -33,6 +33,11 @@ npm run release -r 1.8.0
 ```
 
 
+### 联调
+
+先在 http://at-dingtalk-robot.liuxianyu.cn/admin#/robot/index 页面将机器人的推送地址修改为本地 ngrok 转发的地址，艾特机器人时钉钉会将消息推送到本地 ngrok 地址，即可本地调试 dingtalk-robot。
+
+
 ### 项目部署
 
 ```
