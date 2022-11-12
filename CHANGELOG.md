@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.8.1](https://github.com/liuxy0551/dingtalk-robot/compare/v1.7.1...v1.8.1) (2022-11-12)
+
+
+### Features
+
+* createBillByDingTalkRobot ([11ff191](https://github.com/liuxy0551/dingtalk-robot/commit/11ff191c28e125dd64609bf6c5bfaf4e3b020ea3))
+* msg text optimize ([f12f45c](https://github.com/liuxy0551/dingtalk-robot/commit/f12f45c7f91e85fbe6496316a63a9af03864c03e))
+
+## [1.8.0](https://github.com/liuxy0551/dingtalk-robot/compare/5eda0e89d37ec4c9fa73774cb5680251db63be96...v1.8.0) (2022-10-20)
+
+
+### Features
+
+* createBillByDingTalkRobot ([c914910](https://github.com/liuxy0551/dingtalk-robot/commit/c91491051886fea3fb7609802eac768e226b1775))
+* createBillByDingTalkRobot ([9bf2f77](https://github.com/liuxy0551/dingtalk-robot/commit/9bf2f77928135a363117acfa1351b5e6490b37f1))
+* remove ** ([5eda0e8](https://github.com/liuxy0551/dingtalk-robot/commit/5eda0e89d37ec4c9fa73774cb5680251db63be96))
+* version ([4c9196e](https://github.com/liuxy0551/dingtalk-robot/commit/4c9196e2e778ae5a47e822a60a9fa4cf2129a1b0))
+
 ## [1.8.0](https://github.com/liuxy0551/dingtalk-robot/compare/v1.7.1...v1.8.0) (2022-10-21)
 
 
