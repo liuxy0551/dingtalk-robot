@@ -133,7 +133,7 @@ class SendService extends Service {
         msgtype: 'markdown',
         markdown: {
           title: `记账啦 - 记账${ jizhangRes.code === 200 ? '成功' : '失败' }`,
-          text: `【记账${ jizhangRes.code === 200 ? '成功' : '失败' }】\n\n` + (jizhangRes.code === 200 ? (`分类：${ accountTypeName }\n\n金额：${ amount }` + (note ? `\n\n备注：${ note }` : '')) : jizhangRes.data.replace('Error: ', ''))
+          text: `【记账${ jizhangRes.code === 200 ? '成功' : '失败' }】\n\n` + (jizhangRes.code === 200 ? (`分类：${ accountTypeName }\n\n金额：${ amount }元` + (note ? `\n\n备注：${ note }` : '')) : jizhangRes.data.replace('Error: ', ''))
         }
       }
 
