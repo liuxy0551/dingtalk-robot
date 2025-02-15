@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.9.0](https://github.com/liuxy0551/dingtalk-robot/compare/v1.8.1...v1.9.0) (2025-02-15)
+
+
+### Features
+
+* get ganggu ([6845127](https://github.com/liuxy0551/dingtalk-robot/commit/684512745209920239253f96d08064cee6da7a9c))
+* sort moneyInfo ([00c70ba](https://github.com/liuxy0551/dingtalk-robot/commit/00c70ba4420d949b2fe9263bd0c6a8ef2905d276))
+
 ### [1.8.1](https://github.com/liuxy0551/dingtalk-robot/compare/v1.7.1...v1.8.1) (2022-11-12)
 
 
