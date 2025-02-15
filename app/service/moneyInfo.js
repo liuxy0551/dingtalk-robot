@@ -32,6 +32,26 @@ class MoneyInfoService extends Service {
     }
   }
 
+  async sortMoneyInfo (current, target) {
+    try {
+      const res1 = await db.MoneyInfo.update({ sort: current.sort }, {
+        where: getWhere({
+          moneyInfoId: current.moneyInfoId
+        }),
+        raw: true
+      })
+      const res2 = await db.MoneyInfo.update({ sort: target.sort }, {
+        where: getWhere({
+          moneyInfoId: target.moneyInfoId
+        }),
+        raw: true
+      })
+      return [res1, res2]
+    } catch (err) {
+      throw err
+    }
+  }
+
   async deleteMoneyInfo (senderId, code) {
     try {
       const res = await db.MoneyInfo.update({ isDelete: 1 }, {

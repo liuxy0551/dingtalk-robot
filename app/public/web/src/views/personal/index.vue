@@ -7,10 +7,12 @@
     </div>
 
     <div class="box top-tab" v-if="result[tabSelected] && result[tabSelected].length">
-      <div class="item" v-for="item in result[tabSelected]" :key="item.code">
+      <div class="item" v-for="(item, idx) in result[tabSelected]" :key="item.code">
         <div class="row">
           <div class="text">{{ item.code }} - {{ item.name }}</div>
-          <van-button type="warning" size="mini" :loading="item.loading" @click="deleteMoneyInfo(item)">删除自选</van-button>
+          <van-button class="sort-btn up" icon="down" size="mini" :loading="item.loading" type="primary" @click="sortMoneyInfo(idx, 'up')" v-if="idx !== 0" />
+          <van-button class="sort-btn" icon="down" size="mini" :loading="item.loading" type="primary" @click="sortMoneyInfo(idx, 'down')" v-if="idx !== result[tabSelected].length - 1" />
+          <van-button class="delete-btn" type="warning" size="mini" :loading="item.loading" @click="deleteMoneyInfo(item)">删除</van-button>
         </div>
       </div>
     </div>
@@ -66,6 +68,33 @@
         })
       }
 
+      // 排序
+      const sortMoneyInfo = (idx, type) => {
+        state.result[state.tabSelected][idx].loading = true
+        state.result[state.tabSelected][idx + (type === 'up' ? -1 : 1)].loading = true
+
+        const current = state.result[state.tabSelected][idx]
+        const target = state.result[state.tabSelected][idx + (type === 'up' ? -1 : 1)]
+        const params = {
+          current: {
+            moneyInfoId: current.moneyInfoId,
+            sort: (idx + 1) + (type === 'up' ? -1 : 1)
+          },
+          target: {
+            moneyInfoId: target.moneyInfoId,
+            sort: (idx + 1)
+          }
+        }
+
+        axios.post('/api/sortMoneyInfo', params).then(() => {
+          getMoneyInfos()
+          Toast('调整成功')
+        }).finally(() => {
+        state.result[state.tabSelected][idx].loading = false
+        state.result[state.tabSelected][idx + (type === 'up' ? -1 : 1)].loading = false
+        })
+      }
+
       // 删除自选
       const deleteMoneyInfo = (item) => {
         item.loading = true
@@ -91,7 +120,8 @@
       return {
         ...toRefs(state),
         onChange,
-        deleteMoneyInfo
+        sortMoneyInfo,
+        deleteMoneyInfo,
       }
     }
   }
@@ -121,12 +151,20 @@
     justify-content: space-between;
   }
   .text {
+    flex: 1;
     max-width: 252px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
   }
-  .van-button {
-    width: 70px;
+  .delete-btn {
+    width: 40px;
+    margin-left: 8px;
+  }
+  .sort-btn {
+    width: 30px;
+  }
+  .up {
+    transform: rotate(180deg);
   }
 </style>

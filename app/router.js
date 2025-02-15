@@ -3,7 +3,7 @@
  */
 module.exports = app => {
   const { router, controller } = app
-  
+
   router.get('/', controller.home.check)
   router.get('/api/', controller.home.check)
 
@@ -17,13 +17,14 @@ module.exports = app => {
 
   router.get('/api/getRobots', controller.robot.getRobots)
   router.post('/api/createRobot', controller.robot.createRobot)
-  
+
   router.get('/api/getMorningReports', controller.moneyReport.getMorningReports)
   router.get('/api/getAfternoonReports', controller.moneyReport.getAfternoonReports)
   router.get('/api/getEveningReports', controller.moneyReport.getEveningReports)
 
   router.post('/api/getMoneyInfos', controller.moneyInfo.getMoneyInfos)
   router.post('/api/createMoneyInfo', controller.moneyInfo.createMoneyInfo)
+  router.post('/api/sortMoneyInfo', controller.moneyInfo.sortMoneyInfo)
   router.post('/api/deleteMoneyInfo', controller.moneyInfo.deleteMoneyInfo)
   router.post('/api/getMoneyInfoBySina', controller.moneyInfo.getMoneyInfoBySina)
 

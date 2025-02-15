@@ -12,18 +12,29 @@ class MoneyInfoController extends Controller {
       this.ctx.body = setCtxBody(500, err, '系统错误')
     }
   }
-  
+
   // 新增理财信息
   async createMoneyInfo () {
     try {
-      const { senderId, type, name, code, sort = 1 } = this.ctx.request.body
+      const { senderId, type, name, code, sort } = this.ctx.request.body
       const res = await this.ctx.service.moneyInfo.createMoneyInfo({ moneyInfoId: getUuid(), senderId, type, name, code, sort })
       this.ctx.body = setCtxBody(200, res)
     } catch (err) {
       this.ctx.body = setCtxBody(500, err, '系统错误')
     }
   }
-  
+
+  // 理财信息排序
+  async sortMoneyInfo () {
+    try {
+      const { current, target } = this.ctx.request.body
+      const res = await this.ctx.service.moneyInfo.sortMoneyInfo(current, target)
+      this.ctx.body = setCtxBody(200, res)
+    } catch (err) {
+      this.ctx.body = setCtxBody(500, err, '系统错误')
+    }
+  }
+
   // 删除理财信息
   async deleteMoneyInfo () {
     try {
@@ -34,7 +45,7 @@ class MoneyInfoController extends Controller {
       this.ctx.body = setCtxBody(500, err, '系统错误')
     }
   }
-  
+
   // 新浪关键词查询
   async getMoneyInfoBySina () {
     try {
