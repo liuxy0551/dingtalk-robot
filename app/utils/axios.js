@@ -85,7 +85,7 @@ const gupiaoTencentAPI = async (gupiaoList) => {
         resolve(list)
       })
       res.on('error', (err) => {
-        console.error(222, 'gupiaoTencentAPI', err)
+        console.error('gupiaoTencentAPI', err)
         reject()
       })
     })

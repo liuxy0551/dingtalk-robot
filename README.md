@@ -38,7 +38,16 @@ npm run release -r 1.8.0
 先在 http://at-dingtalk-robot.liuxianyu.cn/admin#/robot/index 页面将机器人的推送地址修改为本地 ngrok 转发的地址，艾特机器人时钉钉会将消息推送到本地 ngrok 地址，即可本地调试 dingtalk-robot。
 
 
-### 项目部署
+### 项目部署（新）
+
+- [安装Serverless Devs工具及依赖](https://help.aliyun.com/zh/functioncompute/fc-2-0/developer-reference/install-serverless-devs-and-docker)
+- [配置Serverless Devs](https://help.aliyun.com/zh/functioncompute/fc-2-0/developer-reference/configure-serverless-devs)
+
+```
+s deploy
+```
+
+### 项目部署（旧）
 
 ```
 yarn global add @alicloud/fun

@@ -179,6 +179,7 @@ const getColorNum = (suffix, num, flag) => {
   } else if (tempFlag < 0) {
     return `<font color=#007500>${ num }${ suffix }</font>`
   } else {
+    if (num === null || num === undefined) return '--'
     return `${ num }${ suffix }`
   }
 }
@@ -230,10 +231,10 @@ const options = ['我的理财', '基金', '股票', '财经早报', '财经午�
 const getDefaultText = `抱歉，我还不明白您的问题，您可以点击以下选项进行查询：\n\n ${ options.map((item, idx) => `${ idx + 1 }、[${ item }](dtmd://dingtalkclient/sendMessage?content=${ decodeURIComponent(item) })`).join(`\n\n`) } \n\n当前版本: v${ getVersion() }`
 
 // 财经报告 图片链接
-const reportPicUrl = 'http://media.liuxianyu.cn/dingtalk-robot-money-report-logo.png'
+const reportPicUrl = 'https://images-hosting.liuxianyu.cn/personal/dingtalk-robot-money-info.png'
 
 // 我的理财信息 图片链接
-const moneyInfoPicUrl = 'http://media.liuxianyu.cn/dingtalk-robot-money-info.png'
+const moneyInfoPicUrl = 'https://images-hosting.liuxianyu.cn/personal/dingtalk-robot-money-info.png'
 
 module.exports = {
   getSignUrl,

@@ -37,7 +37,8 @@
         typeConfirmVisible: false,
         typeActions: [
           { name: '基金', value: 'jijin' }, // , color: '#ff0000'
-          { name: '股票', value: 'gupiao' }
+          { name: 'A股', value: 'gupiao' },
+          { name: '港股', value: 'gupiao', locale: 'ganggu' }
         ],
         moneyInfo: null,
         keyword: '',
@@ -97,11 +98,12 @@
       // 添加自选
       const createMoneyInfo = (action) => {
         state.moneyInfo.loading = true
+        const code = state.moneyInfo[action.value === 'jijin' ? 'codeB' : 'code']
         const params = {
           senderId,
           type: action.value,
           name: state.moneyInfo.name,
-          code: state.moneyInfo[action.value === 'jijin' ? 'codeB' : 'code'],
+          code: action.locale === 'ganggu' ? `hk${code}` : code,
           sort: state.moneyInfoCodeList.length
         }
         axios.post('/api/createMoneyInfo', params).then(() => {
@@ -165,7 +167,6 @@
 <style scoped>
   .money-content {
   }
-  
   .top-search {
     width: 100%;
     background-color: #fff;

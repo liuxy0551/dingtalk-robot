@@ -29,9 +29,10 @@
     setup() {
       const senderId = localStorage.getItem('senderId')
       const state = reactive({
-        tabSelected: 'jijin',
+        tabSelected: 'gupiao',
         tabList: [
-          { label: '基金', value: 'jijin' }, { label: '股票', value: 'gupiao' }
+          { label: '股票', value: 'gupiao' },
+          { label: '基金', value: 'jijin' },
         ],
         result: {
           jijin: [],
@@ -46,7 +47,7 @@
       const onChange = (val) => {
         state.tabSelected = val
       }
-      
+
       const getMoneyInfos = () => {
         Toast.loading({
           message: '加载中...',
@@ -99,7 +100,7 @@
 <style scoped>
   .personal-content {
   }
-    
+
   .top-search {
     width: 100%;
     background-color: #fff;
