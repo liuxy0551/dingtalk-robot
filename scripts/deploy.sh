@@ -1,7 +1,10 @@
 #!/bin/bash
 
+yarn
+
 echo "start build web\n"
 cd app/public/web
+yarn
 yarn build
 cd ../../../
 

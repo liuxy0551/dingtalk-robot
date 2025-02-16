@@ -1,0 +1,50 @@
+edition: 1.0.0
+name: component-test
+access: '{{ access }}'
+services:
+  cn-hangzhou-dingtalk-robot-dingtalk-robot-fc:
+    component: fc
+    props:
+      region: cn-hangzhou
+      service:
+        logConfig:
+          enableRequestMetrics: true
+          enableInstanceMetrics: true
+          logBeginRule: DefaultRegex
+          project: serverless-cn-hangzhou-3ff06808-bae1-59f3-a782-6e6623a34e1f
+          logstore: default-logs
+        role: acs:ram::1348483923043559:role/aliyunfcdefaultrole
+        description: 钉小弟 - 钉钉群机器人
+        internetAccess: true
+        ossMountConfig:
+          mountPoints: []
+        name: dingtalk-robot
+      function:
+        handler: index.handler
+        timeout: 120
+        caPort: 9003
+        layers:
+          - acs:fc:cn-hangzhou:official:layers/Nodejs16/versions/2
+        instanceType: e1
+        runtime: custom.debian10
+        instanceConcurrency: 5
+        memorySize: 256
+        environmentVariables:
+          PATH: >-
+            /opt/nodejs16/bin:/code/.fun/root/usr/local/bin:/code/.fun/root/usr/local/sbin:/code/.fun/root/usr/bin:/code/.fun/root/usr/sbin:/code/.fun/root/sbin:/code/.fun/root/bin:/code:/code/node_modules/.bin:/code/.fun/python/bin:/code/.fun/node_modules/.bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/sbin:/bin
+          LD_LIBRARY_PATH: >-
+            /code/.fun/root/usr/local/lib:/code/.fun/root/usr/lib:/code/.fun/root/usr/lib/x86_64-linux-gnu:/code/.fun/root/usr/lib64:/code/.fun/root/lib:/code/.fun/root/lib/x86_64-linux-gnu:/code/.fun/root/python/lib/python2.7/site-packages:/code/.fun/root/python/lib/python3.6/site-packages:/code:/code/lib:/usr/local/lib
+          NODE_PATH: /code/node_modules:/usr/local/lib/node_modules
+          PYTHONUSERBASE: /code/.fun/python
+        name: dingtalk-robot-fc
+        codeUri: ./
+      triggers:
+        - name: httpTrigger-dev
+          description: ''
+          type: http
+          qualifier: LATEST
+          config:
+            methods:
+              - GET
+              - POST
+            authType: anonymous

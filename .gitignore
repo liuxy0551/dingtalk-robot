@@ -13,3 +13,5 @@ typings/
 .nyc_output/
 .env
 .github
+
+.s/
