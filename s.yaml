@@ -7,13 +7,7 @@ services:
     props:
       region: cn-hangzhou
       service:
-        logConfig:
-          enableRequestMetrics: true
-          enableInstanceMetrics: true
-          logBeginRule: DefaultRegex
-          project: serverless-cn-hangzhou-3ff06808-bae1-59f3-a782-6e6623a34e1f
-          logstore: default-logs
-        role: acs:ram::1348483923043559:role/aliyunfcdefaultrole
+        role: acs:ram::1348483923043559:role/AliyunFcDefaultRole
         description: 钉小弟 - 钉钉群机器人
         internetAccess: true
         ossMountConfig:
@@ -21,6 +15,7 @@ services:
         name: dingtalk-robot
       function:
         handler: index.handler
+        description: 钉小弟主体服务
         timeout: 120
         caPort: 9003
         layers:
@@ -48,3 +43,4 @@ services:
               - GET
               - POST
             authType: anonymous
+            disableURLInternet: false
