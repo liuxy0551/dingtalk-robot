@@ -1,5 +1,5 @@
 const Service = require('egg').Service
-const { jijinAPI, gupiaoTTAPI, gupiaoTencentAPI, createBillByDingTalkRobotAPI, getTotalAmountByUserIdAPI, baidutjAPI, zhihuhotAPI, juejinhotAPI } = require('../utils/axios')
+const { jijinAPI, gupiaoTTAPI, gupiaoTencentAPI, dongfangcaifuAPI, createBillByDingTalkRobotAPI, getTotalAmountByUserIdAPI, baidutjAPI, zhihuhotAPI, juejinhotAPI } = require('../utils/axios')
 const { sendMsgToGroup, getTimeStr, getNow, getColorNum, getAccountInfo, getDefaultText, moneyInfoPicUrl } = require('../utils')
 
 class SendService extends Service {
@@ -208,6 +208,32 @@ class SendService extends Service {
       if (err === 404) {
         await SendService.sendNotFound(this.ctx.service, robots, senderStaffId)
       }
+      throw err
+    }
+  }
+
+  // 财经报告 - 东方财富
+  async dongfangcaifu ({ isDev, conversationTitle: name = '', sessionWebhook: Webhook = '' }) {
+    try {
+      const list = await dongfangcaifuAPI()
+      let text = '全球财经快讯 Top 10\n\n'
+      for (let i = 0; i < list.length; i++) {
+        text += `${ i + 1 }、[${ list[i].title }](https://finance.eastmoney.com/a/${list[i].code}.html)\n\n`
+      }
+      text += '数据来源：[东方财富网 - 全球财经快讯](https://kuaixun.eastmoney.com/)'
+
+      const msg = {
+        msgtype: 'markdown',
+        markdown: {
+          title: '全球财经快讯 Top 10',
+          text
+        }
+      }
+
+      const robots = Webhook ? [{ name, Webhook }] : [] // 当前群
+      const res = await sendMsgToGroup(isDev, msg, this.ctx.service, robots)
+      return res
+    } catch (err) {
       throw err
     }
   }

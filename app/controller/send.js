@@ -33,6 +33,16 @@ class SendController extends Controller {
     }
   }
 
+  // 理财 - 财经报告
+  async caijingbaogao () {
+    try {
+      const res = await this.ctx.service.send.caijingbaogao(this.ctx.request.body)
+      this.ctx.body = setCtxBody(200, res)
+    } catch (err) {
+      this.ctx.body = setCtxBody(500, err, '系统错误')
+    }
+  }
+
   // 记账啦 - 查询昨日、本月账单
   async jizhangla () {
     try {

@@ -92,6 +92,20 @@ const gupiaoTencentAPI = async (gupiaoList) => {
   })
 }
 
+// 理财 - 东方财富财经报告
+// https://kuaixun.eastmoney.com/
+const dongfangcaifuAPI = async () => {
+  const apiUrl = `https://np-weblist.eastmoney.com/comm/web/getFastNewsList?client=web&biz=web_724&fastColumn=102&sortEnd=&pageSize=10&req_trace=${new Date().getTime()}`
+
+  return new Promise((resolve, reject) => {
+    axios.get(apiUrl).then(res => {
+      resolve(res.data?.data?.fastNewsList)
+    }).catch(err => {
+      reject(err)
+    })
+  })
+}
+
 // 百度统计
 const baidutjAPI = async (config) => {
   const { apiUrl, header, body } = config
@@ -192,6 +206,7 @@ module.exports = {
   gupiaoTencentAPI,
   createBillByDingTalkRobotAPI,
   getTotalAmountByUserIdAPI,
+  dongfangcaifuAPI,
   baidutjAPI,
   zhihuhotAPI,
   juejinhotAPI

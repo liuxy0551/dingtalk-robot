@@ -14,6 +14,7 @@ module.exports = app => {
   router.post('/api/juejinhot', controller.send.juejinhot)
   router.post('/api/jijin', controller.send.jijin)
   router.post('/api/gupiao', controller.send.gupiao)
+  router.post('/api/caijingbaogao', controller.send.caijingbaogao)
 
   router.get('/api/getRobots', controller.robot.getRobots)
   router.post('/api/createRobot', controller.robot.createRobot)

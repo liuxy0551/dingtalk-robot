@@ -9,15 +9,23 @@ class AtService extends Service {
 
       let key = '', result = undefined
       content.includes('我的') && (key = 'myMoney')
-      content.includes('基金') && (key = 'jijin')
       content.includes('股票') && (key = 'gupiao')
+      content.includes('基金') && (key = 'jijin')
+      content.includes('理财') && !content.includes('我的') && (key = 'money')
+
+      // 财联社
       content.includes('早报') && (key = 'morning')
       content.includes('午报') && (key = 'afternoon')
       content.includes('晚报') && (key = 'evening')
-      content.includes('理财') && !content.includes('我的') && (key = 'money')
+
+      // 财经报告 - 东方财富
+      content.includes('报告') && (key = 'caijingbaogao')
+
       content.includes('账单') && (key = 'jizhangla')
       content.includes('记账') && (key = 'jizhang')
+
       content.includes('百度') && (key = 'baidutj')
+
       content.includes('知乎') && (key = 'zhihuhot')
       content.includes('掘金') && (key = 'juejinhot')
 
@@ -64,6 +72,11 @@ class AtService extends Service {
           const { evening } = this.app.config.report
           const eveningRes = await this.ctx.service.moneyReport.getReports(evening)
           result = setCtxBody(200, eveningRes)
+          break
+        case 'caijingbaogao':
+          // 后续可以考虑再加上财联社的电报 https://www.cls.cn/telegraph
+          const dongfangcaifuRes = await this.ctx.service.send.dongfangcaifu(body)
+          result = setCtxBody(200, dongfangcaifuRes)
           break
         case 'jizhangla':
           const jizhanglaRes = await this.ctx.service.send.jizhangla(body)

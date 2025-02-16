@@ -4,17 +4,19 @@ const cheerio = require('cheerio')
 const { sendMsgToGroup, reportPicUrl } = require('../utils')
 
 class MoneyReportService extends Service {
+  // 财联社早报、午报、晚报
+  // https://www.cls.cn/subject/1140
   async getReports (url) {
     return new Promise((resolve, reject) => {
       https.get(url, res => {
         // 分段返回的 自己拼接
         let html = ''
-    
+
         // 有数据产生的时候 拼接
         res.on('data', chunk => {
           html += chunk
         })
-    
+
         // 拼接完成
         res.on('end', async () => {
           let $ = cheerio.load(html)
@@ -29,7 +31,7 @@ class MoneyReportService extends Service {
               messageUrl
             }
           }
-  
+
           const { conversationTitle: name = '', sessionWebhook: Webhook = '' } = this.ctx.request.body
           const robots = Webhook ? [{ name, Webhook }] : [] // 当前群
           const result = await sendMsgToGroup(this.ctx.query.isDev === 'true', msg, this.ctx.service, robots)
