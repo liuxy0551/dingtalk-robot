@@ -92,6 +92,20 @@ const gupiaoTencentAPI = async (gupiaoList) => {
   })
 }
 
+// ServerStatus
+// https://server.liuxianyu.cn/
+const serverStatusAPI = async () => {
+  const apiUrl = `https://server.liuxianyu.cn/json/stats.json`
+
+  return new Promise((resolve, reject) => {
+    axios.get(apiUrl).then(res => {
+      resolve(res.data.servers)
+    }).catch(err => {
+      reject(err)
+    })
+  })
+}
+
 // 理财 - 东方财富财经报告
 // https://kuaixun.eastmoney.com/
 const dongfangcaifuAPI = async () => {
@@ -206,6 +220,7 @@ module.exports = {
   gupiaoTencentAPI,
   createBillByDingTalkRobotAPI,
   getTotalAmountByUserIdAPI,
+  serverStatusAPI,
   dongfangcaifuAPI,
   baidutjAPI,
   zhihuhotAPI,

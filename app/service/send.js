@@ -1,5 +1,5 @@
 const Service = require('egg').Service
-const { jijinAPI, gupiaoTTAPI, gupiaoTencentAPI, dongfangcaifuAPI, createBillByDingTalkRobotAPI, getTotalAmountByUserIdAPI, baidutjAPI, zhihuhotAPI, juejinhotAPI } = require('../utils/axios')
+const { jijinAPI, gupiaoTTAPI, gupiaoTencentAPI, dongfangcaifuAPI, serverStatusAPI, createBillByDingTalkRobotAPI, getTotalAmountByUserIdAPI, baidutjAPI, zhihuhotAPI, juejinhotAPI } = require('../utils/axios')
 const { sendMsgToGroup, getTimeStr, getNow, getColorNum, getAccountInfo, getDefaultText, moneyInfoPicUrl } = require('../utils')
 
 class SendService extends Service {
@@ -175,6 +175,33 @@ class SendService extends Service {
       if (err === 404) {
         await SendService.sendNotFound(this.ctx.service, robots, senderStaffId)
       }
+      throw err
+    }
+  }
+
+  // 机器资源 https://server.liuxianyu.cn/
+  async serverStatus ({ isDev, conversationTitle: name = '', sessionWebhook: Webhook = '' }) {
+    try {
+      const list = await serverStatusAPI()
+      let text = '机器资源概览\n\n'
+      for (let i = 0; i < list.length; i++) {
+        const item = list[i];
+        text += `[${ item.name }] CPU: ${item.cpu}% 内存: ${Math.ceil((item.memory_used / item.memory_total) * 100)}% 磁盘: ${Math.ceil((item.hdd_used / item.hdd_total) * 100)}% ${item.uptime}\n\n`;
+      }
+      text += '数据来源：[ServerStatus](https://server.liuxianyu.cn/)'
+
+      const msg = {
+        msgtype: 'markdown',
+        markdown: {
+          title: '机器资源概览',
+          text
+        }
+      }
+
+      const robots = Webhook ? [{ name, Webhook }] : [] // 当前群
+      const res = await sendMsgToGroup(isDev, msg, this.ctx.service, robots)
+      return res
+    } catch (err) {
       throw err
     }
   }

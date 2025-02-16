@@ -8,6 +8,7 @@ class AtService extends Service {
       const { senderStaffId = '', conversationTitle: name = '', sessionWebhook: Webhook = '' } = body
 
       let key = '', result = undefined
+      // 韭零后
       content.includes('我的') && (key = 'myMoney')
       content.includes('股票') && (key = 'gupiao')
       content.includes('基金') && (key = 'jijin')
@@ -21,12 +22,17 @@ class AtService extends Service {
       // 财经报告 - 东方财富
       content.includes('报告') && (key = 'caijingbaogao')
 
+      // 记账啦
       content.includes('账单') && (key = 'jizhangla')
       content.includes('记账') && (key = 'jizhang')
+
+      // 机器资源 https://server.liuxianyu.cn/
+      content.includes('机器') && (key = 'serverStatus')
 
       // 百度统计已停止 API 服务
       content.includes('百度') && (key = 'baidutj')
 
+      // 学习网站
       content.includes('知乎') && (key = 'zhihuhot')
       content.includes('掘金') && (key = 'juejinhot')
 
@@ -87,6 +93,10 @@ class AtService extends Service {
         case 'jizhang':
           const jizhangRes = await this.ctx.service.send.jizhang(body)
           result = setCtxBody(200, jizhangRes)
+          break
+        case 'serverStatus':
+          const serverStatusRes = await this.ctx.service.send.serverStatus(body)
+          result = setCtxBody(200, serverStatusRes)
           break
         case 'baidutj':
           const baidutjRes = await this.ctx.service.send.baidutj(body)
