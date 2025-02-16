@@ -10,24 +10,24 @@ exports.handler = (event, context, callback) => {
       senderStaffId: '2133686213946986',
       isTimedTask: true
     },
-    {
-      senderNick: '风巽',
-      senderId: '$:LWCP_v1:$mf8Av6QVPyYNCnimFtvhQn2fz8Uccl9x',
-      senderStaffId: '24285333671236719',
-      isTimedTask: true
-    },
-    {
-      senderNick: '三木',
-      senderId: '$:LWCP_v1:$96/Gh3CsPXxiL0+g1+osFCzKHONNcfHX',
-      senderStaffId: '2355425553-657112227',
-      isTimedTask: true
-    },
-    {
-      senderNick: '帽子',
-      senderId: '$:LWCP_v1:$zevYPZhdmykepIUztVROzA==',
-      senderStaffId: '0124426341771251',
-      isTimedTask: true
-    }
+    // {
+    //   senderNick: '风巽',
+    //   senderId: '$:LWCP_v1:$mf8Av6QVPyYNCnimFtvhQn2fz8Uccl9x',
+    //   senderStaffId: '24285333671236719',
+    //   isTimedTask: true
+    // },
+    // {
+    //   senderNick: '三木',
+    //   senderId: '$:LWCP_v1:$96/Gh3CsPXxiL0+g1+osFCzKHONNcfHX',
+    //   senderStaffId: '2355425553-657112227',
+    //   isTimedTask: true
+    // },
+    // {
+    //   senderNick: '帽子',
+    //   senderId: '$:LWCP_v1:$zevYPZhdmykepIUztVROzA==',
+    //   senderStaffId: '0124426341771251',
+    //   isTimedTask: true
+    // }
   ]
 
   for (let params of paramsList) {

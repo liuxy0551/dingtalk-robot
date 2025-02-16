@@ -1,6 +1,7 @@
 {
   "name": "timed-task",
   "dependencies": {
-    "axios": "^0.21.1"
+    "axios": "^0.21.1",
+    "dayjs": "^1.11.10"
   }
 }
