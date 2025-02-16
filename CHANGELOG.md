@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.9.1](https://github.com/liuxy0551/dingtalk-robot/compare/v1.9.0...v1.9.1) (2025-02-16)
+
+
+### Features
+
+* dongfangcaifuAPI ([363a549](https://github.com/liuxy0551/dingtalk-robot/commit/363a549f2fdebf47433ce35f18c4c12df85fe739))
+* server status ([ca58a2b](https://github.com/liuxy0551/dingtalk-robot/commit/ca58a2b1039a8731f8afe41b50ea4976a7a54ead))
+* timed-task ([1f84669](https://github.com/liuxy0551/dingtalk-robot/commit/1f84669e6a1d903659eefa57cfb0a9a43f6d85f6))
+
+
+### Bug Fixes
+
+* pasue baidutongji ([fbe3f39](https://github.com/liuxy0551/dingtalk-robot/commit/fbe3f39b8739e169a06103af7c2ff7131682d649))
+
 ## [1.9.0](https://github.com/liuxy0551/dingtalk-robot/compare/v1.8.1...v1.9.0) (2025-02-15)
 
 
