@@ -63,7 +63,7 @@ module.exports = appInfo => {
     createBillByDingTalkRobot: 'https://api.jizhangla.liuxianyu.cn/v1/bill/createBillByDingTalkRobot'
   }
 
-  // 百度统计
+  // 百度统计 - 已停止 API 服务
   config.baidutj = {
     apiUrl: 'https://api.baidu.com/json/tongji/v1/ReportService/getData',
     body: {

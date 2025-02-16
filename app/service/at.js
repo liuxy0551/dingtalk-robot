@@ -24,6 +24,7 @@ class AtService extends Service {
       content.includes('账单') && (key = 'jizhangla')
       content.includes('记账') && (key = 'jizhang')
 
+      // 百度统计已停止 API 服务
       content.includes('百度') && (key = 'baidutj')
 
       content.includes('知乎') && (key = 'zhihuhot')
