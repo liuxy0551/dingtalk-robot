@@ -31,7 +31,7 @@ class SendService extends Service {
       const { jijin } = await this.ctx.service.moneyInfo.getMoneyInfos({ senderId }, ['jijin'])
       if (jijin && jijin.length) {
         const list = await jijinAPI(jijin)
-        let text = `@${ senderStaffId } 当前时间：${ getNow() }\n\n`
+        let text = `@${ senderStaffId } ${ getNow() }\n\n`
         for (let i = 0; i < list.length; i++) {
           text += `${ i + 1 }、【${ list[i].SHORTNAME }】\n\n 预估：${ getColorNum('%', list[i].GSZZL) }，昨日：${ getColorNum('%', list[i].NAVCHGRT) }\n\n`
         }
@@ -82,11 +82,11 @@ class SendService extends Service {
 
         // 腾讯 - 查询股票
         const list = await gupiaoTencentAPI(gupiao)
-        let text = `@${ senderStaffId } 当前时间：${ getNow() }\n\n`
+        let text = `@${ senderStaffId } ${ getNow() }\n\n`
         for (let i = 0; i < list.length; i++) {
-          text += `${ i + 1 }、【${ list[i].name }】\n\n 最新价：${ getColorNum('', list[i].nowPrice, list[i].range) }，涨幅：${ getColorNum('%', list[i].range) }\n\n`
+          text += `${ i + 1 }、【${ list[i].name }】  ${ getColorNum('', list[i].nowPrice, list[i].range) }   ${ getColorNum('%', list[i].range) }\n\n`
         }
-        text += '数据来源：腾讯'
+        text += '数据来源：腾讯股票'
 
         msg = {
           msgtype: 'markdown',
@@ -158,7 +158,7 @@ class SendService extends Service {
       const list = await getTotalAmountByUserIdAPI(jizhanglaConfig)
       let text = ``
       for (let i of list) {
-        text += `【${ i.name }】\n- 支出：${ `<font color=#007500>${ i.expense }</font>` }元\n- 收入：${ `<font color=#ff0000>${ i.income }</font>` }元\n\n`
+        text += `【${ i.name }】\n- 支出：${ `<font color=#007500>${ i.expense }</font>` }元，收入：${ `<font color=#ff0000>${ i.income }</font>` }元\n\n`
       }
       // text += `微信扫码体验：\n![](https://a.jizhangla.liuxianyu.cn/assets/media/share.jpg)`
       const msg = {

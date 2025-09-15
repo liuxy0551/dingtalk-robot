@@ -29,7 +29,7 @@ yarn dev
 ### 生成版本号
 
 ```
-npm run release -r 1.8.0
+yarn release -r 1.9.2
 ```
 
 
