@@ -24,10 +24,10 @@
           Dialog.alert({
             message: `【${ senderNick }】的理财信息`,
           }).then(() => {
-            router.replace({ name: 'Money' })
+            router.replace({ name: 'Personal' })
           })
       })
-      
+
       const getMoneyInfos = () => {
         axios.post(`/api/getMoneyInfos`, { senderId }).then(res => {
           const { jijin, gupiao } = res.data
