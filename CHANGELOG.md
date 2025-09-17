@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.9.2](https://github.com/liuxy0551/dingtalk-robot/compare/v1.9.1...v1.9.2) (2025-09-17)
+
+
+### Features
+
+* h5 default personal ([328e80b](https://github.com/liuxy0551/dingtalk-robot/commit/328e80b77529629106d9ccabeb20793da4278784))
+* hidden zhihu ([d1eb52e](https://github.com/liuxy0551/dingtalk-robot/commit/d1eb52ec0e0db088b8ac5296300f2848400e9627))
+* msg line break ([dbfc08b](https://github.com/liuxy0551/dingtalk-robot/commit/dbfc08ba4d9e6ddbbce720939f7a4ed91040d9df))
+
 ### [1.9.1](https://github.com/liuxy0551/dingtalk-robot/compare/v1.9.0...v1.9.1) (2025-02-16)
 
 
