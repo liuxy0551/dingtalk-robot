@@ -4,7 +4,7 @@
 
 &emsp;&emsp;“钉小弟” 是名字，可以发送消息到指定钉钉群，效果如下：
 
-![](https://liuxy0551.gitee.io/image-hosting/posts/aliyun-function-compute/14.gif)
+![](https://images-hosting.liuxianyu.cn/posts/aliyun-function-compute/14.gif)
 
 ### 启动项目
 
@@ -34,6 +34,8 @@ yarn release -r 1.9.2
 
 
 ### 联调
+
+ngrok: https://dashboard.ngrok.com/get-started/setup/macos
 
 先在 http://at-dingtalk-robot.liuxianyu.cn/admin#/robot/index 页面将机器人的推送地址修改为本地 ngrok 转发的地址，艾特机器人时钉钉会将消息推送到本地 ngrok 地址，即可本地调试 dingtalk-robot。
 
