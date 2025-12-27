@@ -30,11 +30,11 @@
     "eslint": "^5.13.0",
     "eslint-config-egg": "^7.1.0"
   },
-  "engines": {
-    "node": ">=10.0.0"
-  },
   "scripts": {
-    "start": "egg-scripts start --daemon --title=egg-server-eggjs",
+    "checkEnv": "node scripts/checkEnv.js",
+    "build": "sh scripts/build.sh",
+    "build:web": "cd app/public/web && npm i && npm run build",
+    "start": "egg-scripts start --title=egg-server-eggjs",
     "stop": "egg-scripts stop --title=egg-server-eggjs",
     "dev": "egg-bin dev",
     "debug": "egg-bin debug",
@@ -61,5 +61,8 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
+  },
+  "engines": {
+    "node": "16"
   }
 }

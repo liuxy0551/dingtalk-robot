@@ -1,4 +1,4 @@
 #!/bin/bash
-export PORT=9003
+export PORT=3055
 export EGG_SERVER_ENV=prod
 npx --no-install egg-scripts start --workers=1

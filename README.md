@@ -20,16 +20,16 @@
 ### 项目启动
 
 ```
-yarn
-yarn dev
+npm i
+npm run dev
 ```
 
-浏览器打开：http://localhost:9003
+浏览器打开：http://localhost:3055
 
 ### 生成版本号
 
 ```
-yarn release -r 1.9.2
+npm run release -r 1.9.3
 ```
 
 
@@ -40,7 +40,29 @@ ngrok: https://dashboard.ngrok.com/get-started/setup/macos
 先在 http://at-dingtalk-robot.liuxianyu.cn/admin#/robot/index 页面将机器人的推送地址修改为本地 ngrok 转发的地址，艾特机器人时钉钉会将消息推送到本地 ngrok 地址，即可本地调试 dingtalk-robot。
 
 
-### 项目部署（新）
+### 项目部署（最新版，docker 部署）
+
+前端页面有变化时先构建前端静态文件，服务端会托管：
+
+```
+npm run build:web
+```
+
+构建镜像
+
+```
+npm run build
+```
+
+服务端运行
+
+```
+docker run -d -p 3055:3055 --name dingtalk-robot liuxy0551/dingtalk-robot:latest
+```
+
+
+
+### 项目部署（新，已暂停使用阿里云函数计算）
 
 - [安装Serverless Devs工具及依赖](https://help.aliyun.com/zh/functioncompute/fc-2-0/developer-reference/install-serverless-devs-and-docker)
 - [配置Serverless Devs](https://help.aliyun.com/zh/functioncompute/fc-2-0/developer-reference/configure-serverless-devs)
@@ -49,7 +71,7 @@ ngrok: https://dashboard.ngrok.com/get-started/setup/macos
 s deploy
 ```
 
-### 项目部署（旧）
+### 项目部署（旧，已废弃）
 
 ```
 yarn global add @alicloud/fun

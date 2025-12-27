@@ -1,5 +1,5 @@
 {
-  "version": "1.7.1",
+  "version": "1.8.0",
   "scripts": {
     "dev": "vite --port 8081",
     "build": "vite build",
@@ -19,5 +19,8 @@
     "vconsole": "^3.8.1",
     "vite": "^2.3.8",
     "vite-plugin-style-import": "^1.0.1"
+  },
+  "engines": {
+    "node": "16"
   }
 }

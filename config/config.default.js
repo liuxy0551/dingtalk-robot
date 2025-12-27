@@ -41,7 +41,7 @@ module.exports = appInfo => {
   config.cluster = {
     listen: {
       path: '',
-      port: 9003,
+      port: 3055,
       hostname: '0.0.0.0'
     }
   };
@@ -78,6 +78,11 @@ module.exports = appInfo => {
     afternoon: 'https://www.cls.cn/subject/1140',
     evening: 'https://www.cls.cn/subject/1139'
   }
+
+  config.cors = {
+    origin: '*',          // 允许的来源
+    allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH',
+  };
 
   return {
     ...config,

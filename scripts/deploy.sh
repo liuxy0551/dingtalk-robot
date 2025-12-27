@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# 项目部署（旧，已废弃）
+
 yarn
 
 echo "start build web\n"

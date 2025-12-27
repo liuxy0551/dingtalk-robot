@@ -1,0 +1,9 @@
+version: '3.3'
+
+services:
+  dingtalk-robot:
+    image: registry.cn-hangzhou.aliyuncs.com/liuxy0551/dingtalk-robot:latest
+    container_name: dingtalk-robot
+    ports:
+      - "3055:3055"
+    restart: unless-stopped

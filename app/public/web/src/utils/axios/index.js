@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { Toast } from 'vant'
 
-// axios.defaults.baseURL = 'http://localhost:9003'
+// axios.defaults.baseURL = 'http://localhost:3055'
 // axios.defaults.baseURL = 'http://dingtalk-robot.liuxianyu.cn'
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
 axios.defaults.timeout = 30000

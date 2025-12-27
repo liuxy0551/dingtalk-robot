@@ -17,7 +17,7 @@ services:
         handler: index.handler
         description: 钉小弟主体服务
         timeout: 120
-        caPort: 9003
+        caPort: 3055
         layers:
           - acs:fc:cn-hangzhou:official:layers/Nodejs16/versions/2
         instanceType: e1
