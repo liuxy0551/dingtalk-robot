@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.9.3](https://github.com/liuxy0551/dingtalk-robot/compare/v1.9.2...v1.9.3) (2025-12-27)
+
+
+### Features
+
+* gupiao text ([285b756](https://github.com/liuxy0551/dingtalk-robot/commit/285b756585e402699776c9e5f41e58e147196498))
+
 ### [1.9.2](https://github.com/liuxy0551/dingtalk-robot/compare/v1.9.1...v1.9.2) (2025-09-17)
 
 
