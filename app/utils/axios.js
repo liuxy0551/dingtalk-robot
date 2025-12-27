@@ -59,8 +59,10 @@ const getMoneyInfoBySinaAPI = async (key) => {
   })
 }
 
-// 理财 - 腾讯股票
-// http://qt.gtimg.cn/q=sz000625,sh600519
+/**
+ * 理财 - 腾讯财经
+ * 调用示例: http://qt.gtimg.cn/q=sz000625,sh600519
+ */
 const gupiaoTencentAPI = async (gupiaoList) => {
   const apiUrl = `http://qt.gtimg.cn/q=${ gupiaoList.map(item => item.code).join(',') }`
 

@@ -80,13 +80,13 @@ class SendService extends Service {
         // }
         // text += '数据来源：天天基金'
 
-        // 腾讯 - 查询股票
+        // 腾讯财经 - 查询股票
         const list = await gupiaoTencentAPI(gupiao)
         let text = `@${ senderStaffId } ${ getNow() }\n\n`
         for (let i = 0; i < list.length; i++) {
           text += `${ i + 1 }、【${ list[i].name }】  ${ getColorNum('', list[i].nowPrice, list[i].range) }   ${ getColorNum('%', list[i].range) }\n\n`
         }
-        text += '数据来源：腾讯股票'
+        text += '数据来源：腾讯财经'
 
         msg = {
           msgtype: 'markdown',
