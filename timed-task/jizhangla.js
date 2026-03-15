@@ -1,14 +1,28 @@
-const { apiFunc } = require('./utils')
+const axios = require("axios");
+const dayjs = require("dayjs");
 
-exports.handler = (event, context, callback) => {
-  const url = 'http://dingtalk-robot.liuxianyu.cn/api/jizhangla'
-  const params = {
-    senderNick: '琉易',
-    senderId: '$:LWCP_v1:$QrBRmHUHxbh9UEtbK43yCrWgZV0FDF2K',
-    senderStaffId: '2133686213946986'
-  }
+const main = () => {
+    const now = dayjs().format("YYYY-MM-DD HH:mm:ss");
+    const url = "https://dingtalk-robot.liuxianyu.cn/api/jizhangla";
+    const params = {
+        senderNick: "琉易",
+        senderId: "$:LWCP_v1:$QrBRmHUHxbh9UEtbK43yCrWgZV0FDF2K",
+        senderStaffId: "2133686213946986",
+    };
+    let msg = "";
 
-  apiFunc(url, params, callback)
-}
+    axios
+        .post(url, params)
+        .then((res) => {
+            msg = `success, ${now}, ${url}, ${JSON.stringify(res.data)}`;
+        })
+        .catch((err) => {
+            msg = `failed, ${now}, ${url}, ${err.response.status}`;
+        })
+        .finally(() => {
+            const isSuccess = msg.includes("success");
+            isSuccess && console.log(msg);
+        });
+};
 
-// 0 20 0 * * ?
+main();

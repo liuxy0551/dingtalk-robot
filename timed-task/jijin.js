@@ -10,7 +10,7 @@ const main = () => {
 
         // 是工作日且不放假
         if (isWeekday && !isWeekdayButRest) {
-            const url = "https://dingtalk-robot.liuxianyu.cn/api/gupiao";
+            const url = "https://dingtalk-robot.liuxianyu.cn/api/jijin";
             const userList = [
                 {
                     senderNick: "琉易",
