@@ -16,7 +16,6 @@
 
 &emsp;&emsp;这个项目涉及钉钉群机器人的安全设置都是`加签`，签名实现可参照 <a href="https://github.com/liuxy0551/dingtalk-robot/blob/master/app/utils/index.js#L6" target="_black">getSignUrl</a>。
 
-
 ### 项目启动
 
 ```
@@ -32,13 +31,11 @@ npm run dev
 npm run release -r 1.9.3
 ```
 
-
 ### 联调
 
 ngrok: https://dashboard.ngrok.com/get-started/setup/macos
 
 先在 http://at-dingtalk-robot.liuxianyu.cn/admin#/robot/index 页面将机器人的推送地址修改为本地 ngrok 转发的地址，艾特机器人时钉钉会将消息推送到本地 ngrok 地址，即可本地调试 dingtalk-robot。
-
 
 ### 项目部署（最新版，docker 部署）
 
@@ -60,7 +57,11 @@ npm run build
 docker run -d -p 3055:3055 --name dingtalk-robot liuxy0551/dingtalk-robot:latest
 ```
 
+或
 
+```
+docker compose pull && docker compose up -d
+```
 
 ### 项目部署（新，已暂停使用阿里云函数计算）
 
@@ -78,6 +79,7 @@ yarn global add @alicloud/fun
 ```
 
 先将 node_modules 删除，执行以下命令将代码上传，然后在 web IED 的终端执行 `chmod 777 bootstrap`，yarn 安装依赖后部署即可
+
 ```
 fun deploy -y
 ```

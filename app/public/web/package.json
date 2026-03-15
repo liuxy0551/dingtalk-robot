@@ -21,6 +21,6 @@
     "vite-plugin-style-import": "^1.0.1"
   },
   "engines": {
-    "node": "16"
+    "node": ">=16"
   }
 }
