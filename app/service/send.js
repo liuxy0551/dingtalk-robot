@@ -17,7 +17,7 @@ class SendService extends Service {
       }
 
       const robots = Webhook ? [{ name, Webhook }] : [] // 当前群
-      const res = await sendMsgToGroup(isDev, msg, this.ctx.service, robots)
+      const res = await sendMsgToGroup(isDev, msg, this.ctx.service, robots, senderStaffId)
       return res
     } catch (err) {
       throw err
@@ -59,7 +59,7 @@ class SendService extends Service {
       }
 
       const robots = Webhook ? [{ name, Webhook }] : [] // 当前群
-      const res = await sendMsgToGroup(isDev, msg, this.ctx.service, robots)
+      const res = await sendMsgToGroup(isDev, msg, this.ctx.service, robots, senderStaffId)
       return res
     } catch (err) {
       throw err
@@ -111,7 +111,7 @@ class SendService extends Service {
       }
 
       const robots = Webhook ? [{ name, Webhook }] : [] // 当前群
-      const res = await sendMsgToGroup(isDev, msg, this.ctx.service, robots)
+      const res = await sendMsgToGroup(isDev, msg, this.ctx.service, robots, senderStaffId)
       return res
     } catch (err) {
       throw err
@@ -199,7 +199,7 @@ class SendService extends Service {
       }
 
       const robots = Webhook ? [{ name, Webhook }] : [] // 当前群
-      const res = await sendMsgToGroup(isDev, msg, this.ctx.service, robots)
+      const res = await sendMsgToGroup(isDev, msg, this.ctx.service, robots, senderStaffId)
       return res
     } catch (err) {
       throw err
@@ -258,7 +258,7 @@ class SendService extends Service {
       }
 
       const robots = Webhook ? [{ name, Webhook }] : [] // 当前群
-      const res = await sendMsgToGroup(isDev, msg, this.ctx.service, robots)
+      const res = await sendMsgToGroup(isDev, msg, this.ctx.service, robots, senderStaffId)
       return res
     } catch (err) {
       throw err
@@ -283,7 +283,7 @@ class SendService extends Service {
       }
 
       const robots = Webhook ? [{ name, Webhook }] : [] // 当前群
-      const res = await sendMsgToGroup(isDev, msg, this.ctx.service, robots)
+      const res = await sendMsgToGroup(isDev, msg, this.ctx.service, robots, senderStaffId)
       return res
     } catch (err) {
       throw err
@@ -308,7 +308,7 @@ class SendService extends Service {
       }
 
       const robots = Webhook ? [{ name, Webhook }] : [] // 当前群
-      const res = await sendMsgToGroup(isDev, msg, this.ctx.service, robots)
+      const res = await sendMsgToGroup(isDev, msg, this.ctx.service, robots, senderStaffId)
       return res
     } catch (err) {
       throw err
@@ -328,7 +328,7 @@ class SendService extends Service {
           atUserIds: [senderStaffId]
         }
       }
-      const res = await sendMsgToGroup(isDev, msg, service, robots)
+      const res = await sendMsgToGroup(isDev, msg, service, robots, senderStaffId)
       return res
     } catch (err) {
       throw err
