@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.9.5](https://github.com/liuxy0551/dingtalk-robot/compare/v1.9.4...v1.9.5) (2026-03-15)
+
+
+### Features
+
+* send to yourself dingtalk group ([f558511](https://github.com/liuxy0551/dingtalk-robot/commit/f558511ace00b57170c04611f36df3d524795d7b))
+
 ### [1.9.4](https://github.com/liuxy0551/dingtalk-robot/compare/v1.9.3...v1.9.4) (2025-12-27)
 
 ### [1.9.3](https://github.com/liuxy0551/dingtalk-robot/compare/v1.9.2...v1.9.3) (2025-12-27)
